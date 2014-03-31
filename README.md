@@ -10,12 +10,12 @@ require, [homeshick](https://github.com/andsens/homeshick).
 
 ### Using homeshick
 
-    git clone https://github.com/jakemcc/emacs.d ~/.homeshick/repos/emacs.d
+    git clone https://github.com/outpace/emacs.d ~/.homeshick/repos/emacs.d
     homeshick link emacs.d
 
 #### Without homeshick
 
-    git clone https://github.com/jakemcc/emacs.d ~/emacs.d
+    git clone https://github.com/outpace/emacs.d ~/emacs.d
     ln -s ~/emacs.d/home/.emacs.d ~/.emacs.d
 
 

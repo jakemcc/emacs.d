@@ -62,9 +62,9 @@
 
 (defun load-system-specific-configs (postfix)
   "Load system specific/user specific files if around"
-  (setq system-specific-config (concat dotfiles-dir system-name postfix ".el")
-        user-specific-config (concat dotfiles-dir user-login-name postfix ".el")
-        user-specific-dir (concat dotfiles-dir user-login-name postfix))
+  (setq system-specific-config (concat dotfiles-dir "user/" system-name postfix ".el")
+        user-specific-config (concat dotfiles-dir "user/" user-login-name postfix ".el")
+        user-specific-dir (concat dotfiles-dir "user/" user-login-name postfix))
   (add-to-list 'load-path user-specific-dir)
 
   (if (file-exists-p system-specific-config) (load system-specific-config))

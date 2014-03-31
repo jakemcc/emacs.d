@@ -20,6 +20,17 @@ require, [homeschick](https://github.com/andsens/homeshick).
 
 ## Interesting bits
 
+This project loads system specific emacs lisp files both at the
+beginning and end of evaluation `init.el`. This allows a user to
+override or set up their own custom configuration independently of the
+main configuration. The files that are loaded are based off the
+`system-name` nad `user-login-name`. Look at the function
+`load-system-specific-configs` in the `init.el` for details
+
+A function `install-package` is made available early while loading
+`init.el`. If you wanted to install the package `align-cljlet` then in
+one of the user override files you would specify `(install-package 'algin-cljlet)`.
+
 Has some additional functionality added for working in Clojure. Some
 of them include improving paredit usage in the repl, adding
 [clj-refactor](https://github.com/magnars/clj-refactor.el), using

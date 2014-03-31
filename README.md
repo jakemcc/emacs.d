@@ -1,0 +1,30 @@
+# .emacs.d
+
+This is an .emacs.d directory that mostly uses
+[emacs-starter-kit](https://github.com/technomancy/emacs-starter-kit)
+packages for an initial reasonable starting point with some tweaks on
+top of that.
+
+Has some additional functionality added for working in Clojure. Some
+of them include improving paredit usage in the repl, adding
+[clj-refactor](https://github.com/magnars/clj-refactor.el), using
+`auto-complete`, and some other smaller tweaks.
+
+It also will load user/system specific configuration files if found.
+This allows you to add additional functionality depending on what
+machine you are working on.
+
+Defaults to using
+[Inconsolata](http://levien.com/type/myfonts/inconsolata.html) as its
+font. If you don't have this installed you'll probably see whatever
+terrible default font is used.
+
+Useful re-mappings to know about:
+- `C-w` remapped to `backward-kill-word`
+- `C-x C-k` and `C-c C-k` remapped to `kill-region`
+- `C-x C-m` and `C-c C-m` remapped to `smex` (same as `M-x` in this setup)
+
+Useful added functions:
+- `scratch-buffer` - Opens up temporary buffer
+- `revert-all-buffers` - Refreshes all open buffers
+- `rename-file-and-buffer` - Renames current buffer and file

@@ -46,9 +46,12 @@
                       )
   "A list of packages to ensure are installed at launch.")
 
+(defun install-package (package)
+  (when (not (package-installed-p package))
+    (package-install package)))
+
 (dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+  (install-package p))
 
 ;; ENVIRONMENT
 ;;--------------------------------------------------
@@ -57,16 +60,19 @@
   (x-focus-frame nil)
   (exec-path-from-shell-initialize))
 
-;; Load system specific/user specific files if around
-(setq system-specific-config (concat dotfiles-dir system-name ".el")
-      user-specific-config (concat dotfiles-dir user-login-name ".el")
-      user-specific-dir (concat dotfiles-dir user-login-name))
-(add-to-list 'load-path user-specific-dir)
+(defun load-system-specific-configs (postfix)
+  "Load system specific/user specific files if around"
+  (setq system-specific-config (concat dotfiles-dir system-name postfix ".el")
+        user-specific-config (concat dotfiles-dir user-login-name postfix ".el")
+        user-specific-dir (concat dotfiles-dir user-login-name postfix))
+  (add-to-list 'load-path user-specific-dir)
 
-(if (file-exists-p system-specific-config) (load system-specific-config))
-(if (file-exists-p user-specific-config) (load user-specific-config))
-(if (file-exists-p user-specific-dir)
-    (mapc #'load (directory-files user-specific-dir nil ".*el$")))
+  (if (file-exists-p system-specific-config) (load system-specific-config))
+  (if (file-exists-p user-specific-config) (load user-specific-config))
+  (if (file-exists-p user-specific-dir)
+      (mapc #'load (directory-files user-specific-dir nil ".*el$"))))
+
+(load-system-specific-configs "")
 
 (setq vendor-dir (concat dotfiles-dir "/vendor"))
 (add-to-list 'load-path vendor-dir)
@@ -329,3 +335,6 @@ Display the results in a hyperlinked *compilation* buffer."
 (defun scratch-buffer ()
   (interactive)
   (switch-to-buffer (make-temp-name "scratch")))
+
+
+(load-system-specific-configs "-after")

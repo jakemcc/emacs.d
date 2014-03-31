@@ -1,0 +1,11 @@
+tmp
+auto-save-list
+backups/*
+elpa/*
+swank/*
+.smex-items
+places
+eshell
+session*
+url
+tramp

@@ -15,7 +15,8 @@ require, [homeshick](https://github.com/andsens/homeshick).
 
 #### Without homeshick
 
-    git clone https://github.com/jakemcc/emacs.d ~/.emacs.d
+    git clone https://github.com/jakemcc/emacs.d ~/emacs.d
+    ln -s ~/emacs.d/home/.emacs.d ~/.emacs.d
 
 
 ## Interesting bits

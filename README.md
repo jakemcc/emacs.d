@@ -3,7 +3,22 @@
 This is an .emacs.d directory that mostly uses
 [emacs-starter-kit](https://github.com/technomancy/emacs-starter-kit)
 packages for an initial reasonable starting point with some tweaks on
-top of that.
+top of that. This repository is designed to use, but it does not
+require, [homeschick](https://github.com/andsens/homeshick).
+
+## Installation
+
+### Using homeshick
+
+    git clone https://github.com/jakemcc/emacs.d ~/.homeshick/repos/emacs.d
+    homeshick link emacs.d
+
+#### Without homeshick
+
+    git clone https://github.com/jakemcc/emacs.d ~/.emacs.d
+
+
+## Interesting bits
 
 Has some additional functionality added for working in Clojure. Some
 of them include improving paredit usage in the repl, adding

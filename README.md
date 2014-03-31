@@ -41,7 +41,7 @@ This allows you to add additional functionality depending on what
 machine you are working on.
 
 Defaults to using
-[Inconsolata](http://levien.com/type/myfonts/inconsolata.html) as its
+[Inconsolata](http://levien.com/type/myfonts/inconsolata.html) as the
 font. If you don't have this installed you'll probably see whatever
 terrible default font is used.
 

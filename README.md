@@ -4,7 +4,7 @@ This is an .emacs.d directory that mostly uses
 [emacs-starter-kit](https://github.com/technomancy/emacs-starter-kit)
 packages for an initial reasonable starting point with some tweaks on
 top of that. This repository is designed to use, but it does not
-require, [homeschick](https://github.com/andsens/homeshick).
+require, [homeshick](https://github.com/andsens/homeshick).
 
 ## Installation
 

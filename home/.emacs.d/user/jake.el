@@ -8,23 +8,20 @@
   (find-file "~/src/jakemcc/lein-test-refresh/test-refresh/project.clj"))
   (interactive)
 
-
-
-(defun open-project-fn (root-dir project-name)
+(defun open-file-fn (file)
   (lambda ()
-    (message root-dir)
     (interactive)
-    (find-file (concat root-dir "/" project-name "/project.clj"))))
+    (find-file file)))
 
 (defun create-project-shortcuts (prefix base)
   (dolist (elt (directory-files base))
     (let ((project (concat base "/" elt "/project.clj")))
       (when (file-exists-p project)
-        (fset (intern (concat prefix elt)) (open-project-fn base elt))))))
+        (fset (intern (concat prefix elt)) (open-file-fn project))))))
 
 (defvar universe "~/src/outpace/starwood/starwood_guest/universe/")
 
-(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/universe")
+(create-project-shortcuts "o/" universe)
 
 (defun j/universe ()
   (interactive)

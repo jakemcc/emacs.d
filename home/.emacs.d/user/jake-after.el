@@ -1,5 +1,5 @@
-(defun j/roux ()
-  (interactive)
-  (find-file "~/src/outpace/starwood/roux/project.clj"))
 
-(install-package 'align-cljlet)
+(eval-after-load 'paredit
+  ;; need a binding that works in the terminal
+  '(progn
+     (define-key paredit-mode-map (kbd "\C-w") 'paredit-backward-kill-word)))

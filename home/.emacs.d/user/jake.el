@@ -1,23 +1,32 @@
-(defun j/open-bookfinder ()
+;; -*- lexical-binding: t -*-
+
+(defun j/bookrobot ()
   (interactive)
   (find-file "~/src/jakemcc/bf/project.clj"))
 
-(defun j/test-refresh
-  (interactive)
+(defun j/test-refresh ()
   (find-file "~/src/jakemcc/lein-test-refresh/test-refresh/project.clj"))
-
-(defun j/sop-migration ()
   (interactive)
-  (find-file "~/src/outpace/starwood/universe/sop_offer_migration/project.clj"))
 
-(defun j/reporting ()
-  (interactive)
-  (find-file "~/src/outpace/starwood/universe/reporting/project.clj" ))
+
+
+(defun open-project-fn (root-dir project-name)
+  (lambda ()
+    (message root-dir)
+    (interactive)
+    (find-file (concat root-dir "/" project-name "/project.clj"))))
+
+(defun create-project-shortcuts (prefix base)
+  (dolist (elt (directory-files base))
+    (let ((project (concat base "/" elt "/project.clj")))
+      (when (file-exists-p project)
+        (fset (intern (concat prefix elt)) (open-project-fn base elt))))))
+
+(defvar universe "~/src/outpace/starwood/starwood_guest/universe/")
+
+(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/universe")
 
 (defun j/universe ()
   (interactive)
-  (find-file "~/src/outpace/starwood/universe"))
+  (find-file universe))
 
-(defun j/clojure ()
-  (interactive)
-  (find-file "~/src/outpace/starwood/universe/clojure/project.clj"))

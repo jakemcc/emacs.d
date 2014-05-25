@@ -1,12 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
-(defun j/bookrobot ()
-  (interactive)
-  (find-file "~/src/jakemcc/bf/project.clj"))
-
 (defun j/test-refresh ()
-  (find-file "~/src/jakemcc/lein-test-refresh/test-refresh/project.clj"))
   (interactive)
+  (find-file "~/src/jakemcc/lein-test-refresh/test-refresh/project.clj"))
 
 (defun open-file-fn (file)
   (lambda ()
@@ -19,11 +15,14 @@
       (when (file-exists-p project)
         (fset (intern (concat prefix elt)) (open-file-fn project))))))
 
+(create-project-shortcuts "j/" "~/src/jakemcc")
+
 (defvar universe "~/src/outpace/starwood/starwood_guest/universe/")
 
 (create-project-shortcuts "o/" universe)
+(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/offer_engine/")
 
-(defun j/universe ()
+(defun o/universe ()
   (interactive)
   (find-file universe))
 

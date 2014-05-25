@@ -319,10 +319,6 @@ Display the results in a hyperlinked *compilation* buffer."
 ;; (add-hook 'js-mode-hook (lambda () (tern-mode t)))
 
 
-;; use chrome as browser
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
-
 
 ;; git-messenger
 (require 'git-messenger)

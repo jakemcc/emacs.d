@@ -28,7 +28,6 @@
                       starter-kit-eshell
                       highlight
                       clojure-mode
-                      clojure-test-mode
                       clojurescript-mode
                       clj-refactor
                       coffee-mode

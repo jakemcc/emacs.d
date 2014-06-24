@@ -19,10 +19,31 @@
 
 (defvar universe "~/src/outpace/starwood/starwood_guest/universe/")
 
+
 (create-project-shortcuts "o/" universe)
+(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/")
 (create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/offer_engine/")
+
 
 (defun o/universe ()
   (interactive)
   (find-file universe))
+
+(defun o/scratch ()
+  (interactive)
+  (find-file "~/Copy/outpace/ideas.md"))
+
+(defun b/insert-clojure-code (arg)
+  (interactive "p")
+  (insert "``` clojure
+```")
+  (beginning-of-line)
+  (open-line arg))
+
+(defun b/insert-console-code (arg)
+  (interactive "p")
+  (insert "``` console
+```")
+  (beginning-of-line)
+  (open-line arg))
 

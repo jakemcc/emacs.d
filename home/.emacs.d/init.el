@@ -42,6 +42,7 @@
                       popup
                       fuzzy
                       git-messenger
+                      restclient
                       )
   "A list of packages to ensure are installed at launch.")
 

@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+
+
 (defun j/test-refresh ()
   (interactive)
   (find-file "~/src/jakemcc/lein-test-refresh/test-refresh/project.clj"))
@@ -17,17 +19,21 @@
 
 (create-project-shortcuts "j/" "~/src/jakemcc")
 
-(defvar universe "~/src/outpace/starwood/starwood_guest/universe/")
-
+(defvar starwood_guest "~/src/outpace/starwood/starwood_guest/")
+(defvar universe (concat starwood_guest "universe/"))
 
 (create-project-shortcuts "o/" universe)
-(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/")
+(create-project-shortcuts "o/" starwood_guest)
 (create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/offer_engine/")
 
 
 (defun o/universe ()
   (interactive)
   (find-file universe))
+
+(defun o/starwood_guest ()
+  (interactive)
+  (find-file starwood_guest))
 
 (defun o/scratch ()
   (interactive)

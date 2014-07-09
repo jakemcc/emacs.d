@@ -189,12 +189,9 @@
 (eval-after-load "cider"
   '(define-key cider-repl-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
 
-
-;; specify the print length to be 100 to stop infinite sequences killing things.
-(defun live-nrepl-set-print-length ()
-  (nrepl-send-string-sync "(set! *print-length* 100)" "clojure.core"))
-
-(add-hook 'nrepl-connected-hook 'live-nrepl-set-print-length)
+;; specify the print length to be 100 to stop infinite sequences
+;; killing things.
+(setq cider-repl-print-length 100)
 
 
 ;; auto-complete configuration

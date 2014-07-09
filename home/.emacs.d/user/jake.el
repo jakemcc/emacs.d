@@ -37,7 +37,7 @@
 
 (defun o/scratch ()
   (interactive)
-  (find-file "~/Copy/outpace/ideas.md"))
+  (find-file "~/Copy/outpace/ideas.org"))
 
 (defun b/insert-clojure-code (arg)
   (interactive "p")

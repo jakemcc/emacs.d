@@ -114,9 +114,6 @@
 ;;--------------------------------------------------
 
 
-(global-set-key [f7] 'ns-toggle-fullscreen)
-
-
 ;; steve yegges's suggested keybindings
 (global-set-key "\C-x\C-m" 'smex)
 (global-set-key "\C-c\C-m" 'smex)

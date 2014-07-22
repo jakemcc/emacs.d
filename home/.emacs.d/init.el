@@ -43,6 +43,7 @@
                       fuzzy
                       git-messenger
                       restclient
+                      jinja2-mode
                       )
   "A list of packages to ensure are installed at launch.")
 

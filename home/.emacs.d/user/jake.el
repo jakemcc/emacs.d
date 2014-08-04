@@ -17,15 +17,17 @@
       (when (file-exists-p project)
         (fset (intern (concat prefix elt)) (open-file-fn project))))))
 
-(create-project-shortcuts "j/" "~/src/jakemcc")
-
 (defvar starwood_guest "~/src/outpace/starwood/starwood_guest/")
 (defvar universe (concat starwood_guest "universe/"))
 
-(create-project-shortcuts "o/" universe)
-(create-project-shortcuts "o/" starwood_guest)
-(create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/offer_engine/")
+(defun refresh-project-shortcuts ()
+  (interactive)
+  (create-project-shortcuts "j/" "~/src/jakemcc")
+  (create-project-shortcuts "o/" universe)
+  (create-project-shortcuts "o/" starwood_guest)
+  (create-project-shortcuts "o/" "~/src/outpace/starwood/starwood_guest/offer_engine/"))
 
+(refresh-project-shortcuts)
 
 (defun o/universe ()
   (interactive)

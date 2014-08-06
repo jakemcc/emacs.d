@@ -34,7 +34,7 @@
                       markdown-mode
                       highlight-symbol
                       cider
-                      ac-cider-compliment
+                      ac-cider
                       exec-path-from-shell
                       yaml-mode
                       ace-jump-mode
@@ -170,10 +170,10 @@
 (setq cider-repl-wrap-history t)
 ;; (setq cider-repl-history-file ".cider-repl-history")
 
-(require 'ac-cider-compliment)
+(require 'ac-cider)
 (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-compliment-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-compliment-repl-setup)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-mode))
 
@@ -188,11 +188,11 @@
 
 ;; Use ac-nrepl-popup-doc to show in-line docs in a clojure buffer
 (eval-after-load "cider"
-  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-compliment-popup-doc))
+  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc))
 
 ;; Use ac-nrepl-popup-doc to show in-line docs in an nrepl buffer
 (eval-after-load "cider"
-  '(define-key cider-repl-mode-map (kbd "C-c C-d") 'ac-cider-compliment-popup-doc))
+  '(define-key cider-repl-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc))
 
 ;; specify the print length to be 100 to stop infinite sequences
 ;; killing things.

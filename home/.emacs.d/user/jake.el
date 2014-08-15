@@ -1,6 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
 
+(install-package 'projectile)
+(install-package 'flx-ido)
+
+(projectile-global-mode)
 
 (defun j/test-refresh ()
   (interactive)
@@ -54,4 +58,3 @@
 ```")
   (beginning-of-line)
   (open-line arg))
-

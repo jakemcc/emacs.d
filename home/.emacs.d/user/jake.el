@@ -45,6 +45,10 @@
   (interactive)
   (find-file "~/Copy/outpace/ideas.org"))
 
+(defun o/log ()
+  (interactive)
+  (find-file "~/Copy/outpace/log.org"))
+
 (defun b/insert-clojure-code (arg)
   (interactive "p")
   (insert "``` clojure

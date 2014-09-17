@@ -38,7 +38,6 @@
                       exec-path-from-shell
                       yaml-mode
                       ace-jump-mode
-;;                      auto-complete
                       popup
                       fuzzy
                       git-messenger

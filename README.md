@@ -6,6 +6,22 @@ packages for an initial reasonable starting point with some tweaks on
 top of that. This repository is designed to use, but it does not
 require, [homeshick](https://github.com/andsens/homeshick).
 
+## Changing
+
+Editor configurations can be a fairly personal thing. Changing
+setting globally can be at a surprising and disruptive.
+
+It is recommended that you test out new changes in a system specific
+configuration and after vetting open a pull request if it seems like
+something useful to add to the global configuration.
+
+## Installation
+
+### Using homeshick
+
+    git clone https://github.com/outpace/emacs.d ~/.homesick/repos/outpace-emacs.d
+    homeshick link outpace-emacs.d
+
 ## Installation
 
 ### Using homeshick

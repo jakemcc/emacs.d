@@ -150,18 +150,26 @@
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
 
-(ido-mode 1)
-(ido-everywhere 1)
-(use-package flx-ido
+(use-package ido
   :ensure t
-  :init
-  (flx-ido-mode 1)
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil))
+  :config
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-use-filename-at-point 'guess
+        ido-max-prospects 10)
+  (ido-mode +1)
+  (ido-everywhere +1))
 
 (use-package ido-ubiquitous
   :ensure t
-  :init (ido-ubiquitous-mode 1))
+  :config
+  (ido-ubiquitous-mode +1))
+
+(use-package flx-ido
+  :ensure t
+  :config
+  (flx-ido-mode +1)
+  (setq ido-use-faces nil))
 
 (use-package smex
   :ensure t
@@ -214,15 +222,15 @@
 
 (use-package projectile
   :ensure t
-  :init
-  (projectile-global-mode t)
   :config
+  (projectile-global-mode +1)
   (setq projectile-project-root-files
         (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
   (setq projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
-  (setq projectile-file-exists-remote-cache-expire (* 10 60))
-  (use-package ag
-    :ensure t))
+  (setq projectile-file-exists-remote-cache-expire (* 10 60)))
+
+(use-package ag
+  :ensure t)
 
 (use-package rainbow-delimiters
   :ensure t
@@ -269,6 +277,7 @@
                                    (yas-minor-mode 1)
                                    (cljr-add-keybindings-with-prefix "C-c C-x")))
     (setq cljr-favor-prefix-notation nil)
+    (setq cljr-warn-on-eval nil)
     (setq cljr-find-usages-ignore-analyzer-errors t))
   :config
   (dolist (mapping '(("maps" . "outpace.util.maps")
@@ -295,6 +304,9 @@
   :bind ("C-c g" . magit-status)
   :init (use-package with-editor
           :ensure t))
+
+(use-package web-mode
+  :ensure t)
 
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
@@ -335,7 +347,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cljr-ignore-analyzer-errors t)
- '(inhibit-startup-screen t))
+ '(css-indent-offset 2)
+ '(inhibit-startup-screen t)
+ '(web-mode-code-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

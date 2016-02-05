@@ -308,8 +308,13 @@
   :init (use-package with-editor
           :ensure t))
 
-(use-package web-mode
+(use-package git-timemachine
   :ensure t)
+
+(use-package web-mode
+  :ensure t
+  :config
+  (setq web-mode-code-indent-offset 2))
 
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
@@ -349,10 +354,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cljr-ignore-analyzer-errors t)
- '(css-indent-offset 2)
- '(inhibit-startup-screen t)
- '(web-mode-code-indent-offset 2))
+ '(css-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

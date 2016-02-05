@@ -18,6 +18,8 @@
       (package-install 'use-package)))
 
 
+(setq inhibit-startup-screen t)
+
 ;; -------------------------------------------
 ;; taken from better-defaults and starter-kit
 (menu-bar-mode -1)
@@ -280,6 +282,7 @@
     (setq cljr-warn-on-eval nil)
     (setq cljr-find-usages-ignore-analyzer-errors t))
   :config
+  (setq cljr-ignore-analyzer-errors t)
   (dolist (mapping '(("maps" . "outpace.util.maps")
                      ("seqs" . "outpace.util.seqs")
                      ("times" . "outpace.util.times")

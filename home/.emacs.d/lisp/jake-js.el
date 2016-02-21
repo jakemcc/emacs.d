@@ -1,5 +1,12 @@
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
+(defun esk-paredit-nonlisp ()
+  "Turn on paredit mode for non-lisps."
+  (interactive)
+  (set (make-local-variable 'paredit-space-for-delimiter-predicates)
+       '((lambda (endp delimiter) nil)))
+  (paredit-mode 1))
+
 (eval-after-load 'js
   '(progn (define-key js-mode-map "{" 'paredit-open-curly)
           (define-key js-mode-map "}" 'paredit-close-curly-and-newline)

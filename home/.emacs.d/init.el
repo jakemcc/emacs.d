@@ -117,6 +117,11 @@
 (unless (server-running-p)
   (server-start))
 
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
+
 (use-package jake-js
   :load-path "lisp/")
 

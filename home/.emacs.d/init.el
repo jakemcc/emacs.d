@@ -1,6 +1,18 @@
+;;; init.el --- Initialization file for Emacs.
+;;;
+;;;
+;;; Commentary:
+;;;
+;;; Author: Jake McCrary
+
+;;; Code:
+
+(defvar dotfiles-dir)
+
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
 
+(defvar tmp-dir)
 (setq tmp-dir (file-name-as-directory (concat dotfiles-dir "tmp")))
 (make-directory tmp-dir t)
 
@@ -47,6 +59,7 @@
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (defun esk-add-watchwords ()
+  "Font lock words from emacs-starter-kit."
   (font-lock-add-keywords
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|HACK\\|REFACTOR\\|NOCOMMIT\\)"
           1 font-lock-warning-face t))))
@@ -54,10 +67,12 @@
 ;; Perform general cleanup.
 
 (defun esk-untabify-buffer ()
+  "Remove tabs from buffer.  Taken from emacs-starter-kit."
   (interactive)
   (untabify (point-min) (point-max)))
 
 (defun esk-indent-buffer ()
+  "Indent buffer.  Taken from emacs-starter-kit."
   (interactive)
   (indent-region (point-min) (point-max)))
 
@@ -92,8 +107,8 @@
 
 (show-paren-mode 1)
 ;; (setq-default indent-tabs-mode nil)
-(setq x-select-enable-clipboard t
-      x-select-enable-primary t
+(setq select-enable-clipboard t
+      select-enable-primary t
       save-interprogram-paste-before-kill t
       apropos-do-all t
       mouse-yank-at-point t
@@ -139,6 +154,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (defun save-all ()
+  "Save all buffers."
   (interactive)
   (save-some-buffers t))
 (add-hook 'save-buffer 'save-all)
@@ -261,7 +277,7 @@
   (progn
     (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
     (add-hook 'cider-mode-hook (lambda ()
-                                 (cider-turn-on-eldoc-mode)))))
+                                 (eldoc-mode)))))
 
 (use-package clojure-mode
   :ensure t
@@ -362,22 +378,9 @@
           (set-buffer-modified-p nil)))))))
 
 (defun scratch-buffer ()
+  "Opens a scratch buffer."
   (interactive)
   (switch-to-buffer (make-temp-name "scratch")))
-
-(defun my-update-env (fn)
-  (let ((str
-         (with-temp-buffer
-           (insert-file-contents fn)
-           (buffer-string))) lst)
-    (setq lst (split-string str "\000"))
-    (while lst
-      (setq cur (car lst))
-      (when (string-match "^\\(.*?\\)=\\(.*\\)" cur)
-        (setq var (match-string 1 cur))
-        (setq value (match-string 2 cur))
-        (setenv var value))
-      (setq lst (cdr lst)))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -391,3 +394,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(provide 'init)
+;;; init.el ends here

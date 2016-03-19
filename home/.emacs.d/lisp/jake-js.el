@@ -1,3 +1,14 @@
+;;; jake-js --- Special JavaScript tweaks
+
+;;; Commentary:
+;;
+;; Code from around the Internet to make editing JavaScript files better.
+
+;;; Author: Jake McCrary
+
+
+;;; Code:
+
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
 (defun esk-paredit-nonlisp ()
@@ -9,10 +20,11 @@
 
 ;; https://github.com/dandavison/paredit-c/blob/master/paredit-c.el#L46
 (defun paredit-c/singlequote (&optional n)
-  "Copied from `paredit-doublequote'"
+  "Copied from `paredit-doublequote`."
   (interactive "P")
 
-  (if (null paredit-mode) (insert "'")
+  (if (null paredit-mode)
+      (insert "'")
     (cond ((paredit-in-string-p)
            (if (eq (cdr (paredit-string-start+end-points))
                    (point))
@@ -38,3 +50,4 @@
                                  nil)))))))
 
 (provide 'jake-js)
+;;; jake-js.el ends here

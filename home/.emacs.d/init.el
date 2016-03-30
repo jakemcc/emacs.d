@@ -133,8 +133,12 @@
 (unless (server-running-p)
   (server-start))
 
+;; (use-package cl-generic
+;;   :ensure t)
+
 (use-package flycheck
   :ensure t
+  ;; :pin melpa-stable
   :init
   (global-flycheck-mode))
 
@@ -350,6 +354,7 @@
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
+  (setq web-mode-enable-engine-detection t)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
@@ -390,7 +395,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(css-indent-offset 2))
+ '(css-indent-offset 2)
+ '(package-selected-packages (quote (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

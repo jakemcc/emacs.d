@@ -390,13 +390,42 @@
   (interactive)
   (switch-to-buffer (make-temp-name "scratch")))
 
+
+;; Python
+(use-package python
+  :commands python-mode
+  :config
+  (progn
+    ;; Python hackers like their lines to be 72 columns.
+    (set-fill-column 72))
+  :ensure t)
+
+;; jedi provides auto completion for Python programs. Depends on the
+;; Python packages "jedi" and "epc" to be installed on the host
+;; machine.
+(use-package jedi
+  :init
+  (progn
+    (setq jedi:complete-on-dot t)
+    (setq jedi:setup-keys t)
+    (add-hook 'python-mode-hook 'jedi:setup))
+  :ensure t)
+
+;; company-jedi wires up jedi to be a backend for the auto completion
+;; library, company-mode.
+(use-package company-jedi
+  :init
+  (add-hook 'python-mode-hook
+            (lambda () (add-to-list 'company-backends 'company-jedi)))
+  :ensure t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(css-indent-offset 2)
- '(package-selected-packages (quote (use-package))))
+ '(package-selected-packages (quote (epc use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

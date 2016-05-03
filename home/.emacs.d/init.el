@@ -133,8 +133,12 @@
 (unless (server-running-p)
   (server-start))
 
-;; (use-package cl-generic
-;;   :ensure t)
+(use-package restclient
+  :ensure t
+  :init
+  (use-package company-restclient
+    :ensure t
+    :config (add-to-list 'company-backends 'company-restclient)))
 
 (use-package flycheck
   :ensure t

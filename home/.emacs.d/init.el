@@ -432,6 +432,14 @@
             (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t)
 
+(defun unfill-paragraph ()
+  "Replace newline chars in current paragraph by single spaces.
+This command does the reverse of `fill-paragraph'."
+  (interactive)
+  (let ((fill-column 90002000))
+    (fill-paragraph nil)))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

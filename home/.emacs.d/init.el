@@ -133,6 +133,12 @@
 (unless (server-running-p)
   (server-start))
 
+(use-package visual-regexp-steroids
+  :ensure t
+  :bind (("M-%" . vr/query-replace)
+         ("C-s" . vr/isearch-forward)
+         ("C-r" . vr/isearch-backward)))
+
 (use-package restclient
   :ensure t
   :init

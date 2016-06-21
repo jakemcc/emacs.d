@@ -156,7 +156,12 @@
   :load-path "lisp/")
 
 (use-package plexus-sb-markdown
-  :load-path "lisp/")
+  :load-path "lisp/"
+  :init
+  (progn
+    (add-hook 'markdown-mode-hook (lambda ()
+                                    (bind-key (kbd "C-c '") 'plexus/edit-md-source-block markdown-mode-map)
+                                    (bind-key (kbd "C-c '") 'plexus/restore-md-source-block plexus/restore-mode-map)))))
 
 (use-package markdown-mode
   :ensure t)

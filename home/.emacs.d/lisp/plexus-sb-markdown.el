@@ -55,8 +55,7 @@
       (insert contents)))
   (switch-to-buffer restore-buffer))
 
-(bind-key (kbd "C-c '") 'plexus/edit-md-source-block markdown-mode-map)
-(bind-key (kbd "C-c '") 'plexus/restore-md-source-block plexus/restore-mode-map)
+
 
 (provide 'plexus-sb-markdown)
 ;;; plexus-sb-markdown.el ends here

@@ -18,8 +18,11 @@
 
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")))
+                         ("melpa" .
+                          ;; "https://elpa.zilongshanren.com/melpa/"
+                          "https://melpa.org/packages/"
+                          )
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -133,6 +136,11 @@
 (unless (server-running-p)
   (server-start))
 
+;; (use-package emojify
+;;   :ensure t
+;;   :init
+;;   (add-hook 'after-init-hook 'global-emojify-mode) t)
+
 (use-package visual-regexp-steroids
   :ensure t
   :bind (("M-%" . vr/query-replace)
@@ -187,6 +195,21 @@
 (set-face-attribute 'default nil
                     :family "Inconsolata"
                     :height 160)
+
+;; Setting up emoji fonts, from https://github.com/dunn/company-emoji
+(defun --set-emoji-font (frame)
+  "Adjust the font settings of FRAME so Emacs can display emoji properly."
+  (if (eq system-type 'darwin)
+      ;; For NS/Cocoa
+      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)
+    ;; For Linux
+    (set-fontset-font t 'symbol (font-spec :family "Symbola") frame 'prepend)))
+
+;; For when Emacs is started in GUI mode:
+(--set-emoji-font nil)
+;; Hook for when a frame is created with emacsclient
+;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
+(add-hook 'after-make-frame-functions '--set-emoji-font)
 
 ;; show line numbers
 (global-linum-mode t)
@@ -274,6 +297,10 @@
   :config (company-flx-mode +1)
   :diminish company-mode)
 
+(use-package company-emoji
+  :ensure t
+  :init
+  (add-to-list 'company-backends 'company-emoji))
 
 
 (use-package projectile
@@ -444,6 +471,9 @@
             (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t)
 
+(use-package rainbow-mode
+  :ensure t)
+
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.
 This command does the reverse of `fill-paragraph'."
@@ -461,7 +491,7 @@ This command does the reverse of `fill-paragraph'."
  '(custom-safe-themes
    (quote
     ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1bacdd5d24f187f273f488a23c977f26452dffbc82d4ac57250aa041f14159da" default)))
- '(package-selected-packages (quote (rainbow-mode epc use-package)))
+ '(package-selected-packages (quote (emojify rainbow-mode epc use-package)))
  '(safe-local-variable-values
    (quote
     ((cider-cljs-lein-repl . "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")))))

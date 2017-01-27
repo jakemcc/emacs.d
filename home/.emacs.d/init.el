@@ -416,12 +416,6 @@
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode)))
 
-(use-package aggressive-indent
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'clojure-mode-hook #'aggressive-indent-mode))
-
 (defun rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
   (interactive)
@@ -494,7 +488,8 @@ This command does the reverse of `fill-paragraph'."
  '(package-selected-packages (quote (emojify rainbow-mode epc use-package)))
  '(safe-local-variable-values
    (quote
-    ((cider-cljs-lein-repl . "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")))))
+    ((projectile-project-type . lein-test)
+     (cider-cljs-lein-repl . "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

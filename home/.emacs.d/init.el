@@ -130,22 +130,133 @@
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
-(require 'bind-key)
+(use-package diminish)
+(use-package bind-key)
 
-(require 'server)
-(unless (server-running-p)
-  (server-start))
-
-;; (use-package emojify
-;;   :ensure t
-;;   :init
-;;   (add-hook 'after-init-hook 'global-emojify-mode) t)
+(use-package server
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 (use-package visual-regexp-steroids
   :ensure t
   :bind (("M-%" . vr/query-replace)
          ("C-s" . vr/isearch-forward)
          ("C-r" . vr/isearch-backward)))
+
+(use-package all-the-icons)
+
+;; ;; A lot of this helm configuration is from http://tuhdo.github.io/helm-intro.html
+;; (defun spacemacs//helm-hide-minibuffer-maybe ()
+;;   "Hide minibuffer in Helm session if we use the header line as input field."
+;;   (when (with-helm-buffer helm-echo-input-in-header-line)
+;;     (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+;;       (overlay-put ov 'window (selected-window))
+;;       (overlay-put ov 'face
+;;                    (let ((bg-color (face-background 'default nil)))
+;;                      `(:background ,bg-color :foreground ,bg-color)))
+;;       (setq-local cursor-type nil))))
+
+;; (use-package helm
+;;   :ensure t
+;;   :bind (("M-x" . helm-M-x)
+;;          ("C-x C-m" . helm-M-x)
+;;          ("C-c C-m" . helm-M-x)
+;;          ("C-i" . helm-execute-persistant-action)
+;;          ("C-z" . helm-select-action)
+;;          ("M-y" . helm-show-kill-ring)
+;;          ("C-x b" . helm-mini))
+;;   :init
+;;   (use-package helm-flx :ensure t)
+;;   (use-package helm-swoop :ensure t
+;;     :config (setq helm-swoop-split-with-multiple-windows nil
+;;                   helm-swoop-split-direction 'split-window-vertically
+;;                   helm-swoop-split-window-function 'helm-default-display-buffer))
+;;   (use-package helm-projectile :ensure t)
+;;   (use-package helm-ag :ensure t)
+;;   :config
+;;   (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+;;         helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+;;         helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+;;         helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+;;         helm-ff-file-name-history-use-recentf t
+;;         helm-echo-input-in-header-line t)
+  
+;;   (when (executable-find "curl")
+;;     (setq helm-google-suggest-use-curl-p t))
+
+
+;;   (add-hook 'helm-minibuffer-set-up-hook
+;;             'spacemacs//helm-hide-minibuffer-maybe)
+
+;;   (setq helm-autoresize-max-height 0)
+;;   (setq helm-autoresize-min-height 20)
+;;   (helm-autoresize-mode 1)
+
+;;   (helm-mode 1)
+;;   (helm-flx-mode 1)
+;;   )
+
+(use-package ivy
+  :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+   ("C-'" . ivy-avy))
+  :config
+  (ivy-mode 1)
+  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+  (setq ivy-use-virtual-buffers t)
+  ;; number of result lines to display
+  (setq ivy-height 10)
+  ;; does not count candidates
+  (setq ivy-count-format "")
+  ;; no regexp by default
+  (setq ivy-initial-inputs-alist nil)
+  ;; configure regexp engine.
+  (setq ivy-re-builders-alist
+	;; allow input not in order
+        '((t   . ivy--regex-ignore-order))))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode +1)
+  ;; (setq projectile-completion-system 'helm)
+  ;; (helm-projectile-on)
+  (setq projectile-project-root-files
+        (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
+  (setq projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
+  (setq projectile-file-exists-remote-cache-expire (* 10 60)))
+
+
+;; (use-package ido
+;;   :ensure t
+;;   :config
+;;   (setq ido-enable-prefix nil
+;;         ido-enable-flex-matching t
+;;         ido-use-filename-at-point 'guess
+;;         ido-max-prospects 10)
+;;   (ido-mode +1)
+;;   (ido-everywhere +1))
+
+;; (use-package ido-ubiquitous
+;;   :ensure 
+;;   :config
+;;   (ido-ubiquitous-mode +1))
+
+;; (use-package flx-ido
+;;   :ensure t
+;;   :config
+;;   (flx-ido-mode +1)
+;;   (setq ido-use-faces nil))
+
+(use-package smex
+  :ensure t)
+
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
 
 (use-package restclient
   :ensure t
@@ -222,32 +333,7 @@
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
 
-(use-package ido
-  :ensure t
-  :config
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-use-filename-at-point 'guess
-        ido-max-prospects 10)
-  (ido-mode +1)
-  (ido-everywhere +1))
 
-(use-package ido-ubiquitous
-  :ensure t
-  :config
-  (ido-ubiquitous-mode +1))
-
-(use-package flx-ido
-  :ensure t
-  :config
-  (flx-ido-mode +1)
-  (setq ido-use-faces nil))
-
-(use-package smex
-  :ensure t
-  :bind (("M-x" . smex)
-         ("C-x C-m" . smex)
-         ("C-c C-m" . smex)))
 
 (use-package idle-highlight-mode
   :ensure t
@@ -286,36 +372,45 @@
 
 (use-package company
   :ensure t
+  :diminish ""
+  :commands global-company-mode
   :init
-  (progn
-    ;; (global-company-mode)
-    ;; (global-set-key (kbd "<M-tab>") 'company-complete)
-    ;; (setq company-idle-delay 0.2)
-    ;; (setq company-minimum-prefix-length 2)
-    (use-package company-flx
-      :ensure t))
-  :config (company-flx-mode +1)
-  :diminish company-mode)
-
-(use-package company-emoji
-  :ensure t
-  :init
-  (add-to-list 'company-backends 'company-emoji))
-
-
-(use-package projectile
-  :ensure t
+  (setq company-idle-delay 0.2
+        company-selection-wrap-around t
+        company-minimum-prefix-length 2
+        company-require-match nil
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil
+        company-show-numbers t)
   :config
-  (projectile-global-mode +1)
-  (setq projectile-project-root-files
-        (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
-  (setq projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
-  (setq projectile-file-exists-remote-cache-expire (* 10 60)))
+  (global-company-mode)
+  (use-package company-statistics
+    :ensure t
+    :config
+    (company-statistics-mode))
+  (bind-keys :map company-active-map
+             ("TAB" . company-complete)))
+
+(use-package counsel
+  :ensure t
+  :bind*
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file))
+  :config
+  (setq counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))
+
+(use-package counsel-projectile :ensure t
+  ;; :bind* (("H-P" . counsel-projectile-switch-to-buffer)
+  ;;         ("H-p" . counsel-projectile))
+  :config
+  (counsel-projectile-on))
 
 (use-package ag
   :ensure t
   :config
-  (setq ag-highlight-search t))
+  (setq ag-highlight-search t)
+  (setq ag-reuse-buffers t)
+  (add-to-list 'ag-arguments "--word-regexp"))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -332,6 +427,8 @@
   ;; :pin melpa-stable
   :bind
   ("C-c k" . cider-refresh)
+  :config
+  (setq cider-prompt-for-symbol nil)
   :init
   (progn
     (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
@@ -353,6 +450,7 @@
     (context 'defun)
     (register-sub 'defun)
     (register-handler 'defun)))
+
 
 (use-package clj-refactor
   :ensure t
@@ -488,7 +586,8 @@ This command does the reverse of `fill-paragraph'."
  '(package-selected-packages (quote (emojify rainbow-mode epc use-package)))
  '(safe-local-variable-values
    (quote
-    ((projectile-project-type . lein-test)
+    ((clojure-indent-style . t)
+     (projectile-project-type . lein-test)
      (cider-cljs-lein-repl . "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

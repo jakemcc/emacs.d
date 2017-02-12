@@ -328,9 +328,8 @@
   :config
   (setq counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))
 
-(use-package counsel-projectile :ensure t
-  ;; :bind* (("H-P" . counsel-projectile-switch-to-buffer)
-  ;;         ("H-p" . counsel-projectile))
+(use-package counsel-projectile
+  :ensure t
   :config
   (counsel-projectile-on))
 

@@ -146,57 +146,7 @@
 
 (use-package all-the-icons)
 
-;; ;; A lot of this helm configuration is from http://tuhdo.github.io/helm-intro.html
-;; (defun spacemacs//helm-hide-minibuffer-maybe ()
-;;   "Hide minibuffer in Helm session if we use the header line as input field."
-;;   (when (with-helm-buffer helm-echo-input-in-header-line)
-;;     (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-;;       (overlay-put ov 'window (selected-window))
-;;       (overlay-put ov 'face
-;;                    (let ((bg-color (face-background 'default nil)))
-;;                      `(:background ,bg-color :foreground ,bg-color)))
-;;       (setq-local cursor-type nil))))
-
-;; (use-package helm
-;;   :ensure t
-;;   :bind (("M-x" . helm-M-x)
-;;          ("C-x C-m" . helm-M-x)
-;;          ("C-c C-m" . helm-M-x)
-;;          ("C-i" . helm-execute-persistant-action)
-;;          ("C-z" . helm-select-action)
-;;          ("M-y" . helm-show-kill-ring)
-;;          ("C-x b" . helm-mini))
-;;   :init
-;;   (use-package helm-flx :ensure t)
-;;   (use-package helm-swoop :ensure t
-;;     :config (setq helm-swoop-split-with-multiple-windows nil
-;;                   helm-swoop-split-direction 'split-window-vertically
-;;                   helm-swoop-split-window-function 'helm-default-display-buffer))
-;;   (use-package helm-projectile :ensure t)
-;;   (use-package helm-ag :ensure t)
-;;   :config
-;;   (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-;;         helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-;;         helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-;;         helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-;;         helm-ff-file-name-history-use-recentf t
-;;         helm-echo-input-in-header-line t)
-  
-;;   (when (executable-find "curl")
-;;     (setq helm-google-suggest-use-curl-p t))
-
-
-;;   (add-hook 'helm-minibuffer-set-up-hook
-;;             'spacemacs//helm-hide-minibuffer-maybe)
-
-;;   (setq helm-autoresize-max-height 0)
-;;   (setq helm-autoresize-min-height 20)
-;;   (helm-autoresize-mode 1)
-
-;;   (helm-mode 1)
-;;   (helm-flx-mode 1)
-;;   )
-
+;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (use-package ivy
   :ensure t
   :diminish (ivy-mode . "")
@@ -229,27 +179,6 @@
   (setq projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
   (setq projectile-file-exists-remote-cache-expire (* 10 60)))
 
-
-;; (use-package ido
-;;   :ensure t
-;;   :config
-;;   (setq ido-enable-prefix nil
-;;         ido-enable-flex-matching t
-;;         ido-use-filename-at-point 'guess
-;;         ido-max-prospects 10)
-;;   (ido-mode +1)
-;;   (ido-everywhere +1))
-
-;; (use-package ido-ubiquitous
-;;   :ensure 
-;;   :config
-;;   (ido-ubiquitous-mode +1))
-
-;; (use-package flx-ido
-;;   :ensure t
-;;   :config
-;;   (flx-ido-mode +1)
-;;   (setq ido-use-faces nil))
 
 (use-package smex
   :ensure t)

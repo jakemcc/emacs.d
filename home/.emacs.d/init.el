@@ -324,6 +324,8 @@
   :ensure t
   :bind*
   (("M-x" . counsel-M-x)
+   ("C-c C-m" . counsel-M-x)
+   ("C-x C-m" . counsel-M-x)
    ("C-x C-f" . counsel-find-file))
   :config
   (setq counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))

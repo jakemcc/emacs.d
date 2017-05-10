@@ -168,6 +168,11 @@
 	;; allow input not in order
         '((t   . ivy--regex-ignore-order))))
 
+(use-package dumb-jump
+  :ensure t
+  :init (add-hook 'clojure-mode-hook 'dumb-jump-mode)
+  :config (setq dumb-jump-selector 'ivy))
+
 (use-package projectile
   :ensure t
   :config

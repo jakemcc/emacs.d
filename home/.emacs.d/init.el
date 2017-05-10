@@ -205,6 +205,9 @@
   :init
   (global-flycheck-mode))
 
+(use-package flycheck-joker
+  :ensure t)
+
 (use-package jake-js
   :load-path "lisp/")
 

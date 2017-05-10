@@ -422,6 +422,10 @@
          ("C-x j" . avy-pop-mark)
          ("s-." . avy-goto-word-or-subword-1)))
 
+(use-package ace-window
+  :ensure t
+  :bind (("C-x o" . ace-window)))
+
 (use-package magit
   :ensure t
   ;; :pin melpa-stable

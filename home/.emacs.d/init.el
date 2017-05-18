@@ -432,8 +432,19 @@
   :ensure t
   ;; :pin melpa-stable
   :bind ("C-c g" . magit-status)
-  :init (use-package with-editor
-          :ensure t))
+  :init
+  (use-package with-editor :ensure t)
+
+  ;; Have magit-status go full screen and quit to previous
+  ;; configuration.  Taken from
+  ;; http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
+  ;; and http://irreal.org/blog/?p=2253
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defadvice magit-quit-window (after magit-restore-screen activate)
+    (jump-to-register :magit-fullscreen)))
 
 (use-package git-timemachine
   :ensure t)

@@ -35,6 +35,10 @@
 
 (setq inhibit-startup-screen t)
 
+;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
+(setq split-height-threshold nil)
+(setq split-width-threshold 160)
+
 ;; -------------------------------------------
 ;; taken from better-defaults and starter-kit
 (menu-bar-mode -1)

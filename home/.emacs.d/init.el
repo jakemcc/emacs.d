@@ -192,9 +192,15 @@
 (use-package smex
   :ensure t)
 
+(defun swiper-under-point ()
+  "Use swiper for searching at symbol under cursor."
+  (interactive)
+  (swiper (format "\\<%s\\>" (thing-at-point 'symbol))))
+
 (use-package swiper
   :ensure t
-  :bind (("C-s" . swiper)))
+  :bind (("C-s" . swiper)
+         ("*" . swiper-under-point)))
 
 (use-package restclient
   :ensure t

@@ -200,7 +200,7 @@
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)
-         ("*" . swiper-under-point)))
+         ("M-*" . swiper-under-point)))
 
 (use-package restclient
   :ensure t

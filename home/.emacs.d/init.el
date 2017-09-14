@@ -434,8 +434,8 @@
 
 (use-package ace-window
   :ensure t
-  :config
-  (setq aw-dispatch-always t)
+  ;; :config
+  ;; (setq aw-dispatch-always t)
   :bind (("C-x o" . ace-window)))
 
 (use-package magit

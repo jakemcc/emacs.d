@@ -429,8 +429,7 @@
 (use-package avy
   :ensure t
   :bind (("C-c j" . avy-goto-word-or-subword-1)
-         ("C-x j" . avy-pop-mark)
-         ("s-." . avy-goto-word-or-subword-1)))
+         ("C-x j" . avy-pop-mark)))
 
 (use-package ace-window
   :ensure t

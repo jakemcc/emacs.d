@@ -537,6 +537,14 @@ This command does the reverse of `fill-paragraph'."
   (let ((fill-column 90002000))
     (fill-paragraph nil)))
 
+(defun lein-test-refresh ()
+  (interactive)
+  (let ((lein-test-refresh-buffer (get-buffer "*lein-test-refresh*")))
+    (when (not lein-test-refresh-buffer)
+        (setq lein-test-refresh-buffer (compile "lein test-refresh"))
+        (with-current-buffer lein-test-refresh-buffer
+          (rename-buffer "*lein-test-refresh*")))
+    lein-test-refresh-buffer))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

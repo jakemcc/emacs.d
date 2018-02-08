@@ -148,7 +148,7 @@
          ("C-s" . vr/isearch-forward)
          ("C-r" . vr/isearch-backward)))
 
-(use-package all-the-icons)
+;; (use-package all-the-icons)
 
 ;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (use-package ivy

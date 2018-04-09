@@ -205,7 +205,8 @@
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)
-         ("M-*" . swiper-under-point)))
+;         ("M-*" . swiper-under-point)
+         ))
 
 (use-package restclient
   :ensure t
@@ -294,6 +295,16 @@
     (add-hook 'prog-mode-hook 'idle-highlight-mode))
   :config
   (setq idle-highlight-idle-time 0.1))
+
+(use-package highlight-symbol
+  :ensure t
+  :bind (("M-*" . 'highlight-symbol)))
+
+;; rodio's settings
+;; (global-set-key [(control f3)] 'highlight-symbol)
+;; (global-set-key [f3] 'highlight-symbol-next)
+;; (global-set-key [(shift f3)] 'highlight-symbol-prev)
+;; (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
 
 (use-package yaml-mode
   :ensure t)

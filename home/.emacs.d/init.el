@@ -218,6 +218,8 @@
 (use-package flycheck
   :ensure t
   ;; :pin melpa-stable
+  :config
+  (setq flycheck-javascript-standard-executable "semistandard")
   :init
   (global-flycheck-mode))
 

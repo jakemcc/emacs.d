@@ -185,7 +185,7 @@
 (use-package projectile
   :ensure t
   :config
-  (projectile-global-mode +1)
+  (projectile-mode +1)
   ;; (setq projectile-completion-system 'helm)
   ;; (helm-projectile-on)
   (setq projectile-project-root-files

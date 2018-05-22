@@ -397,6 +397,7 @@
   ("C-c k" . cider-refresh)
   :config
   (setq cider-prompt-for-symbol nil)
+  (setq cider-repl-pretty-print-width 200)
   :init
   (progn
     (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)

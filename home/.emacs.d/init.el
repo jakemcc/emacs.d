@@ -65,6 +65,10 @@
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
+;; Better titlebar look for Mac
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+
 (defun esk-add-watchwords ()
   "Font lock words from emacs-starter-kit."
   (font-lock-add-keywords
@@ -397,7 +401,7 @@
   ("C-c k" . cider-refresh)
   :config
   (setq cider-prompt-for-symbol nil)
-  (setq cider-repl-pretty-print-width 200)
+  (setq cider-repl-pretty-print-width 250)
   :init
   (progn
     (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)

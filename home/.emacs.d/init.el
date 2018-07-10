@@ -178,7 +178,7 @@
   ;; number of result lines to display
   (setq ivy-height 10)
   ;; does not count candidates
-  (setq ivy-count-format "")
+  (setq ivy-count-format "%d/%d ")
   ;; no regexp by default
   (setq ivy-initial-inputs-alist nil)
   ;; configure regexp engine.

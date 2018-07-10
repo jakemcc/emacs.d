@@ -128,8 +128,18 @@
       load-prefer-newer t
       ediff-window-setup-function 'ediff-setup-windows-plain
       save-place-file (concat user-emacs-directory "places")
-      backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                               "backups"))))
+      backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+      auto-save-file-name-transforms `((".*", (concat user-emacs-directory "autosave/"))))
+
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files temporary-file-directory t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (fifth (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
 
 
 ;; -------------------------------------------

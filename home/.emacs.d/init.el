@@ -431,6 +431,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (bind-keys :map company-active-map
              ("TAB" . company-complete)))
 
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode))
+
 (use-package counsel
   :ensure t
   :bind*

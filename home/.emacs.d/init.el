@@ -291,6 +291,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package flycheck
   :ensure t
+  :diminish ""
   ;; :pin melpa-stable
   :config
   (setq flycheck-javascript-standard-executable "semistandard")
@@ -397,6 +398,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package paredit
   :ensure t
+  :diminish ""
   :init
   (progn
     (add-hook 'clojure-mode-hook 'enable-paredit-mode)
@@ -463,6 +465,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package cider
   :ensure t
+  :diminish ""
   ;; :pin melpa-stable
   :bind
   ("C-c k" . cider-refresh)
@@ -495,6 +498,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package clj-refactor
   :ensure t
   ;; :pin melpa-stable
+  :diminish ""
   :init
   (progn
     (add-hook 'clojure-mode-hook (lambda ()

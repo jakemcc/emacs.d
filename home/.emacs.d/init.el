@@ -147,9 +147,8 @@
 ;; Load use-package and its dependencies.
 (eval-when-compile
   (require 'use-package))
-(use-package diminish
-  :ensure t)
-(use-package bind-key)
+(require 'diminish)
+(require 'bind-key)
 
 (use-package server
   :config

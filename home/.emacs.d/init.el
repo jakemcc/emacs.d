@@ -230,9 +230,12 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package org
   :ensure t
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . 'org-capture))
   :config
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
-  (setq org-agenda-files '("~/Google Drive File Stream/My Drive/org"))
+  (setq org-agenda-files '("~/org"))
+  (setq org-default-notes-file "~/org/todo.org")
   (setq org-agenda-custom-commands
         '(("d" "Daily agenda and all TODOs"
            ((tags "PRIORITY=\"A\""

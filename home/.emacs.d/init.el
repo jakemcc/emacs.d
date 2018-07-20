@@ -471,8 +471,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  :custom
+  (rainbow-delimiters-max-face-count 1)
   :config
-  (setq rainbow-delimiters-max-face-count 1)
   (set-face-attribute 'rainbow-delimiters-unmatched-face nil
                       :foreground 'unspecified
                       :inherit 'error))

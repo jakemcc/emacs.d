@@ -158,8 +158,11 @@
     (server-start)))
 
 
-(use-package use-package-ensure-system-package
-  :ensure t)
+;; (use-package system-packages
+;;   :ensure t)
+
+;; (use-package use-package-ensure-system-package
+;;   :ensure t)
 
 (use-package visual-regexp-steroids
   :ensure t
@@ -188,7 +191,7 @@
 
 (use-package dumb-jump
   :ensure t
-  :ensure-system-package (ag . the_silver_surfer)
+  ;; :ensure-system-package (ag . the_silver_surfer)
   :custom (dumb-jump-selector 'ivy))
 
 (defun air-org-skip-subtree-if-priority (priority)

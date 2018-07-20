@@ -367,7 +367,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package idle-highlight-mode
   :ensure t
-  :hook ((prog-mode-hook . idle-highlight-mode))
+  :hook ((prog-mode . idle-highlight-mode))
   :custom
   (idle-highlight-idle-time 0.1))
 
@@ -400,11 +400,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :diminish ""
   :hook
-  ((clojure-mode-hook . enable-paredit-mode)
-   (emacs-lisp-mode-hook . enable-paredit-mode)
-   (lisp-interaction-mode-hook . enable-paredit-mode)
-   (lisp-mode-hook . enable-paredit-mode)
-   (scheme-mode-hook . enable-paredit-mode))
+  ((clojure-mode . enable-paredit-mode)
+   (emacs-lisp-mode . enable-paredit-mode)
+   (lisp-interaction-mode . enable-paredit-mode)
+   (lisp-mode . enable-paredit-mode)
+   (scheme-mode . enable-paredit-mode))
   :bind (:map paredit-mode-map
               ("M-)" . paredit-forward-slurp-sexp)
               ( "M-(" . paredit-forward-slurp-sexp)))
@@ -461,8 +461,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package rainbow-delimiters
   :ensure t
-  :init
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  :hook ((prod-mode . rainbow-delimiters-mode))
   :custom
   (rainbow-delimiters-max-face-count 1)
   :config

@@ -478,11 +478,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-pretty-print-width 250)
-  :init
-  (progn
-    (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
-    (add-hook 'cider-mode-hook (lambda ()
-                                 (eldoc-mode)))))
+  :hook
+  ((cider-repl-mode-hook . enable-paredit-mode)
+   (cider-mode-hook . (lambda () (eldoc-mode)))))
 
 (use-package clojure-mode
   :ensure t

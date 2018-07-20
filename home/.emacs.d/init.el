@@ -185,7 +185,7 @@
 (use-package dumb-jump
   :ensure t
   :init (add-hook 'clojure-mode-hook 'dumb-jump-mode)
-  :config (setq dumb-jump-selector 'ivy))
+  :custom (dumb-jump-selector 'ivy))
 
 (defun air-org-skip-subtree-if-priority (priority)
   "Skip an agenda subtree if it has a priority of PRIORITY.

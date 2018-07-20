@@ -627,22 +627,23 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;; company-jedi wires up jedi to be a backend for the auto completion
 ;; library, company-mode.
 (use-package company-jedi
+  :hook
+  ((python-mode . jedi:setup))
   :init
   (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
-  (add-hook 'python-mode-hook 'jedi:setup)
   (setq jedi:complete-on-dot t)
   (setq jedi:use-shortcuts t)
   (add-hook 'python-mode-hook
             (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t)
 
-;; (use-package pipenv
-;;   :ensure t
-;;   :hook (python-mode . pipenv-mode)
-;;   :init
-;;   (setq
-;;    pipenv-projectile-after-switch-function
-;;    #'pipenv-projectile-after-switch-extended))
+(use-package pipenv
+  :ensure t
+  :hook (python . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
 
 (use-package rainbow-mode
   :ensure t)

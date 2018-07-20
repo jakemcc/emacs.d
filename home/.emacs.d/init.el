@@ -301,8 +301,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :diminish ""
   ;; :pin melpa-stable
-  :config
-  (setq flycheck-javascript-standard-executable "semistandard")
+  :custom
+  (flycheck-javascript-standard-executable "semistandard")
   :init
   (global-flycheck-mode))
 

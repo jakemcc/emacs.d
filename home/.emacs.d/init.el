@@ -375,8 +375,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :init
   (progn
     (add-hook 'prog-mode-hook 'idle-highlight-mode))
-  :config
-  (setq idle-highlight-idle-time 0.1))
+  :custom
+  (idle-highlight-idle-time 0.1))
 
 (use-package highlight-symbol
   :ensure t

@@ -367,9 +367,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package idle-highlight-mode
   :ensure t
-  :init
-  (progn
-    (add-hook 'prog-mode-hook 'idle-highlight-mode))
+  :hook ((prog-mode-hook . idle-highlight-mode))
   :custom
   (idle-highlight-idle-time 0.1))
 
@@ -401,13 +399,12 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package paredit
   :ensure t
   :diminish ""
-  :init
-  (progn
-    (add-hook 'clojure-mode-hook 'enable-paredit-mode)
-    (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-    (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-    (add-hook 'lisp-mode-hook 'enable-paredit-mode)
-    (add-hook 'scheme-mode-hook 'enable-paredit-mode))
+  :hook
+  ((clojure-mode-hook . enable-paredit-mode)
+   (emacs-lisp-mode-hook . enable-paredit-mode)
+   (lisp-interaction-mode-hook . enable-paredit-mode)
+   (lisp-mode-hook . enable-paredit-mode)
+   (scheme-mode-hook . enable-paredit-mode))
   :bind (:map paredit-mode-map
               ("M-)" . paredit-forward-slurp-sexp)
               ( "M-(" . paredit-forward-slurp-sexp)))

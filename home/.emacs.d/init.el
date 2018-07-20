@@ -312,13 +312,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package jake-js
   :load-path "lisp/")
 
-(use-package plexus-sb-markdown
-  :load-path "lisp/"
-  :init
-  (progn
-    (add-hook 'markdown-mode-hook (lambda ()
-                                    (bind-key (kbd "C-c '") 'plexus/edit-md-source-block markdown-mode-map)
-                                    (bind-key (kbd "C-c '") 'plexus/restore-md-source-block plexus/restore-mode-map)))))
+(use-package edit-indirect)
 
 (use-package markdown-mode
   :ensure t)
@@ -647,13 +641,13 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
             (lambda () (add-to-list 'company-backends 'company-jedi)))
   :ensure t)
 
-(use-package pipenv
-  :ensure t
-  :hook (python-mode . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended))
+;; (use-package pipenv
+;;   :ensure t
+;;   :hook (python-mode . pipenv-mode)
+;;   :init
+;;   (setq
+;;    pipenv-projectile-after-switch-function
+;;    #'pipenv-projectile-after-switch-extended))
 
 (use-package rainbow-mode
   :ensure t)

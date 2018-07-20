@@ -401,8 +401,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
     ;; (load-theme 'sanityinc-tomorrow-day t)
    (load-theme 'sanityinc-tomorrow-eighties t)
     (set-face-foreground 'region "white")
-    (set-face-background 'region "blue")
-    ))
+    (set-face-background 'region "blue")))
 
 (use-package paredit
   :ensure t

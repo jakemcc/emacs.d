@@ -234,6 +234,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))
   :config
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+          (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+          (sequence "|" "CANCELED(c)")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
   (setq org-agenda-files '("~/org"))
   (setq org-default-notes-file "~/org/todo.org")
@@ -258,7 +262,13 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
   (setq org-clock-into-drawer "CLOCKING")
   (setq org-log-note-clock-out t)
-  (setq org-log-done t))
+  (setq org-log-done t)
+
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+           "* TODO %?\n	%u\n  %i\n  %a")
+          ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
+           "** MOVIE @ Theater"))))
 
 (use-package projectile
   :ensure t

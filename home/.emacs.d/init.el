@@ -542,8 +542,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package ace-window
   :ensure t
-  ;; :config
-  ;; (setq aw-dispatch-always t)
   :bind (("C-x o" . ace-window)))
 
 (use-package magit

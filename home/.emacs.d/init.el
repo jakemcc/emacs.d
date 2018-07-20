@@ -184,7 +184,6 @@
 
 (use-package dumb-jump
   :ensure t
-  :init (add-hook 'clojure-mode-hook 'dumb-jump-mode)
   :custom (dumb-jump-selector 'ivy))
 
 (defun air-org-skip-subtree-if-priority (priority)

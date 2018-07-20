@@ -421,14 +421,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :diminish ""
   :commands global-company-mode
-  :init
-  (setq company-idle-delay 0.2
-        company-selection-wrap-around t
-        company-minimum-prefix-length 2
-        company-require-match nil
-        company-dabbrev-ignore-case nil
-        company-dabbrev-downcase nil
-        company-show-numbers t)
+  :custom
+  (company-idle-delay 0.2)
+  (company-selection-wrap-around t)
+  (company-minimum-prefix-length 2)
+  (company-require-match nil)
+  (company-dabbrev-ignore-case nil)
+  (company-dabbrev-downcase nil)
+  (company-show-numbers t)
   :config
   (global-company-mode)
   (use-package company-statistics

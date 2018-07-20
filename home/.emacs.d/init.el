@@ -72,7 +72,7 @@
 (defun esk-add-watchwords ()
   "Font lock words from emacs-starter-kit."
   (font-lock-add-keywords
-   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|HACK\\|REFACTOR\\|NOCOMMIT\\)"
+   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|HACK\\|REFACTOR\\)"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'esk-add-watchwords)
 ;; Perform general cleanup.
@@ -271,10 +271,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (projectile-mode +1)
   ;; (setq projectile-completion-system 'helm)
   ;; (helm-projectile-on)
-  (setq projectile-project-root-files
+  :custom
+  (projectile-project-root-files
         (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
-  (setq projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
-  (setq projectile-file-exists-remote-cache-expire (* 10 60)))
+  (projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
+  (projectile-file-exists-remote-cache-expire (* 10 60)))
 
 
 (use-package smex

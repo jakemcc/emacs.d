@@ -484,9 +484,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   ;; :pin melpa-stable
   :bind
   ("C-c k" . cider-ns-refresh)
-  :config
-  (setq cider-prompt-for-symbol nil)
-  (setq cider-repl-pretty-print-width 250)
+  :custom
+  (cider-prompt-for-symbol nil)
+  (cider-repl-pretty-print-width 250)
   :init
   (progn
     (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
@@ -515,16 +515,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   ;; :pin melpa-stable
   :diminish ""
   :init
-  (progn
-    (add-hook 'clojure-mode-hook (lambda ()
-                                   (clj-refactor-mode 1)
-                                   (yas-minor-mode 1)
-                                   (cljr-add-keybindings-with-prefix "C-c C-x")))
-    (setq cljr-favor-prefix-notation nil)
-    (setq cljr-warn-on-eval nil)
-    (setq cljr-find-usages-ignore-analyzer-errors t))
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (clj-refactor-mode 1)
+                                 (yas-minor-mode 1)
+                                 (cljr-add-keybindings-with-prefix "C-c C-x")))
+  :custom
+  (cljr-warn-on-eval nil)
+  (cljr-ignore-analyzer-errors t)
   :config
-  (setq cljr-ignore-analyzer-errors t)
   (dolist (mapping '(("maps" . "outpace.util.maps")
                      ("seqs" . "outpace.util.seqs")
                      ("times" . "outpace.util.times")

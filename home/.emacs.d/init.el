@@ -461,9 +461,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package ag
   :ensure t
+  :custom
+  (ag-highlight-search t)
+  (ag-reuse-buffers t)
   :config
-  (setq ag-highlight-search t)
-  (setq ag-reuse-buffers t)
   (add-to-list 'ag-arguments "--word-regexp"))
 
 (use-package rainbow-delimiters

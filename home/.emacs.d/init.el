@@ -228,42 +228,42 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))
-  :config
-  (setq org-todo-keywords
+  :custom
+  (org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
           (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
           (sequence "|" "CANCELED(c)")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
-  (setq org-agenda-files '("~/org"))
-  (setq org-default-notes-file "~/org/todo.org")
-  (setq org-agenda-custom-commands
-        '(("d" "Daily agenda and all TODOs"
-           ((tags "PRIORITY=\"A\""
-                  ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                   (org-agenda-overriding-header "High-priority unfinished tasks:")))
-            (agenda "" ((org-agenda-span-to-ndays 1)))
-            (alltodo ""
-                     ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
-                                                     (air-org-skip-subtree-if-priority ?A)
-                                                     (org-agenda-skip-if nil '(scheduled deadline))))
-                      (org-agenda-overriding-header "ALL normal priority tasks:"))))
-           ((org-agenda-compact-blocks t)))))
+  (org-agenda-files '("~/org"))
+  (org-default-notes-file "~/org/todo.org")
+  (org-agenda-custom-commands
+   '(("d" "Daily agenda and all TODOs"
+      ((tags "PRIORITY=\"A\""
+             ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+              (org-agenda-overriding-header "High-priority unfinished tasks:")))
+       (agenda "" ((org-agenda-span-to-ndays 1)))
+       (alltodo ""
+                ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
+                                                (air-org-skip-subtree-if-priority ?A)
+                                                (org-agenda-skip-if nil '(scheduled deadline))))
+                 (org-agenda-overriding-header "ALL normal priority tasks:"))))
+      ((org-agenda-compact-blocks t)))))
 
   ;; https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-refile-use-outline-path 'file)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
+  (org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  (org-outline-path-complete-in-steps nil)
+  (org-refile-use-outline-path 'file)
+  (org-refile-allow-creating-parent-nodes 'confirm)
 
-  (setq org-clock-into-drawer "CLOCKING")
-  (setq org-log-note-clock-out t)
-  (setq org-log-done t)
+  (org-clock-into-drawer "CLOCKING")
+  (org-log-note-clock-out t)
+  (org-log-done t)
 
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-           "* TODO %?\n	%u\n  %i\n  %a")
-          ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
-           "** MOVIE @ Theater"))))
+  (org-capture-templates
+   '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+      "* TODO %?\n	%u\n  %i\n  %a")
+     ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
+      "** MOVIE @ Theater"))))
 
 (use-package projectile
   :ensure t

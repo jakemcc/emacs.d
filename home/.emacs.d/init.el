@@ -157,6 +157,10 @@
   (unless (server-running-p)
     (server-start)))
 
+
+(use-package use-package-ensure-system-package
+  :ensure t)
+
 (use-package visual-regexp-steroids
   :ensure t
   :bind (("M-%" . vr/query-replace)
@@ -184,6 +188,7 @@
 
 (use-package dumb-jump
   :ensure t
+  :ensure-system-package (ag . the_silver_surfer)
   :custom (dumb-jump-selector 'ivy))
 
 (defun air-org-skip-subtree-if-priority (priority)

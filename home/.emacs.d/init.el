@@ -312,7 +312,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package jake-js
   :load-path "lisp/")
 
-(use-package edit-indirect)
+(use-package edit-indirect
+  :ensure t)
 
 (use-package markdown-mode
   :ensure t)

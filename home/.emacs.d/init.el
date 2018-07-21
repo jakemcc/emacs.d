@@ -158,12 +158,13 @@
   (unless (server-running-p)
     (server-start)))
 
-
 ;; (use-package system-packages
+;;   :custom (system-packages-package-manager (quote brew))
 ;;   :ensure t)
 
 ;; (use-package use-package-ensure-system-package
 ;;   :ensure t)
+
 
 (use-package visual-regexp-steroids
   :ensure t
@@ -280,7 +281,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (projectile-mode +1)
   :custom
   (projectile-project-root-files
-        (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
+   (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
   (projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
   (projectile-file-exists-remote-cache-expire (* 10 60)))
 

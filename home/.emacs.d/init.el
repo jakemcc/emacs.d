@@ -153,6 +153,7 @@
 (require 'bind-key)
 
 (use-package server
+  :custom (server-socket-dir (expand-file-name "server" user-emacs-directory))
   :config
   (unless (server-running-p)
     (server-start)))

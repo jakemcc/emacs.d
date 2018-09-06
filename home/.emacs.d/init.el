@@ -240,9 +240,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          ("C-c c" . 'org-capture))
   :custom
   (org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-          (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
-          (sequence "|" "CANCELED(c)")))
+   '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+     (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+     (sequence "|" "CANCELED(c)")))
   (org-todo-keyword-faces '(("NEXT" . "yellow")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
   (org-agenda-files '("~/org"))

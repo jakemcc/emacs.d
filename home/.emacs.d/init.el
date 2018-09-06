@@ -193,6 +193,7 @@
 
 (use-package dumb-jump
   :ensure t
+  :hook ((prog-mode . dumb-jump-mode))
   ;; :ensure-system-package (ag . the_silver_surfer)
   :custom (dumb-jump-selector 'ivy))
 

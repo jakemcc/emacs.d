@@ -268,7 +268,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
   (org-clock-into-drawer "CLOCKING")
   (org-log-note-clock-out t)
-  (org-log-done t)
+  (org-log-done 'note)
 
   (org-capture-templates
    '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")

@@ -292,6 +292,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :config
   (projectile-mode +1)
+  (projectile-register-project-type 'js-spec '()
+                                    :test-suffix "_spec")
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom

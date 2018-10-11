@@ -160,6 +160,15 @@
   (unless (server-running-p)
     (server-start)))
 
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1))
+
+;; (setq super-save-auto-save-when-idle t) ; autosave on idle
+;; (setq auto-save-default nil) ; turn off built in
+
+
 ;; (use-package system-packages
 ;;   :custom (system-packages-package-manager (quote brew))
 ;;   :ensure t)

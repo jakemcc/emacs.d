@@ -624,51 +624,50 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;;------ Python -------
 
 
-
-(use-package python
-  :commands python-mode
-  :config
-  (progn
-    ;; Python hackers like their lines to be 72 columns.
-    (set-fill-column 72))
-  :ensure t)
-
-(use-package elpy
-  :ensure t
-  :commands elpy-enable
-  :init (with-eval-after-load 'python (elpy-enable)))
-
-;; jedi provides auto completion for Python programs. Depends on the
-;; Python packages "jedi" and "epc" to be installed on the host
-;; machine. Don't use this with company, install company-jedi instead
-;; (use-package jedi
-;;   :init
-;; (progn
-;;   (setq jedi:complete-on-dot t)
-;;   (setq jedi:setup-keys t)
-;;   (add-hook 'python-mode-hook 'jedi:setup))
+;; (use-package python
+;;   :commands python-mode
+;;   :config
+;;   (progn
+;;     ;; Python hackers like their lines to be 72 columns.
+;;     (set-fill-column 72))
 ;;   :ensure t)
 
-;; company-jedi wires up jedi to be a backend for the auto completion
-;; library, company-mode.
-(use-package company-jedi
-  :hook
-  ((python-mode . jedi:setup))
-  :init
-  (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
-  (setq jedi:complete-on-dot t)
-  (setq jedi:use-shortcuts t)
-  (add-hook 'python-mode-hook
-            (lambda () (add-to-list 'company-backends 'company-jedi)))
-  :ensure t)
+;; (use-package elpy
+;;   :ensure t
+;;   :commands elpy-enable
+;;   :init (with-eval-after-load 'python (elpy-enable)))
 
-(use-package pipenv
-  :ensure t
-  :hook (python . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended))
+;; ;; jedi provides auto completion for Python programs. Depends on the
+;; ;; Python packages "jedi" and "epc" to be installed on the host
+;; ;; machine. Don't use this with company, install company-jedi instead
+;; ;; (use-package jedi
+;; ;;   :init
+;; ;; (progn
+;; ;;   (setq jedi:complete-on-dot t)
+;; ;;   (setq jedi:setup-keys t)
+;; ;;   (add-hook 'python-mode-hook 'jedi:setup))
+;; ;;   :ensure t)
+
+;; ;; company-jedi wires up jedi to be a backend for the auto completion
+;; ;; library, company-mode.
+;; (use-package company-jedi
+;;   :hook
+;;   ((python-mode . jedi:setup))
+;;   :init
+;;   (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
+;;   (setq jedi:complete-on-dot t)
+;;   (setq jedi:use-shortcuts t)
+;;   (add-hook 'python-mode-hook
+;;             (lambda () (add-to-list 'company-backends 'company-jedi)))
+;;   :ensure t)
+
+;; (use-package pipenv
+;;   :ensure t
+;;   :hook (python . pipenv-mode)
+;;   :init
+;;   (setq
+;;    pipenv-projectile-after-switch-function
+;;    #'pipenv-projectile-after-switch-extended))
 
 (use-package rainbow-mode
   :ensure t)

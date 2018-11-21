@@ -545,11 +545,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (cljr-warn-on-eval nil)
   (cljr-ignore-analyzer-errors t)
   :config
-  (dolist (mapping '(("maps" . "outpace.util.maps")
-                     ("seqs" . "outpace.util.seqs")
-                     ("times" . "outpace.util.times")
-                     ("repl" . "outpace.util.repl")
-                     ("time" . "clj-time.core")
+  (dolist (mapping '(("time" . "clj-time.core")
                      ("string" . "clojure.string")
                      ("http" . "clj-http.client")
                      ("json" . "cheshire.core")

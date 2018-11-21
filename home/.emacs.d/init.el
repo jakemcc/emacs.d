@@ -369,7 +369,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;; apperance
 (set-face-attribute 'default nil
                     :family "Inconsolata"
-                    :height 160)
+                    :height 120)
+
+(global-auto-revert-mode)
 
 ;; Setting up emoji fonts, from https://github.com/dunn/company-emoji
 (defun --set-emoji-font (frame)

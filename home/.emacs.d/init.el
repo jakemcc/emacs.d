@@ -14,6 +14,9 @@
 
 (defvar tmp-dir)
 (setq tmp-dir (file-name-as-directory (concat dotfiles-dir "tmp")))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
+
 (make-directory tmp-dir t)
 
 (package-initialize)

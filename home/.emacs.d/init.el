@@ -27,6 +27,7 @@
                           )
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
+
 (when (not package-archive-contents)
   (package-refresh-contents))
 
@@ -40,7 +41,7 @@
 
 ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
 (setq split-height-threshold nil)
-(setq split-width-threshold 160)
+(setq split-width-threshold 200)
 
 ;; -------------------------------------------
 ;; taken from better-defaults and starter-kit
@@ -176,8 +177,8 @@
 ;;   :custom (system-packages-package-manager (quote brew))
 ;;   :ensure t)
 
-;; (use-package use-package-ensure-system-package
-;;   :ensure t)
+(use-package use-package-ensure-system-package
+  :ensure t)
 
 
 (use-package visual-regexp-steroids
@@ -511,6 +512,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (cider-prompt-for-symbol nil)
   (cider-repl-pretty-print-width 250)
+  (cider-jdk-src-paths '("~/.java/openjv-8-src/"
+                         "~/src/opensource/clojure/src/jvm"))
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
@@ -691,31 +694,6 @@ This command does the reverse of `fill-paragraph'."
         (with-current-buffer lein-test-refresh-buffer
           (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(css-indent-offset 2)
- '(custom-safe-themes
-   (quote
-    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1bacdd5d24f187f273f488a23c977f26452dffbc82d4ac57250aa041f14159da" default)))
- '(display-line-numbers t)
- '(package-selected-packages
-   (quote
-    (edit-indirect dockerfile-mode emojify rainbow-mode epc use-package)))
- '(safe-local-variable-values
-   (quote
-    ((clojure-indent-style . t)
-     (projectile-project-type . lein-test)
-     (cider-cljs-lein-repl . "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (provide 'init)
 ;;; init.el ends here

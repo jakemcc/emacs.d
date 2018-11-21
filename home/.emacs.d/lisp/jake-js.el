@@ -8,6 +8,15 @@
 
 
 ;;; Code:
+ 
+(use-package tern
+  :ensure t
+  :ensure-system-package (tern . "npm i -g tern"))
+
+(use-package company-tern
+  :ensure t)
+
+(add-to-list 'company-backends 'company-tern)
 
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 

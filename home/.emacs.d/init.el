@@ -195,7 +195,7 @@
   :diminish (ivy-mode . "")
   :bind
   (:map ivy-mode-map
-   ("C-'" . ivy-avy))
+        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   :custom
@@ -288,7 +288,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
   (org-capture-templates
    '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-      "* TODO %?\n	%u\n  %i\n  %a")
+      "* TODO %?\n  %u\n  %i\n  %a")
      ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
       "** MOVIE @ Theater"))))
 
@@ -319,7 +319,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)
-;         ("M-*" . swiper-under-point)
+                                        ;         ("M-*" . swiper-under-point)
          ))
 
 (use-package restclient
@@ -429,7 +429,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :init
   (progn
     ;; (load-theme 'sanityinc-tomorrow-day t)
-   (load-theme 'sanityinc-tomorrow-eighties t)
+    (load-theme 'sanityinc-tomorrow-eighties t)
     (set-face-foreground 'region "white")
     (set-face-background 'region "blue")))
 
@@ -693,9 +693,9 @@ This command does the reverse of `fill-paragraph'."
   (interactive)
   (let ((lein-test-refresh-buffer (get-buffer "*lein-test-refresh*")))
     (when (not lein-test-refresh-buffer)
-        (setq lein-test-refresh-buffer (compile "lein test-refresh"))
-        (with-current-buffer lein-test-refresh-buffer
-          (rename-buffer "*lein-test-refresh*")))
+      (setq lein-test-refresh-buffer (compile "lein test-refresh"))
+      (with-current-buffer lein-test-refresh-buffer
+        (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
 
 (provide 'init)

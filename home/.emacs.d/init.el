@@ -298,6 +298,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (projectile-mode +1)
   (projectile-register-project-type 'js-spec '()
                                     :test-suffix "_spec")
+  (projectile-register-project-type 'python '()
+                                    :test-suffix "_test")
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom

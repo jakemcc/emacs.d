@@ -11,12 +11,11 @@
  
 (use-package tern
   :ensure t
-  :ensure-system-package (tern . "npm i -g tern"))
-
-(use-package company-tern
-  :ensure t)
-
-(add-to-list 'company-backends 'company-tern)
+  :ensure-system-package (tern . "npm i -g tern")
+  :init (add-hook 'js-mode-hook (lambda () (tern-mode t)))
+  :config (use-package company-tern
+            :ensure t
+            :init (add-to-list 'company-backends 'company-tern)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
@@ -52,11 +51,12 @@
           (setq js-indent-level 2)
           ;; fixes problem with pretty function font-lock
           (define-key js-mode-map (kbd ",") 'self-insert-command)
-          (font-lock-add-keywords
-           'js-mode `(("\\(function *\\)("
-                       (0 (progn (compose-region (match-beginning 1)
-                                                 (match-end 1) "\u0192")
-                                 nil)))))))
+          ;; (font-lock-add-keywords
+          ;;  'js-mode `(("\\(function *\\)("
+          ;;              (0 (progn (compose-region (match-beginning 1)
+          ;;                                        (match-end 1) "\u0192")
+          ;;                        nil)))))
+          ))
 
 (provide 'jake-js)
 ;;; jake-js.el ends here

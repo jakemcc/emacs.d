@@ -636,42 +636,42 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;;------ Python -------
 
 
-;; (use-package python
-;;   :commands python-mode
-;;   :config
-;;   (progn
-;;     ;; Python hackers like their lines to be 72 columns.
-;;     (set-fill-column 72))
-;;   :ensure t)
+(use-package python
+  :ensure t
+  :commands python-mode
+  :interpreter ("python3" . python-mode)
+  :custom
+  (python-environment-virtualenv (quote ("python3" "-m" "venv"))))
 
 ;; (use-package elpy
 ;;   :ensure t
 ;;   :commands elpy-enable
 ;;   :init (with-eval-after-load 'python (elpy-enable)))
 
-;; ;; jedi provides auto completion for Python programs. Depends on the
-;; ;; Python packages "jedi" and "epc" to be installed on the host
-;; ;; machine. Don't use this with company, install company-jedi instead
-;; ;; (use-package jedi
-;; ;;   :init
-;; ;; (progn
-;; ;;   (setq jedi:complete-on-dot t)
-;; ;;   (setq jedi:setup-keys t)
-;; ;;   (add-hook 'python-mode-hook 'jedi:setup))
-;; ;;   :ensure t)
-
-;; ;; company-jedi wires up jedi to be a backend for the auto completion
-;; ;; library, company-mode.
-;; (use-package company-jedi
-;;   :hook
-;;   ((python-mode . jedi:setup))
+;; jedi provides auto completion for Python programs. Depends on the
+;; Python packages "jedi" and "epc" to be installed on the host
+;; machine. Don't use this with company, install company-jedi instead
+;; (use-package jedi
+;;   :ensure t
 ;;   :init
-;;   (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
+;;   (add-hook 'python-mode-hook 'jedi:setup)
+;;   (add-hook 'python-mode-hook 'jedi:ac-setup)
 ;;   (setq jedi:complete-on-dot t)
-;;   (setq jedi:use-shortcuts t)
-;;   (add-hook 'python-mode-hook
-;;             (lambda () (add-to-list 'company-backends 'company-jedi)))
-;;   :ensure t)
+;; ;  (setq jedi:setup-keys t)
+;;   )
+
+;; company-jedi wires up jedi to be a backend for the auto completion
+;; library, company-mode.
+(use-package company-jedi
+  :ensure t
+  :config
+  :hook
+  ((python-mode . jedi:setup))
+  :init
+  (setq jedi:complete-on-dot t)
+  (setq jedi:use-shortcuts t)
+  (add-hook 'python-mode-hook
+            (lambda () (add-to-list 'company-backends 'company-jedi))))
 
 ;; (use-package pipenv
 ;;   :ensure t

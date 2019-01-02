@@ -373,7 +373,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (set-face-attribute 'default nil
                     :family "Inconsolata"
                     :height (if (memq window-system `(mac ns))
-                                160
+                                180
                               120))
 
 

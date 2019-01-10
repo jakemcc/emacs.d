@@ -300,6 +300,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                                     :test-suffix "_spec")
   (projectile-register-project-type 'python '()
                                     :test-suffix "_test")
+  
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom
@@ -511,7 +512,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package cider
   :ensure t
   :diminish ""
-  ;; :pin melpa-stable
+  :pin melpa-stable
   :bind
   ("C-c k" . cider-ns-refresh)
   :custom
@@ -525,7 +526,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package clojure-mode
   :ensure t
-  ;; :pin melpa-stable
+  :pin melpa-stable
   :bind
   ("C-:" . clojure-toggle-keyword-string)
   :config
@@ -542,7 +543,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package clj-refactor
   :ensure t
-  ;; :pin melpa-stable
+  :pin melpa-stable
   :diminish ""
   :init
   (add-hook 'clojure-mode-hook (lambda ()

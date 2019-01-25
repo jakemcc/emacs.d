@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: jasmine describe
+# key: describe
+# --
+describe('$1', () => {
+  $0
+});

@@ -562,6 +562,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
     (add-to-list 'cljr-magic-require-namespaces mapping t)))
 
 
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode t))
+
 (use-package avy
   :ensure t
   :bind (("C-c j" . avy-goto-word-or-subword-1)

@@ -164,6 +164,13 @@
   (unless (server-running-p)
     (server-start)))
 
+(use-package xclip
+  :ensure t
+  :defer t
+  :diminish ""
+  :config
+  (xclip-mode 1))
+
 (use-package super-save
   :ensure t
   :config
@@ -447,7 +454,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    (scheme-mode . enable-paredit-mode))
   :bind (:map paredit-mode-map
               ("M-)" . paredit-forward-slurp-sexp)
-              ( "M-(" . paredit-forward-slurp-sexp)))
+              ( "M-(" . paredit-forward-slurp-sexp)
+              ("M-}" . paredit-forward-barf-sexp)
+              ("M-{" . paredit-backward-barf-sexp)))
 
 (use-package company
   :ensure t
@@ -688,6 +697,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;;    #'pipenv-projectile-after-switch-extended))
 
 (use-package rainbow-mode
+  :ensure t)
+
+(use-package terraform-mode
   :ensure t)
 
 (defun unfill-paragraph ()

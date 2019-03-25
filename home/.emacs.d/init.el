@@ -266,6 +266,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
      (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
      (sequence "|" "CANCELED(c)")))
+  ;; (org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
+  ;;                       ("~/org/someday.org" :level . 1)
+  ;;                       ("~/org/tickler.org" :maxlevel . 2)))
   (org-todo-keyword-faces '(("NEXT" . "yellow")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
   (org-agenda-files '("~/org"))
@@ -352,6 +355,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t)
 
 (use-package jake-js
+  :load-path "lisp/")
+
+(use-package jake-go
   :load-path "lisp/")
 
 (use-package edit-indirect
@@ -526,7 +532,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   ("C-c k" . cider-ns-refresh)
   :custom
   (cider-prompt-for-symbol nil)
-  (cider-repl-pretty-print-width 250)
+  (cider-print-options '(("length" 50) ("right-margin" 180)))
   (cider-jdk-src-paths '("~/.java/openjv-8-src/"
                          "~/src/opensource/clojure/src/jvm"))
   :hook

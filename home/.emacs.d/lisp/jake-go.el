@@ -30,6 +30,9 @@
   (add-hook 'go-mode-hook 'company-mode)
   (add-to-list 'company-backends 'company-go))
 
+(use-package go-projectile
+  :ensure t)
+
 (use-package go-stacktracer
   :ensure t)
 

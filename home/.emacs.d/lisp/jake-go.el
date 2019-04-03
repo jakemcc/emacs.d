@@ -13,6 +13,7 @@
 ;; go get -u github.com/nsf/gocode
 ;; go get -u github.com/rogpeppe/godef
 ;; go get -u golang.org/x/tools/cmd/goimports
+;; go get -u golang.org/x/tools/cmd/gorename
 ;; go get -u github.com/jstemmer/gotags
 ;; go get github.com/matryer/moq
 
@@ -24,11 +25,19 @@
   (add-hook 'go-mode-hook 'dumb-jump-mode)
   (setq go-packages-function 'go-packages-go-list))
 
+(use-package go-rename
+  :ensure t)
+
 (use-package company-go
   :ensure t
   :config
   (add-hook 'go-mode-hook 'company-mode)
   (add-to-list 'company-backends 'company-go))
+
+(use-package go-eldoc
+  :ensure t
+  :init
+  (go-eldoc-setup))
 
 (use-package go-projectile
   :ensure t)

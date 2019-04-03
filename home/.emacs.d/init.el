@@ -355,9 +355,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t)
 
 (use-package jake-js
-  :load-path "lisp/")
-
-(use-package jake-go
+  :ensure t
   :load-path "lisp/")
 
 (use-package edit-indirect
@@ -371,7 +369,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :if (memq window-system '(mac ns))
   :config
   (x-focus-frame nil)
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 ;; Stop typing full "yes or no" answers to Emacs.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -471,7 +470,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (company-idle-delay 0.2)
   (company-selection-wrap-around t)
-  (company-minimum-prefix-length 2)
+  (company-minimum-prefix-length 0)
+  (company-candidates-length 30)
   (company-require-match nil)
   (company-dabbrev-ignore-case nil)
   (company-dabbrev-downcase nil)

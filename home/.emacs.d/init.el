@@ -43,6 +43,8 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 200)
 
+(global-linum-mode t)
+
 ;; -------------------------------------------
 ;; taken from better-defaults and starter-kit
 (menu-bar-mode -1)
@@ -306,10 +308,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :config
   (projectile-mode +1)
-  (projectile-register-project-type 'js-spec '()
-                                    :test-suffix "_spec")
-  (projectile-register-project-type 'python '()
-                                    :test-suffix "_test")
+  ;; (projectile-register-project-type 'python '()
+  ;;                                   :test-prefix "_test.py")
   
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
@@ -355,8 +355,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t)
 
 (use-package jake-js
-  :ensure t
-  :load-path "lisp/")
+  :load-path "lisp")
 
 (use-package edit-indirect
   :ensure t)
@@ -436,8 +435,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package yaml-mode
   :ensure t)
 
-(use-package color-theme
-  :ensure t)
+;; (use-package color-theme
+;;   :ensure t)
 
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
@@ -664,10 +663,21 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (python-environment-virtualenv (quote ("python3" "-m" "venv"))))
 
+(use-package realgud
+  :ensure t
+  :commands realgud:pdb)
+
 ;; (use-package elpy
 ;;   :ensure t
-;;   :commands elpy-enable
-;;   :init (with-eval-after-load 'python (elpy-enable)))
+;;   :defer t
+;;   :init
+;;   (advice-add 'python-mode :before 'elpy-enable)
+;;   :config
+;;   ;; (when (require 'flycheck nil t)
+;;   ;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   ;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
+;;   )
+
 
 ;; jedi provides auto completion for Python programs. Depends on the
 ;; Python packages "jedi" and "epc" to be installed on the host
@@ -693,6 +703,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (setq jedi:use-shortcuts t)
   (add-hook 'python-mode-hook
             (lambda () (add-to-list 'company-backends 'company-jedi))))
+
+(use-package pyenv-mode
+  :ensure t)
 
 ;; (use-package pipenv
 ;;   :ensure t

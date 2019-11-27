@@ -583,6 +583,39 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                      ("async" . "clojure.core.async")))
     (add-to-list 'cljr-magic-require-namespaces mapping t)))
 
+;; (use-package ensime
+;;   :ensure t
+;;   :pin melpa-stable)
+
+(use-package scala-mode
+  :ensure t
+  :defer t
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :ensure t
+  :defer t
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :ensure t
+  :defer t)
+
+(use-package company-lsp
+  :ensure t :defer t)
 
 (use-package yasnippet
   :ensure t

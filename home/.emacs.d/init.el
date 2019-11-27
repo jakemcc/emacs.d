@@ -19,14 +19,14 @@
 
 (make-directory tmp-dir t)
 
-(package-initialize)
+(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" .
                           ;; "https://elpa.zilongshanren.com/melpa/"
                           "https://melpa.org/packages/"
                           )
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
-
+(package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))

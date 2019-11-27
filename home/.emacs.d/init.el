@@ -258,6 +258,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
       nil)))
 
 
+(use-package bazel-mode
+  :ensure t
+  :custom
+  (python-indent 2))
+
+(use-package dockerfile-mode
+  :ensure t)
+
 (use-package org
   :ensure t
   :bind (("C-c a" . org-agenda)

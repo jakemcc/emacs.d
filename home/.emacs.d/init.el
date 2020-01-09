@@ -260,6 +260,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package bazel-mode
   :ensure t
+  :mode "\\.BUILD\\'"
   :custom
   (python-indent 2))
 
@@ -761,6 +762,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package terraform-mode
   :ensure t)
+
+
+;; (use-package unfill
+;;   :bind ([remap fill-paragraph] . unfill-toggle))
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

@@ -260,9 +260,12 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package bazel-mode
   :ensure t
-  :mode "\\.BUILD\\'"
+  :mode
+  (("\\.bzl$" . bazel-mode)
+   ("\\.bazel" . bazel-mode)
+   ("^WORKSPACE$" . bazel-mode))
   :custom
-  (python-indent 2))
+  (python-indent 4))
 
 (use-package dockerfile-mode
   :ensure t)

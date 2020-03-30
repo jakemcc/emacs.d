@@ -134,7 +134,7 @@
       load-prefer-newer t
       ediff-window-setup-function 'ediff-setup-windows-plain
       save-place-file (concat user-emacs-directory "places")
-      backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+      backup-directory-alist `(("." . ,(concat user-emacs-directory "backups/")))
       auto-save-file-name-transforms `((".*", (concat user-emacs-directory "autosave/") t)))
 
 
@@ -155,6 +155,7 @@
 ;; Load use-package and its dependencies.
 (eval-when-compile
   (require 'use-package))
+
 (use-package diminish
   :ensure t)
 (require 'diminish)
@@ -556,6 +557,15 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :bind
   ("C-:" . clojure-toggle-keyword-string)
   :config
+  (require 'flycheck-joker)
+  (require 'flycheck-clj-kondo)
+  (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
+    (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
+  (dolist (checkers '((clj-kondo-clj . clojure-joker)
+                      (clj-kondo-cljs . clojurescript-joker)
+                      (clj-kondo-cljc . clojure-joker)
+                      (clj-kondo-edn . edn-joker)))
+    (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
   (define-clojure-indent
     (POST 'defun)
     (GET 'defun)
@@ -586,6 +596,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                      ("json" . "cheshire.core")
                      ("async" . "clojure.core.async")))
     (add-to-list 'cljr-magic-require-namespaces mapping t)))
+
+(use-package flycheck-clj-kondo
+  :ensure t)
 
 ;; (use-package ensime
 ;;   :ensure t
@@ -620,6 +633,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package company-lsp
   :ensure t :defer t)
+
 
 (use-package yasnippet
   :ensure t

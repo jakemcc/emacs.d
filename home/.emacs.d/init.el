@@ -19,14 +19,14 @@
 
 (make-directory tmp-dir t)
 
-(package-initialize)
+(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" .
                           ;; "https://elpa.zilongshanren.com/melpa/"
                           "https://melpa.org/packages/"
                           )
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
-
+(package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -258,6 +258,15 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
         subtree-end
       nil)))
 
+
+(use-package bazel-mode
+  :ensure t
+  :mode "\\.BUILD\\'"
+  :custom
+  (python-indent 2))
+
+(use-package dockerfile-mode
+  :ensure t)
 
 (use-package org
   :ensure t
@@ -588,6 +597,41 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package flycheck-clj-kondo
   :ensure t)
 
+;; (use-package ensime
+;;   :ensure t
+;;   :pin melpa-stable)
+
+(use-package scala-mode
+  :ensure t
+  :defer t
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :ensure t
+  :defer t
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :ensure t
+  :defer t)
+
+(use-package company-lsp
+  :ensure t :defer t)
+
+
 (use-package yasnippet
   :ensure t
   :config
@@ -732,6 +776,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package terraform-mode
   :ensure t)
+
+
+;; (use-package unfill
+;;   :bind ([remap fill-paragraph] . unfill-toggle))
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

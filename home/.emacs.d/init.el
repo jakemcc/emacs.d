@@ -626,6 +626,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 (use-package yasnippet
   :ensure t

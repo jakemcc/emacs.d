@@ -13,9 +13,10 @@
   :ensure t
   ;; :ensure-system-package (tern . "npm i -g tern")
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t)))
-  :config (use-package company-tern
-            :ensure t
-            :init (add-to-list 'company-backends 'company-tern)))
+  ;; :config (use-package company-tern
+  ;;           :ensure t
+  ;;           :init (add-to-list 'company-backends 'company-tern))
+  )
 
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 

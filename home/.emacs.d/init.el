@@ -623,12 +623,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :hook (scala-mode . lsp)
   :config (setq lsp-prefer-flymake nil))
 
-(use-package lsp-ui
-  :ensure t
-  :defer t)
-
-(use-package company-lsp
-  :ensure t :defer t)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 
 (use-package yasnippet

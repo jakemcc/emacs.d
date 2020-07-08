@@ -311,7 +311,27 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
       "* TODO %?\n  %u\n  %i\n  %a")
      ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
-      "** MOVIE @ Theater"))))
+      "** MOVIE @ Theater")
+     ("j" "Journal entry" entry (function org-journal-find-location)
+      "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
+
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  ;; Position point on the journal's top-level heading so that org-capture
+  ;; will add the new entry as a child entry.
+  (goto-char (point-min)))
+
+(use-package org-journal
+  :ensure t
+  :defer t
+  :custom
+  (org-journal-dir "~/org/journal/")
+  (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-time-format "%m/%d %R")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-enable-agenda-integration t))
 
 (use-package projectile
   :ensure t
@@ -319,7 +339,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (projectile-mode +1)
   ;; (projectile-register-project-type 'python '()
   ;;                                   :test-prefix "_test.py")
-  
+
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom

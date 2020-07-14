@@ -331,7 +331,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-journal-date-format "%A, %d %B %Y")
   (org-journal-time-format "%m/%d %R")
   (org-journal-file-format "%Y-%m-%d.org")
-  (org-journal-enable-agenda-integration t))
+  (org-journal-enable-agenda-integration t)
+  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
 
 (use-package projectile
   :ensure t

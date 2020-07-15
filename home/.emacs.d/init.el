@@ -21,7 +21,9 @@
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -327,12 +329,26 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :defer t
   :custom
-  (org-journal-dir "~/org/journal/")
+  (org-journal-date-prefix "#+title: ")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-dir "~/org/roam/journal/")
   (org-journal-date-format "%A, %d %B %Y")
   (org-journal-time-format "%m/%d %R")
-  (org-journal-file-format "%Y-%m-%d.org")
   (org-journal-enable-agenda-integration t)
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
+
+(use-package org-roam
+  :hook 
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/org/roam/")
+  :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n b" . org-roam-switch-to-buffer)
+               ("C-c n g" . org-roam-graph-show))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))))
 
 (use-package projectile
   :ensure t
@@ -796,10 +812,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package terraform-mode
   :ensure t)
-
-
-;; (use-package unfill
-;;   :bind ([remap fill-paragraph] . unfill-toggle))
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

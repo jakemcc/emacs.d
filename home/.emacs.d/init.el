@@ -338,7 +338,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
 
 (use-package org-roam
-  :hook 
+  :ensure t
+  :hook
   (after-init . org-roam-mode)
   :custom
   (org-roam-directory "~/org/roam/")

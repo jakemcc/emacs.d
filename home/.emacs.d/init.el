@@ -339,7 +339,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
 
 (use-package org-roam
-  :hook 
+  :ensure t
+  :hook
   (after-init . org-roam-mode)
   :custom
   (org-roam-directory "~/org/roam/")
@@ -516,7 +517,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (company-idle-delay 0.2)
   (company-selection-wrap-around t)
-  (company-minimum-prefix-length 0)
+  (company-minimum-prefix-length 1)
   (company-candidates-length 30)
   (company-require-match nil)
   (company-dabbrev-ignore-case nil)
@@ -813,6 +814,22 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package terraform-mode
   :ensure t)
+
+(defun my-setup-tide-mode ()
+  (tide-setup)
+  (flycheck-mode 1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (tide-hl-identifier-mode 1)
+  (eldoc-mode 1)
+  (company-mode 1))
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . my-setup-tide-mode)
+         (typescript-mode . tide-hl-identifier-mode)
+         ;(before-save . tide-format-before-save)
+         ))
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

@@ -814,21 +814,15 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package terraform-mode
   :ensure t)
 
-(defun my-setup-tide-mode ()
-  (tide-setup)
-  (flycheck-mode 1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (tide-hl-identifier-mode 1)
-  (eldoc-mode 1)
-  (company-mode 1))
-
 (use-package tide
   :ensure t
   :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . my-setup-tide-mode)
+  :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
-         ;(before-save . tide-format-before-save)
-         ))
+         (before-save . tide-format-before-save)))
+
+(use-package olivetti
+  :ensure t)
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

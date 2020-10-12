@@ -329,7 +329,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :defer t
   :custom
-  (org-journal-date-prefix "#+title: ")
+  ;; (org-journal-date-prefix "#+title: ")
+  (org-journal-file-header "#+title: %A, %d %B %Y \n* %A, %d %B %Y")
   (org-journal-file-format "%Y-%m-%d.org")
   (org-journal-dir "~/org/roam/journal/")
   (org-journal-date-format "%A, %d %B %Y")

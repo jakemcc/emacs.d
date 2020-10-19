@@ -704,6 +704,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   ;; :pin melpa-stable
   :bind ("C-c g" . magit-status)
+  :custom
+  (magit-git-executable "/usr/local/bin/git")
+  ;; (magit-refresh-verbose t)
   :init
   (use-package with-editor :ensure t)
 
@@ -716,7 +719,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
     ad-do-it
     (delete-other-windows))
   (defadvice magit-quit-window (after magit-restore-screen activate)
-    (jump-to-register :magit-fullscreen)))
+    (jump-to-register :magit-fullscreen))
+  :config
+  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
 (use-package git-timemachine
   :ensure t)

@@ -392,7 +392,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
               (org-present-big)
               (org-display-inline-images)
               (org-present-hide-cursor)
-              (org-present-read-only)))
+              (org-present-read-only)
+              org-present-add-overlays))
   (add-hook 'org-present-mode-quit-hook
             (lambda ()
               (org-present-small)

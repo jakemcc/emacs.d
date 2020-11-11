@@ -823,7 +823,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          (before-save . tide-format-before-save)))
 
 (use-package olivetti
-  :ensure t)
+  :ensure t
+  :custom
+  (olivetti-body-width 100))
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

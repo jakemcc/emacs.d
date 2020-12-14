@@ -877,6 +877,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          (before-save . tide-format-before-save)))
 
 (use-package olivetti
+  :pin melpa-stable
   :ensure t
   :custom
   (olivetti-body-width 100))

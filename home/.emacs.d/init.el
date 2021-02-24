@@ -690,11 +690,24 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package lsp-mode
   :ensure t
   :defer t
-  :hook (scala-mode . lsp)
-  :config (setq lsp-prefer-flymake nil))
+  :hook ((scala-mode . lsp)
+         (clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp))
+  :config
+  (setq lsp-prefer-flymake nil)
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               ;;clojurex-mode
+               ))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
+  )
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package company-lsp :ensure t :commands company-lsp)
 
 (use-package which-key
   :ensure t

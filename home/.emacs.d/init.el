@@ -7,6 +7,7 @@
 
 ;;; Code:
 
+
 (setq comp-speed 2)
 
 (when (boundp 'comp-eln-load-path)
@@ -229,9 +230,9 @@
 
 (use-package dumb-jump
   :ensure t
-  :hook ((prog-mode . dumb-jump-mode))
-  ;; :ensure-system-package (ag . the_silver_surfer)
-  :custom (dumb-jump-selector 'ivy))
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq dumb-jump-selector 'ivy))
 
 (defun air-org-skip-subtree-if-priority (priority)
   "Skip an agenda subtree if it has a priority of PRIORITY.
@@ -687,6 +688,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    'self-insert-command
    minibuffer-local-completion-map))
 
+
+;; Settings for lsp-mode to work better
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 (use-package lsp-mode
   :ensure t
   :defer t
@@ -881,6 +886,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :custom
   (olivetti-body-width 100))
+
+(use-package go-mode
+  :pin melpa-stable
+  :ensure t)
+
 
 (defun unfill-paragraph ()
   "Replace newline chars in current paragraph by single spaces.

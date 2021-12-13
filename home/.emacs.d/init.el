@@ -270,7 +270,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
       nil)))
 
 
-(use-package bazel-mode
+(use-package bazel
   :ensure t
   :mode
   (("\\.bzl$" . bazel-mode)

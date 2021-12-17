@@ -111,7 +111,7 @@
   (esk-untabify-buffer)
   (delete-trailing-whitespace))
 
-(global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
+;; (global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
 
 (defun esk-eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -703,23 +703,41 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    'self-insert-command
    minibuffer-local-completion-map))
 
+
 (use-package lsp-mode
   :ensure t
   :defer t
-  :hook ((scala-mode . lsp)
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (clojure-mode . lsp)
          (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
+         (clojurescript-mode . lsp)
+         (scala-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
   :config
-  (setq lsp-prefer-flymake nil)
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               ;;clojurex-mode
-               ))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
-  )
+  (setq lsp-prefer-flymake nil))
+
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook ((scala-mode . lsp)
+;;          (clojure-mode . lsp)
+;;          (clojurec-mode . lsp)
+;;          (clojurescript-mode . lsp))
+;;   :config
+  
+;;   (dolist (m '(clojure-mode
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                ;;clojurex-mode
+;;                ))
+;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+;;   ;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
+;;   )
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)

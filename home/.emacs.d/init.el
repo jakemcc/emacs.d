@@ -37,8 +37,8 @@
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
+                         ("melpa" . "https://melpa.org/packages/")))
+
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -113,7 +113,7 @@
   (esk-untabify-buffer)
   (delete-trailing-whitespace))
 
-(global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
+;; (global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
 
 (defun esk-eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -272,7 +272,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
       nil)))
 
 
-(use-package bazel-mode
+(use-package bazel
   :ensure t
   :mode
   (("\\.bzl$" . bazel-mode)
@@ -356,17 +356,33 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package org-roam
   :ensure t
-  :hook
-  (after-init . org-roam-mode)
   :custom
-  (org-roam-directory "~/org/roam/")
-  :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n b" . org-roam-switch-to-buffer)
-               ("C-c n g" . org-roam-graph-show))
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))))
+  (org-roam-directory (file-truename "~/org/roam/"))
+  
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :init
+  (setq org-roam-v2-ack t)
+  :config
+  (org-roam-db-autosync-enable)
+  (setq org-roam-v2-ack t)
+  ;; (setq org-roam-dailes-directory "daily/")
+  ;; (setq org-roam-dailies-capture-templates
+  ;;     '(("d" "default" entry
+  ;;        "* %?"
+  ;;        :target (file+head "%<%Y-%m-%d>.org"
+  ;;                           "#+title: %<%Y-%m-%d>\n"))))
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer))))
 
 (use-package projectile
   :ensure t
@@ -693,26 +709,42 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
    minibuffer-local-completion-map))
 
 
-;; Settings for lsp-mode to work better
 (setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq read-process-output-max (* 1024 1024))
 (use-package lsp-mode
   :ensure t
   :defer t
-  :hook ((scala-mode . lsp)
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (clojure-mode . lsp)
          (clojurec-mode . lsp)
-         (clojurescript-mode . lsp))
+         (clojurescript-mode . lsp)
+         (scala-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
   :config
-  (setq lsp-prefer-flymake nil)
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               ;;clojurex-mode
-               ))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
-  )
+  (setq lsp-prefer-flymake nil))
+
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook ((scala-mode . lsp)
+;;          (clojure-mode . lsp)
+;;          (clojurec-mode . lsp)
+;;          (clojurescript-mode . lsp))
+;;   :config
+  
+;;   (dolist (m '(clojure-mode
+;;                clojurec-mode
+;;                clojurescript-mode
+;;                ;;clojurex-mode
+;;                ))
+;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+;;   ;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
+;;   )
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)

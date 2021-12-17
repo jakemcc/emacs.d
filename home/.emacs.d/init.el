@@ -20,6 +20,7 @@
                     "-name" "*.eln" "-size" "0" "-delete" "-or"
                     "-name" "*.eln.tmp" "-size" "0" "-delete"))))
 
+(setq native-comp-async-report-warnings-errors nil)
 
 (defvar dotfiles-dir)
 
@@ -371,17 +372,20 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :ensure t
   :config
   (projectile-mode +1)
-  ;; (projectile-register-project-type 'python '()
-  ;;                                   :test-prefix "_test.py")
-
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom
   (projectile-completion-system 'ivy)
-  ;; (projectile-project-root-files
-  ;;  (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
-  ;; (projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
+  (projectile-enable-caching t)
   (projectile-file-exists-remote-cache-expire (* 10 60)))
+
+  ;; (projectile-register-project-type 'python '()
+  ;;                                   :test-prefix "_test.py")
+
+
+;; (projectile-project-root-files
+;;  (quote ("rebar.config" "project.clj" "pom.xml" "build.sbt" "build.gradle" "Gemfile" "requirements.txt" "package.json" "gulpfile.js" "Gruntfile.js" "bower.json" "composer.json" "Cargo.toml" "mix.exs" ".git" ".projectile_root")))
+;; (projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
 
 
 (use-package smex
@@ -739,6 +743,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :bind ("C-c g" . magit-status)
   :custom
   (magit-git-executable "/usr/local/bin/git")
+  (magit-diff-refine-hunk t)
   ;; (magit-refresh-verbose t)
   :init
   (use-package with-editor :ensure t)

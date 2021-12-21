@@ -341,9 +341,19 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   ;; will add the new entry as a child entry.
   (goto-char (point-min)))
 
+(defun org-journal-create-new-id ()
+  "Create org-id at beginning of new journal document."
+  (message "Starting org-journal-new-id")
+  (goto-char (point-min))
+  (org-id-get-create)
+  (goto-char (point-max))
+  (message "finished org-journal-new-id"))
+
 (use-package org-journal
   :ensure t
   :defer t
+  :init
+  (add-hook 'org-journal-after-header-create-hook 'org-journal-create-new-id)
   :custom
   ;; (org-journal-date-prefix "#+title: ")
   (org-journal-file-header "#+title: %A, %d %B %Y \n* %A, %d %B %Y")
@@ -582,7 +592,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
     :config
     (company-statistics-mode))
   (bind-keys :map company-active-map
-             ("TAB" . company-complete)))
+             ("TAB" . company-complete))
+  (setq lsp-completion-provider :capf))
 
 (use-package company-quickhelp
   :ensure t
@@ -748,7 +759,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package company-lsp :ensure t :commands company-lsp)
 
 (use-package which-key
   :ensure t

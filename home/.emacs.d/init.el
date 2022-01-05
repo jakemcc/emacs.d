@@ -349,6 +349,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (goto-char (point-max))
   (message "finished org-journal-new-id"))
 
+(defun org-journal-new-day (prefix)
+  (interactive "P")
+  (org-journal-new-entry prefix)
+  (org-journal-create-new-id))
+
 (use-package org-journal
   :ensure t
   :defer t

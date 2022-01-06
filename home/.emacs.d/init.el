@@ -349,7 +349,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (goto-char (point-max))
   (message "finished org-journal-new-id"))
 
-(defun org-journal-new-day (prefix)
+(defun org-journal-new-entry-with-id (prefix)
   (interactive "P")
   (org-journal-new-entry prefix)
   (org-journal-create-new-id))
@@ -359,6 +359,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :defer t
   :init
   (add-hook 'org-journal-after-header-create-hook 'org-journal-create-new-id)
+  :bind (("C-c C-j" . org-journal-new-entry-with-id))
   :custom
   ;; (org-journal-date-prefix "#+title: ")
   (org-journal-file-header "#+title: %A, %d %B %Y \n* %A, %d %B %Y")

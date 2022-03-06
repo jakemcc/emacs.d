@@ -651,6 +651,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (cider-print-options '(("length" 50) ("right-margin" 180)))
   (cider-jdk-src-paths '("~/.java/openjv-8-src/"
                          "~/src/opensource/clojure/src/jvm"))
+  (cider-eldoc-display-for-symbol-at-point nil)
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
@@ -693,6 +694,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (cljr-warn-on-eval nil)
   (cljr-ignore-analyzer-errors t)
+  (cljr-add-ns-to-blank-clj-files nil)
   :config
   (dolist (mapping '(("time" . "clj-time.core")
                      ("string" . "clojure.string")
@@ -708,63 +710,32 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;;   :ensure t
 ;;   :pin melpa-stable)
 
-(use-package scala-mode
-  :ensure t
-  :defer t
-  :mode "\\.s\\(cala\\|bt\\)$")
-
-(use-package sbt-mode
-  :ensure t
-  :defer t
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map))
-
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 (use-package lsp-mode
   :ensure t
   :defer t
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (setq lsp-prefer-flymake nil)
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp)
-         (scala-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp
-  :config
-  (setq lsp-prefer-flymake nil))
+  :commands lsp)
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :defer t
-;;   :hook ((scala-mode . lsp)
-;;          (clojure-mode . lsp)
-;;          (clojurec-mode . lsp)
-;;          (clojurescript-mode . lsp))
-;;   :config
-  
-;;   (dolist (m '(clojure-mode
-;;                clojurec-mode
-;;                clojurescript-mode
-;;                ;;clojurex-mode
-;;                ))
-;;     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-;;   ;;  (setq lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
-;;   )
-
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :ensure t)
+(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 
 (use-package which-key
   :ensure t

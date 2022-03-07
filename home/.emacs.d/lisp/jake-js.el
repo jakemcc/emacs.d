@@ -10,7 +10,6 @@
 ;;; Code:
  
 (use-package tern
-  :ensure t
   ;; :ensure-system-package (tern . "npm i -g tern")
   :init (add-hook 'js-mode-hook (lambda () (tern-mode t)))
   ;; :config (use-package company-tern

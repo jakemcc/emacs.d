@@ -22,6 +22,7 @@
 
 (setq native-comp-async-report-warnings-errors nil)
 
+
 (defvar dotfiles-dir)
 
 (setq dotfiles-dir (file-name-directory
@@ -34,22 +35,6 @@
 
 (make-directory tmp-dir t)
 
-(require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
-
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(if (not (package-installed-p 'use-package))
-    (progn
-      (package-refresh-contents)
-      (package-install 'use-package)))
-
-
 (setq inhibit-startup-screen t)
 
 ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
@@ -57,6 +42,24 @@
 (setq split-width-threshold 200)
 
 (global-linum-mode t)
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+
+(use-package straight
+  :custom (straight-use-package-by-default t))
 
 ;; -------------------------------------------
 ;; taken from better-defaults and starter-kit
@@ -169,8 +172,7 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 (require 'diminish)
 (require 'bind-key)
 
@@ -181,14 +183,11 @@
     (server-start)))
 
 (use-package xclip
-  :ensure t
-  :defer t
   :diminish ""
   :config
   (xclip-mode 1))
 
 (use-package super-save
-  :ensure t
   :config
   (super-save-mode +1))
 
@@ -196,16 +195,13 @@
 ;; (setq auto-save-default nil) ; turn off built in
 
 
-;; (use-package system-packages
-;;   :custom (system-packages-package-manager (quote brew))
-;;   :ensure t)
+;; ;; (use-package system-packages
+;; ;;   :custom (system-packages-package-manager (quote brew)))
 
-(use-package use-package-ensure-system-package
-  :ensure t)
+;; (use-package use-package-ensure-system-package)
 
 
 (use-package visual-regexp-steroids
-  :ensure t
   :bind (("M-%" . vr/query-replace)
          ("C-s" . vr/isearch-forward)
          ("C-r" . vr/isearch-backward)))
@@ -214,7 +210,6 @@
 
 ;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (use-package ivy
-  :ensure t
   :diminish (ivy-mode . "")
   :bind
   (:map ivy-mode-map
@@ -230,7 +225,6 @@
   (ivy-re-builders-alist '((t   . ivy--regex-ignore-order))))
 
 (use-package dumb-jump
-  :ensure t
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq dumb-jump-selector 'ivy))
@@ -273,7 +267,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 
 (use-package bazel
-  :ensure t
   :mode
   (("\\.bzl$" . bazel-mode)
    ("\\.bazel" . bazel-mode)
@@ -281,15 +274,13 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :custom
   (python-indent 4))
 
-(use-package dockerfile-mode
-  :ensure t)
+(use-package dockerfile-mode)
 
 (use-package org
-  :ensure t
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))
   :custom
-  (org-modules '(org-habit org-w3m org-bbdb org-bibtex org-docview org-gnus org-info org-irc org-mhe org-rmail))
+  (org-modules '(org-habit ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail))
   (org-startup-folded t)
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -355,8 +346,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-journal-create-new-id))
 
 (use-package org-journal
-  :ensure t
-  :defer t
   :init
   (add-hook 'org-journal-after-header-create-hook 'org-journal-create-new-id)
   :bind (("C-c s-j" . jm/org-journal-new-entry-with-id))
@@ -371,7 +360,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
 
 (use-package org-roam
-  :ensure t
   :custom
   (org-roam-directory (file-truename "~/org/roam/"))
   
@@ -401,7 +389,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                  (window-height . fit-window-to-buffer))))
 
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode +1)
   :bind (:map projectile-mode-map
@@ -420,8 +407,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;; (projectile-project-root-files-bottom-up (quote (".projectile" ".hg" ".fslckout" ".bzr" "_darcs")))
 
 
-(use-package smex
-  :ensure t)
+(use-package smex)
 
 (defun swiper-under-point ()
   "Use swiper for searching at symbol under cursor."
@@ -429,13 +415,12 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (swiper (format "\\<%s\\>" (thing-at-point 'symbol))))
 
 (use-package swiper
-  :ensure t
+
   :bind (("C-s" . swiper)
                                         ;         ("M-*" . swiper-under-point)
          ))
 
 (use-package org-present
-  :ensure t
   :init
   (add-hook 'org-present-mode-hook
             (lambda ()
@@ -452,35 +437,28 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
               (org-present-read-write))))
 
 ;; (use-package restclient
-;;   :ensure t
 ;;   :init
 ;;   (use-package company-restclient
-;;     :ensure t
 ;;     :config (add-to-list 'company-backends 'company-restclient)))
 
 (use-package flycheck
-  :ensure t
   :diminish ""
-  ;; :pin melpa-stable
   :custom
   (flycheck-javascript-standard-executable "semistandard")
   :init
   (global-flycheck-mode))
 
-(use-package flycheck-joker
-  :ensure t)
+(use-package flycheck-joker)
+(use-package flycheck-clj-kondo)
 
-(use-package jake-js
-  :load-path "lisp")
+;; (use-package jake-js
+;;   :load-path "lisp")
 
-(use-package edit-indirect
-  :ensure t)
+(use-package edit-indirect)
 
-(use-package markdown-mode
-  :ensure t)
+(use-package markdown-mode)
 
 (use-package exec-path-from-shell
-  :ensure t
   :if (memq window-system '(mac ns))
   :config
   (x-focus-frame nil)
@@ -533,13 +511,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 
 (use-package idle-highlight-mode
-  :ensure t
   :hook ((prog-mode . idle-highlight-mode))
   :custom
   (idle-highlight-idle-time 0.1))
 
 (use-package highlight-symbol
-  :ensure t
   :bind (("M-*" . 'highlight-symbol)))
 
 ;; rodio's settings
@@ -548,14 +524,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;; (global-set-key [(shift f3)] 'highlight-symbol-prev)
 ;; (global-set-key [(meta f3)] 'highlight-symbol-query-replace)
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
-;; (use-package color-theme
-;;   :ensure t)
+;; (use-package color-theme)
 
 (use-package color-theme-sanityinc-tomorrow
-  :ensure t
   :init
   (progn
     ;; (load-theme 'sanityinc-tomorrow-day t)
@@ -564,7 +537,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
     (set-face-background 'region "blue")))
 
 (use-package paredit
-  :ensure t
   :diminish ""
   :hook
   ((clojure-mode . enable-paredit-mode)
@@ -579,7 +551,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
               ("M-{" . paredit-backward-barf-sexp)))
 
 (use-package company
-  :ensure t
   :diminish ""
   :commands global-company-mode
   :custom
@@ -594,7 +565,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   :config
   (global-company-mode)
   (use-package company-statistics
-    :ensure t
     :config
     (company-statistics-mode))
   (bind-keys :map company-active-map
@@ -602,12 +572,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (setq lsp-completion-provider :capf))
 
 (use-package company-quickhelp
-  :ensure t
   :config
   (company-quickhelp-mode))
 
 (use-package counsel
-  :ensure t
   :bind*
   (("M-x" . counsel-M-x)
    ("C-c C-m" . counsel-M-x)
@@ -618,12 +586,10 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))
 
 (use-package counsel-projectile
-  :ensure t
   :config
   (counsel-projectile-mode))
 
 (use-package ag
-  :ensure t
   :custom
   (ag-highlight-search t)
   (ag-reuse-buffers t)
@@ -631,7 +597,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (add-to-list 'ag-arguments "--word-regexp"))
 
 (use-package rainbow-delimiters
-  :ensure t
   :hook ((prod-mode . rainbow-delimiters-mode))
   :custom
   (rainbow-delimiters-max-face-count 1)
@@ -641,9 +606,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                       :inherit 'error))
 
 (use-package cider
-  :ensure t
   :diminish ""
-  :pin melpa-stable
   :bind
   ("C-c k" . cider-ns-refresh)
   :custom
@@ -656,11 +619,11 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
 
+
 (use-package clojure-mode
-  :ensure t
-  :pin melpa-stable
   :bind
   ("C-:" . clojure-toggle-keyword-string)
+  :requires (flycheck-joker flycheck-clj-konda)
   :config
   (require 'flycheck-joker)
   (require 'flycheck-clj-kondo)
@@ -683,8 +646,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 
 (use-package clj-refactor
-  :ensure t
-  :pin melpa-stable
   :diminish ""
   :init
   (add-hook 'clojure-mode-hook (lambda ()
@@ -703,19 +664,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
                      ("async" . "clojure.core.async")))
     (add-to-list 'cljr-magic-require-namespaces mapping t)))
 
-(use-package flycheck-clj-kondo
-  :ensure t)
 
-;; (use-package ensime
-;;   :ensure t
-;;   :pin melpa-stable)
+
+;; (use-package ensime)
 
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 (use-package lsp-mode
-  :ensure t
-  :defer t
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
@@ -733,39 +689,35 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (setq lsp-keymap-prefix "C-c l")
   :commands lsp)
 
-(use-package lsp-treemacs :ensure t)
-(use-package lsp-ui :ensure t :commands lsp-ui-mode)
-(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
 (use-package yasnippet
-  :ensure t
   :config
   (yas-global-mode t))
 
 (use-package avy
-  :ensure t
   :bind (("C-c j" . avy-goto-word-or-subword-1)
          ("C-x j" . avy-pop-mark)))
 
 (use-package ace-window
-  :ensure t
   :bind (("C-x o" . ace-window)))
 
+(use-package with-editor)
+
 (use-package magit
-  :ensure t
-  ;; :pin melpa-stable
   :bind ("C-c g" . magit-status)
   :custom
   (magit-git-executable "/usr/local/bin/git")
   (magit-diff-refine-hunk t)
   ;; (magit-refresh-verbose t)
   :init
-  (use-package with-editor :ensure t)
+  
 
   ;; Have magit-status go full screen and quit to previous
   ;; configuration.  Taken from
@@ -785,11 +737,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
-(use-package git-timemachine
-  :ensure t)
+(use-package git-timemachine)
 
 (use-package web-mode
-  :ensure t
   :custom
   (web-mode-code-indent-offset 2)
   (web-mode-markup-indent-offset 2)
@@ -833,20 +783,16 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;;------ Python -------
 
 
-(use-package python
-  :ensure t
-  :commands python-mode
-  :interpreter ("python3" . python-mode)
-  :custom
-  (python-environment-virtualenv (quote ("python3" "-m" "venv"))))
+;; (use-package python
+;;   :commands python-mode
+;;   :interpreter ("python3" . python-mode)
+;;   :custom
+;;   (python-environment-virtualenv (quote ("python3" "-m" "venv"))))
 
-(use-package realgud
-  :ensure t
-  :commands realgud:pdb)
+;; (use-package realgud
+;;   :commands realgud:pdb)
 
 ;; (use-package elpy
-;;   :ensure t
-;;   :defer t
 ;;   :init
 ;;   (advice-add 'python-mode :before 'elpy-enable)
 ;;   :config
@@ -860,7 +806,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 ;; Python packages "jedi" and "epc" to be installed on the host
 ;; machine. Don't use this with company, install company-jedi instead
 ;; (use-package jedi
-;;   :ensure t
 ;;   :init
 ;;   (add-hook 'python-mode-hook 'jedi:setup)
 ;;   (add-hook 'python-mode-hook 'jedi:ac-setup)
@@ -870,50 +815,40 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 ;; company-jedi wires up jedi to be a backend for the auto completion
 ;; library, company-mode.
-(use-package company-jedi
-  :ensure t
-  :config
-  :hook
-  ((python-mode . jedi:setup))
-  :init
-  (setq jedi:complete-on-dot t)
-  (setq jedi:use-shortcuts t)
-  (add-hook 'python-mode-hook
-            (lambda () (add-to-list 'company-backends 'company-jedi))))
+;; (use-package company-jedi
+;;   :config
+;;   :hook
+;;   ((python-mode . jedi:setup))
+;;   :init
+;;   (setq jedi:complete-on-dot t)
+;;   (setq jedi:use-shortcuts t)
+;;   (add-hook 'python-mode-hook
+;;             (lambda () (add-to-list 'company-backends 'company-jedi))))
 
-(use-package pyenv-mode
-  :ensure t)
+;; (use-package pyenv-mode)
 
 ;; (use-package pipenv
-;;   :ensure t
 ;;   :hook (python . pipenv-mode)
 ;;   :init
 ;;   (setq
 ;;    pipenv-projectile-after-switch-function
 ;;    #'pipenv-projectile-after-switch-extended))
 
-(use-package rainbow-mode
-  :ensure t)
+(use-package rainbow-mode)
 
-(use-package terraform-mode
-  :ensure t)
+(use-package terraform-mode)
 
 (use-package tide
-  :ensure t
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save)))
 
 (use-package olivetti
-  :pin melpa-stable
-  :ensure t
   :custom
   (olivetti-body-width 100))
 
-(use-package go-mode
-  :pin melpa-stable
-  :ensure t)
+(use-package go-mode)
 
 
 (defun unfill-paragraph ()

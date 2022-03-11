@@ -713,7 +713,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package magit
   :bind ("C-c g" . magit-status)
   :custom
-  (magit-git-executable "/usr/local/bin/git")
   (magit-diff-refine-hunk t)
   ;; (magit-refresh-verbose t)
   :init

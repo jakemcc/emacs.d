@@ -676,6 +676,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
+  :custom
+  (lsp-auto-guess-root t)
   :config
   (setq lsp-prefer-flymake nil)
   (dolist (m '(clojure-mode

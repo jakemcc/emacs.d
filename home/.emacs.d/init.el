@@ -229,6 +229,9 @@
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq dumb-jump-selector 'ivy))
 
+(use-package xref
+  :bind (("M-." . xref-find-definitions)))
+
 (defun air-org-skip-subtree-if-priority (priority)
   "Skip an agenda subtree if it has a priority of PRIORITY.
 

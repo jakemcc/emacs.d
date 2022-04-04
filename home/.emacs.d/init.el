@@ -739,6 +739,10 @@ same directory as the org-buffer and insert a link to this file."
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook 'lsp))
+
 (use-package which-key
   :config
   (which-key-mode))

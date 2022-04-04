@@ -417,6 +417,13 @@ same directory as the org-buffer and insert a link to this file."
 (use-package projectile
   :config
   (projectile-mode +1)
+
+  (projectile-update-project-type
+   'lein-test
+   :related-files-fn
+   (list
+    (projectile-related-files-fn-test-with-suffix "clj" "_test")
+    (projectile-related-files-fn-test-with-suffix "clj" "_expectations")))
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom

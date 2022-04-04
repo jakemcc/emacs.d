@@ -658,7 +658,8 @@ same directory as the org-buffer and insert a link to this file."
   (cider-print-options '(("length" 50) ("right-margin" 180)))
   (cider-jdk-src-paths '("~/.java/openjv-8-src/"
                          "~/src/opensource/clojure/src/jvm"))
-  (cider-eldoc-display-for-symbol-at-point nil)
+  (cider-eldoc-display-for-symbol-at-point nil) ; disable cider showing eldoc since clojure-lsp does this
+  (cider-xref-fn-depth 90) ;; complete after lsp
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))

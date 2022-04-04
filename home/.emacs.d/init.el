@@ -700,14 +700,15 @@ same directory as the org-buffer and insert a link to this file."
   :custom
   (cljr-warn-on-eval nil)
   (cljr-ignore-analyzer-errors t)
-  (cljr-add-ns-to-blank-clj-files nil)
+  (cljr-add-ns-to-blank-clj-files nil) ; disable clj-refactor adding ns to blank files since clojure-lsp will do it
   :config
-  (dolist (mapping '(("time" . "clj-time.core")
-                     ("string" . "clojure.string")
-                     ("http" . "clj-http.client")
-                     ("json" . "cheshire.core")
-                     ("async" . "clojure.core.async")))
-    (add-to-list 'cljr-magic-require-namespaces mapping t)))
+  ;; (dolist (mapping '(("time" . "clj-time.core")
+  ;;                    ("string" . "clojure.string")
+  ;;                    ("http" . "clj-http.client")
+  ;;                    ("json" . "cheshire.core")
+  ;;                    ("async" . "clojure.core.async")))
+  ;;   (add-to-list 'cljr-magic-require-namespaces mapping t))
+  )
 
 
 

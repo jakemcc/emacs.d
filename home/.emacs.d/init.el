@@ -722,6 +722,8 @@ same directory as the org-buffer and insert a link to this file."
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
+  :custom
+  (lsp-auto-guess-root t)
   :config
   (setq lsp-prefer-flymake nil)
   (dolist (m '(clojure-mode

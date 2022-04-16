@@ -427,8 +427,11 @@ same directory as the org-buffer and insert a link to this file."
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom
+  (projectile-project-search-path '(("~/src/" . 2)
+                                    ("~/git.drwholdings.com/" . 2)
+                                    ("~/github.com/" . 2)))
   (projectile-completion-system 'ivy)
-  (projectile-enable-caching t)
+  (projectile-enable-caching nil)
   (projectile-file-exists-remote-cache-expire (* 10 60)))
 
 (defun beefalo/project-buf-name ()

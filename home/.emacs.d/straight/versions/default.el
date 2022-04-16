@@ -3,7 +3,7 @@
  ("avy" . "ba5f035be33693d1a136a5cbeedb24327f551a92")
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
- ("cider" . "6ddccef1d8cf48515b1cfa0addc1dd41e57e840a")
+ ("cider" . "db972bbdfbe777272529ec848c9f1991ae94dbda")
  ("clj-refactor.el" . "1017297cb04b3c72dc5fceb48bf2791917eeccd2")
  ("clojure-mode" . "4a0b598c340143c5d9d39e36d32cee9693ec0e32")
  ("color-theme-sanityinc-tomorrow" . "e2857533627f3eda3e9e21de7f2a99b8634c1c15")

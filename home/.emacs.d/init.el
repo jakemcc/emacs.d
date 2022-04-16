@@ -726,17 +726,9 @@ same directory as the org-buffer and insert a link to this file."
          (lsp-mode . lsp-enable-which-key-integration))
   :custom
   (lsp-auto-guess-root t)
-  :config
-  (setq lsp-prefer-flymake nil)
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
+  (lsp-keymap-prefix "C-c l")
+  (lsp-prefer-flymake nil)
+  
   :commands lsp)
 
 (use-package lsp-treemacs)

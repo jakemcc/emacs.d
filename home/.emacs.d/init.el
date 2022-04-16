@@ -615,8 +615,7 @@ same directory as the org-buffer and insert a link to this file."
     :config
     (company-statistics-mode))
   (bind-keys :map company-active-map
-             ("TAB" . company-complete))
-  (setq lsp-completion-provider :capf))
+             ("TAB" . company-complete)))
 
 (use-package company-quickhelp
   :config

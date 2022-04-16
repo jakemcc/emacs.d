@@ -731,8 +731,16 @@ same directory as the org-buffer and insert a link to this file."
   
   :commands lsp)
 
-(use-package lsp-treemacs)
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-treemacs
+  :custom
+  (lsp-treemacs-error-list-current-project-only t))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-doc-show-with-cursor t))
+
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java

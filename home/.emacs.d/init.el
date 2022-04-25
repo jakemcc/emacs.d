@@ -428,7 +428,7 @@ same directory as the org-buffer and insert a link to this file."
               ("C-c p" . projectile-command-map))
   :custom
   (projectile-project-search-path '(("~/src/" . 2)
-                                    ("~/git.drwholdings.com/" . 2)
+                                     ("~/git.drwholdings.com/beefalo/" . 1)
                                     ("~/github.com/" . 2)))
   (projectile-completion-system 'ivy)
   (projectile-enable-caching nil)

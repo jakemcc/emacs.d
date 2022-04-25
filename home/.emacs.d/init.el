@@ -431,8 +431,9 @@ same directory as the org-buffer and insert a link to this file."
                                      ("~/git.drwholdings.com/beefalo/" . 1)
                                     ("~/github.com/" . 2)))
   (projectile-completion-system 'ivy)
-  (projectile-enable-caching nil)
-  (projectile-file-exists-remote-cache-expire (* 10 60)))
+  (projectile-enable-caching t)
+  (projectile-file-exists-remote-cache-expire (* 10 60))
+  (projectile-file-exists-local-cache-expire (* 10 60)))
 
 (defun beefalo/project-buf-name ()
   (ignore-errors

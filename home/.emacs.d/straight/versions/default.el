@@ -1,7 +1,7 @@
 (("ace-window" . "0577c426a9833ab107bab46c60d1885c611b2fb9")
  ("ag.el" . "ed7e32064f92f1315cecbfc43f120bbc7508672c")
  ("avy" . "ba5f035be33693d1a136a5cbeedb24327f551a92")
- ("beefmacs" . "99557bc79ba31a4726455e14f96405a9b83673d5")
+ ("beefmacs" . "ea670485a8192bb42dfa227386b0a6c7709d0ca5")
  ("bui.el" . "f3a137628e112a91910fd33c0cff0948fa58d470")
  ("cfrs" . "f3a21f237b2a54e6b9f8a420a9da42b4f0a63121")
  ("cider" . "6ddccef1d8cf48515b1cfa0addc1dd41e57e840a")

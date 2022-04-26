@@ -211,9 +211,6 @@
 ;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (use-package ivy
   :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   :custom

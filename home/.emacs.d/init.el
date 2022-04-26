@@ -899,5 +899,9 @@ This command does the reverse of `fill-paragraph'."
         (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
 
+(straight-use-package
+ '(beefmacs :type git
+            :repo "git@git.drwholdings.com:ny-dev/beefmacs.git"))
+
 (provide 'init)
 ;;; init.el ends here

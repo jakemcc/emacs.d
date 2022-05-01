@@ -211,9 +211,6 @@
 ;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (use-package ivy
   :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   :custom
@@ -438,11 +435,12 @@ same directory as the org-buffer and insert a link to this file."
               ("C-c p" . projectile-command-map))
   :custom
   (projectile-project-search-path '(("~/src/" . 2)
-                                    ("~/git.drwholdings.com/" . 2)
+                                     ("~/git.drwholdings.com/beefalo/" . 1)
                                     ("~/github.com/" . 2)))
   (projectile-completion-system 'ivy)
-  (projectile-enable-caching nil)
-  (projectile-file-exists-remote-cache-expire (* 10 60)))
+  (projectile-enable-caching t)
+  (projectile-file-exists-remote-cache-expire (* 10 60))
+  (projectile-file-exists-local-cache-expire (* 10 60)))
 
 (defun beefalo/project-buf-name ()
   (ignore-errors
@@ -738,6 +736,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
+  (lsp-lens-enable nil)
   
   :commands lsp)
 
@@ -749,7 +748,7 @@ same directory as the org-buffer and insert a link to this file."
   :after lsp-mode
   :commands lsp-ui-mode
   :custom
-  (lsp-ui-doc-show-with-cursor t))
+  (lsp-ui-doc-show-with-cursor nil))
 
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
@@ -778,28 +777,7 @@ same directory as the org-buffer and insert a link to this file."
   :bind ("C-c g" . magit-status)
   :custom
   (magit-diff-refine-hunk t)
-  ;; (magit-refresh-verbose t)
-  :init
-  
-
-  ;; Have magit-status go full screen and quit to previous
-  ;; configuration.  Taken from
-  ;; http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
-  ;; and http://irreal.org/blog/?p=2253
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
-  (defadvice magit-quit-window (after magit-restore-screen activate)
-    (jump-to-register :magit-fullscreen))
-;;  :config
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-;;  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
-  )
+  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 
 (use-package git-timemachine)
 
@@ -930,6 +908,10 @@ This command does the reverse of `fill-paragraph'."
       (with-current-buffer lein-test-refresh-buffer
         (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
+
+(straight-use-package
+ '(beefmacs :type git
+            :repo "git@git.drwholdings.com:ny-dev/beefmacs.git"))
 
 (provide 'init)
 ;;; init.el ends here

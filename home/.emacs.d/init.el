@@ -414,6 +414,16 @@ same directory as the org-buffer and insert a link to this file."
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer))))
 
+(use-package deft
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory org-roam-directory))
+
 (use-package projectile
   :config
   (projectile-mode +1)

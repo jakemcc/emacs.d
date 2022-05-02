@@ -14,6 +14,7 @@
  ("counsel-projectile" . "e30150792a96968f55f34638cbfe63eaa30839cc")
  ("dap-mode" . "f918c0580bd17105cbe50aa701a2375abca5a6ab")
  ("dash.el" . "da167c51e9fd167a48d06c7c0ee8e3ac7abd9718")
+ ("deft" . "28be94d89bff2e1c7edef7244d7c5ba0636b1296")
  ("diminish.el" . "6b7e837b0cf0129e9d7d6abae48093cf599bb9e8")
  ("dockerfile-mode" . "b63a3d12b7dea0cb9efc7f78d7ad5672ceab2a3f")
  ("dumb-jump" . "dbb915441a2b66f2fbb954ff5de2723c5a4771d4")

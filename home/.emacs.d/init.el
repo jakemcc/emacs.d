@@ -412,6 +412,16 @@ same directory as the org-buffer and insert a link to this file."
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer))))
 
+(use-package deft
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory org-roam-directory))
+
 (use-package projectile
   :config
   (projectile-mode +1)
@@ -901,6 +911,10 @@ This command does the reverse of `fill-paragraph'."
       (with-current-buffer lein-test-refresh-buffer
         (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
+
+(let ((machine-specific (concat user-emacs-directory "machine-specific.el")))
+  (when (file-exists-p machine-specific)
+    (load machine-specific)))
 
 (provide 'init)
 ;;; init.el ends here

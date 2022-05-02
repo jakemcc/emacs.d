@@ -283,13 +283,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-modules '(org-habit ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail))
   (org-startup-folded t)
   (org-todo-keywords
-   '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+   '((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
      (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
      (sequence "|" "CANCELED(c)")))
   ;; (org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
   ;;                       ("~/org/someday.org" :level . 1)
   ;;                       ("~/org/tickler.org" :maxlevel . 2)))
-  (org-todo-keyword-faces '(("NEXT" . "yellow")))
+  (org-todo-keyword-faces '(("NEXT" . "yellow")
+                            ("STARTED" . "cyan")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
   (org-agenda-files '("~/org"))
   (org-default-notes-file "~/org/todo.org")
@@ -380,7 +381,7 @@ same directory as the org-buffer and insert a link to this file."
   (org-journal-date-format "%A, %d %B %Y")
   (org-journal-time-format "%m/%d %R")
   (org-journal-enable-agenda-integration t)
-  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\""))
+  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\"|TODO=\"STARTED\""))
 
 (use-package org-roam
   :custom
@@ -743,6 +744,8 @@ same directory as the org-buffer and insert a link to this file."
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java
+  :custom
+  (lsp-java-java-path "/Users/jmccrary/.jenv/versions/17/bin/java")
   :config
   (add-hook 'java-mode-hook 'lsp))
 
@@ -898,10 +901,6 @@ This command does the reverse of `fill-paragraph'."
       (with-current-buffer lein-test-refresh-buffer
         (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
-
-(straight-use-package
- '(beefmacs :type git
-            :repo "git@git.drwholdings.com:ny-dev/beefmacs.git"))
 
 (provide 'init)
 ;;; init.el ends here

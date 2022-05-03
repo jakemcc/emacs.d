@@ -386,7 +386,7 @@ same directory as the org-buffer and insert a link to this file."
 (defvar jm/org-roam-directory (file-truename "~/org/roam/"))
 (use-package org-roam
   :custom
-  (org-roam-directory jm/org-roam-directory2)
+  (org-roam-directory jm/org-roam-directory)
   
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)

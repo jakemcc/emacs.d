@@ -383,9 +383,10 @@ same directory as the org-buffer and insert a link to this file."
   (org-journal-enable-agenda-integration t)
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\"|TODO=\"STARTED\""))
 
+(defvar jm/org-roam-directory (file-truename "~/org/roam/"))
 (use-package org-roam
   :custom
-  (org-roam-directory (file-truename "~/org/roam/"))
+  (org-roam-directory jm/org-roam-directory2)
   
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -420,7 +421,7 @@ same directory as the org-buffer and insert a link to this file."
   (deft-recursive t)
   (deft-use-filter-string-for-filename t)
   (deft-default-extension "org")
-  (deft-directory org-roam-directory))
+  (deft-directory jm/org-roam-directory))
 
 (use-package projectile
   :config

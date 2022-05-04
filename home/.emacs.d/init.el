@@ -372,7 +372,8 @@ same directory as the org-buffer and insert a link to this file."
 (use-package org-journal
   :init
   (add-hook 'org-journal-after-header-create-hook 'org-journal-create-new-id)
-  :bind (("C-c s-j" . jm/org-journal-new-entry-with-id))
+  :bind (("C-c s-j" . jm/org-journal-new-entry-with-id)
+         ("C-c M-s-j" . org-journal-open-current-journal-file))
   :custom
   ;; (org-journal-date-prefix "#+title: ")
   (org-journal-file-header "#+title: %A, %d %B %Y \n* %A, %d %B %Y")

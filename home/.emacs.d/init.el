@@ -384,6 +384,7 @@ same directory as the org-buffer and insert a link to this file."
   (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\"|TODO=\"STARTED\""))
 
 (defvar jm/org-roam-directory (file-truename "~/org/roam/"))
+
 (use-package org-roam
   :custom
   (org-roam-directory jm/org-roam-directory)

@@ -284,13 +284,14 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
   (org-startup-folded t)
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
-     (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+     (sequence "REPORT(r)" "BLOCKED(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
      (sequence "|" "CANCELED(c)")))
   ;; (org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
   ;;                       ("~/org/someday.org" :level . 1)
   ;;                       ("~/org/tickler.org" :maxlevel . 2)))
   (org-todo-keyword-faces '(("NEXT" . "yellow")
-                            ("STARTED" . "cyan")))
+                            ("STARTED" . "cyan")
+                            ("BLOCKED" . "red")))
   ;; Many config settings from https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
   (org-agenda-files '("~/org"))
   (org-default-notes-file "~/org/todo.org")
@@ -382,7 +383,7 @@ same directory as the org-buffer and insert a link to this file."
   (org-journal-date-format "%A, %d %B %Y")
   (org-journal-time-format "%m/%d %R")
   (org-journal-enable-agenda-integration t)
-  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\"|TODO=\"STARTED\""))
+  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"NEXT\"|TODO=\"STARTED\"|TODO=\"BLOCKED\""))
 
 (defvar jm/org-roam-directory (file-truename "~/org/roam/"))
 
@@ -741,7 +742,9 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable nil)
-  
+  :config
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.emacs.d/straight\\'")
+
   :commands lsp)
 
 (use-package lsp-treemacs

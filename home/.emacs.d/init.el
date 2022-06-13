@@ -746,6 +746,9 @@ same directory as the org-buffer and insert a link to this file."
          (clojurescript-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :custom
+  ;; Installed on macos using brew because emacs was too unreliable at
+  ;; installing automatically
+  (lsp-clojure-custom-server-command '("bash" "-c" "/usr/local/bin/clojure-lsp"))
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)

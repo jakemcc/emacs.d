@@ -545,10 +545,12 @@ same directory as the org-buffer and insert a link to this file."
 
 ;; apperance
 (set-face-attribute 'default nil
-                    :family "Inconsolata"
-                    :height (if (memq window-system `(mac ns))
-                                180
-                              120))
+                    ;; :family "Inconsolata"
+                    :height (if (memq window-system `(ns))
+                                150
+                              120)
+                    :weight 'normal
+                    :width 'normal)
 
 
 (global-auto-revert-mode)

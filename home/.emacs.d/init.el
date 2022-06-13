@@ -128,6 +128,14 @@
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
+
+(defun jake/shrink-other-window-if-larger-than-buffer ()
+  (interactive)
+  (ace-window t)
+  (shrink-window-if-larger-than-buffer)
+  (ace-window t))
+(global-set-key (kbd "C-x _") 'jake/shrink-other-window-if-larger-than-buffer)
+
 ;; Should be able to eval-and-replace anywhere.
 (global-set-key (kbd "C-c e") 'esk-eval-and-replace)
 

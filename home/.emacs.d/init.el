@@ -799,7 +799,9 @@ same directory as the org-buffer and insert a link to this file."
   :bind ("C-c g" . magit-status)
   :custom
   (magit-diff-refine-hunk t)
-  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
+  (magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1
+                                 ;magit-display-buffer-fullframe-status-v1
+                                 ))
 
 (use-package git-timemachine)
 

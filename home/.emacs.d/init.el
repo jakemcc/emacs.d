@@ -787,7 +787,7 @@ same directory as the org-buffer and insert a link to this file."
   (yas-global-mode t))
 
 (use-package avy
-  :bind (("C-c j" . avy-goto-word-or-subword-1)
+  :bind (("C-c j" . avy-goto-char-timer)
          ("C-x j" . avy-pop-mark)))
 
 (use-package ace-window

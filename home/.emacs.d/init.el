@@ -213,7 +213,6 @@
   :custom
   (vr/engine 'emacs)
   :bind (("M-%" . vr/query-replace)
-         ("C-s" . vr/isearch-forward)
          ("C-r" . vr/isearch-backward)))
 
 ;; (use-package all-the-icons)

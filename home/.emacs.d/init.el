@@ -210,6 +210,8 @@
 
 
 (use-package visual-regexp-steroids
+  :custom
+  (vr/engine 'pcre2el)
   :bind (("M-%" . vr/query-replace)
          ("C-s" . vr/isearch-forward)
          ("C-r" . vr/isearch-backward)))

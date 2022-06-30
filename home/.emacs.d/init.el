@@ -88,8 +88,10 @@
   :custom
   (uniquify-buffer-name-style 'forward))
 
-(require 'saveplace)
-(setq-default save-place t)
+(use-package saveplace
+  :straight nil
+  :config
+  (setq-default save-place t))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-x C-b") 'ibuffer)

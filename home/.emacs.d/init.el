@@ -62,6 +62,7 @@
 (global-set-key (kbd "C-x _") 'jake/fit-other-window-to-buffer)
 
 (use-package emacs
+  :straight nil
   :custom
   (global-linum-mode t)
   (inhibit-startup-screen t)

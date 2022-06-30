@@ -59,7 +59,7 @@
   (ace-window t)
   (fit-window-to-buffer)
   (ace-window t))
-(global-set-key (kbd "C-x _") 'jake/fit-other-window-to-buffer)
+;; (global-set-key (kbd "C-x _") 'jake/fit-other-window-to-buffer)
 
 (use-package emacs
   :straight nil
@@ -69,10 +69,8 @@
   ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
   (split-height-threshold nil)
   (split-width-threshold 200)
-  :bind
-  (("C-x -" . fit-window-to-buffer)
-;   ("C-x _" . jake/fit-other-wndow-to-buffer)
-   )
+  :bind (("C-x -" . fit-window-to-buffer)
+         ("C-x _" . jake/fit-other-window-to-buffer))
   :config
   (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)

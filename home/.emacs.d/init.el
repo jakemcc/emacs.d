@@ -35,14 +35,6 @@
 
 (make-directory tmp-dir t)
 
-(setq inhibit-startup-screen t)
-
-;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
-(setq split-height-threshold nil)
-(setq split-width-threshold 200)
-
-(global-linum-mode t)
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -61,19 +53,40 @@
 (use-package straight
   :custom (straight-use-package-by-default t))
 
-;; -------------------------------------------
-;; taken from better-defaults and starter-kit
-(menu-bar-mode -1)
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(when (fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
+
+(defun jake/fit-other-window-to-buffer ()
+  (interactive)
+  (ace-window t)
+  (fit-window-to-buffer)
+  (ace-window t))
+(global-set-key (kbd "C-x _") 'jake/fit-other-window-to-buffer)
+
+(use-package emacs
+  :custom
+  (global-linum-mode t)
+  (inhibit-startup-screen t)
+  ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
+  (split-height-threshold nil)
+  (split-width-threshold 200)
+  :bind
+  (("C-x -" . fit-window-to-buffer)
+;   ("C-x _" . jake/fit-other-wndow-to-buffer)
+   )
+  :config
+  (menu-bar-mode -1)
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode -1)))
+
 
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(use-package uniquify
+  :straight nil
+  :custom
+  (uniquify-buffer-name-style 'forward))
 
 (require 'saveplace)
 (setq-default save-place t)
@@ -129,12 +142,6 @@
            (insert (current-kill 0)))))
 
 
-(defun jake/shrink-other-window-if-larger-than-buffer ()
-  (interactive)
-  (ace-window t)
-  (shrink-window-if-larger-than-buffer)
-  (ace-window t))
-(global-set-key (kbd "C-x _") 'jake/shrink-other-window-if-larger-than-buffer)
 
 ;; Should be able to eval-and-replace anywhere.
 (global-set-key (kbd "C-c e") 'esk-eval-and-replace)
@@ -179,7 +186,6 @@
 ;; Load use-package and its dependencies.
 (eval-when-compile
   (require 'use-package))
-
 (use-package diminish)
 (require 'diminish)
 (require 'bind-key)
@@ -288,6 +294,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 (use-package org
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))
+  :hook
+  (org-mode . visual-line-mode)
+  ;; (org-mode . variable-pitch-mode)
   :custom
   (org-modules '(org-habit ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail))
   (org-startup-folded t)
@@ -484,7 +493,6 @@ same directory as the org-buffer and insert a link to this file."
   (swiper (format "\\<%s\\>" (thing-at-point 'symbol))))
 
 (use-package swiper
-
   :bind (("C-s" . swiper)
                                         ;         ("M-*" . swiper-under-point)
          ))
@@ -548,7 +556,7 @@ same directory as the org-buffer and insert a link to this file."
 (set-face-attribute 'default nil
                     ;; :family "Inconsolata"
                     :height (if (memq window-system `(ns))
-                                150
+                                180
                               120)
                     :weight 'normal
                     :width 'normal)

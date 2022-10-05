@@ -53,6 +53,11 @@
 (use-package straight
   :custom (straight-use-package-by-default t))
 
+(use-package gcmh
+  :ensure t
+  :demand t
+  :config
+  (gcmh-mode 1))
 
 (defun jake/fit-other-window-to-buffer ()
   (interactive)
@@ -69,9 +74,14 @@
   ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
   (split-height-threshold nil)
   (split-width-threshold 200)
+  (tab-always-indent 'complete)
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer))
   :config
+  (set-face-attribute 'default nil :font "Inconsolata-20")
+  (set-frame-font "Inconsolata-20" nil t)
+  (global-auto-revert-mode)
+
   (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
@@ -93,6 +103,11 @@
   (setq-default save-place t))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
+;; (defadvice he-substitute-string (after he-paredit-fix)
+;;   "remove extra paren when expanding line in paredit"
+;;   (if (and paredit-mode (equal (substring str -1) ")"))
+;;       (progn (backward-delete-char 1) (forward-char))))
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
@@ -141,8 +156,6 @@
              (current-buffer))
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
-
-
 
 ;; Should be able to eval-and-replace anywhere.
 (global-set-key (kbd "C-c e") 'esk-eval-and-replace)
@@ -203,11 +216,16 @@
   (xclip-mode 1))
 
 (use-package super-save
+  :diminish
+  :custom
+  (super-save-remote-files nil)
+  (super-save-auto-save-when-idle nil)
   :config
-  (super-save-mode +1))
-
-;; (setq super-save-auto-save-when-idle t) ; autosave on idle
-;; (setq auto-save-default nil) ; turn off built in
+  (super-save-mode +1)
+  (add-to-list 'super-save-triggers 'ace-window)
+  (add-to-list 'super-save-hook-triggers 'find-file-hook)
+  ;; turn off built in auto-save
+  (setq auto-save-default nil))
 
 
 ;; ;; (use-package system-packages
@@ -343,7 +361,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
      ("m" "Movie" enntry (file+olp+datetree "~/org/movies.org")
       "** MOVIE @ Theater")
      ("j" "Journal entry" entry (function org-journal-find-location)
-      "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
+      "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
 
 ;; Take from https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
 (defun my-org-screenshot ()
@@ -386,8 +404,9 @@ same directory as the org-buffer and insert a link to this file."
 
 (defun jm/org-journal-new-entry-with-id (prefix)
   (interactive "P")
-  (org-journal-new-entry prefix)
-  (org-journal-create-new-id))
+  (org-journal-new-entry t)
+  (org-journal-create-new-id)
+  (org-journal-new-entry prefix))
 
 (use-package org-journal
   :init
@@ -459,8 +478,8 @@ same directory as the org-buffer and insert a link to this file."
               ("C-c p" . projectile-command-map))
   :custom
   (projectile-project-search-path '(("~/src/" . 2)
-                                     ("~/git.drwholdings.com/beefalo/" . 1)
-                                    ("~/github.com/" . 2)))
+                                    ("~/drwsrc/beefalo/" . 1)
+                                    ("~/drwsrc-github.com/" . 2)))
   (projectile-completion-system 'ivy)
   (projectile-enable-caching t)
   (projectile-file-exists-remote-cache-expire (* 10 60))
@@ -554,16 +573,8 @@ same directory as the org-buffer and insert a link to this file."
 
 
 ;; apperance
-(set-face-attribute 'default nil
-                    ;; :family "Inconsolata"
-                    :height (if (memq window-system `(ns))
-                                180
-                              120)
-                    :weight 'normal
-                    :width 'normal)
 
 
-(global-auto-revert-mode)
 
 ;; Setting up emoji fonts, from https://github.com/dunn/company-emoji
 (defun --set-emoji-font (frame)
@@ -630,34 +641,11 @@ same directory as the org-buffer and insert a link to this file."
               ("M-}" . paredit-forward-barf-sexp)
               ("M-{" . paredit-backward-barf-sexp)))
 
-(use-package company
-  :diminish ""
-  :commands global-company-mode
-  :custom
-  (company-idle-delay 0.2)
-  (company-selection-wrap-around t)
-  (company-minimum-prefix-length 1)
-  (company-candidates-length 30)
-  (company-require-match nil)
-  (company-dabbrev-ignore-case nil)
-  (company-dabbrev-downcase nil)
-  (company-show-numbers t)
-  :config
-  (global-company-mode)
-  (use-package company-statistics
-    :config
-    (company-statistics-mode))
-  (bind-keys :map company-active-map
-             ("TAB" . company-complete)))
-
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode))
 
 (use-package counsel
   :bind*
   (("M-x" . counsel-M-x)
-   ("C-c C-m" . counsel-M-x)
+   ;; ("C-c C-m" . counsel-M-x)
    ("C-x C-m" . counsel-M-x)
    ("C-x m" . counsel-M-x)
    ("C-x C-f" . counsel-find-file))
@@ -684,6 +672,30 @@ same directory as the org-buffer and insert a link to this file."
                       :foreground 'unspecified
                       :inherit 'error))
 
+(use-package company
+  :diminish ""
+  :commands global-company-mode
+  :custom
+  (company-idle-delay 0.1)
+  (company-selection-wrap-around t)
+  (company-minimum-prefix-length 1)
+  (company-candidates-length 30)
+  (company-require-match nil)
+  (company-dabbrev-ignore-case nil)
+  (company-dabbrev-downcase nil)
+  (company-show-numbers t)
+  :config
+  (global-company-mode)
+  (use-package company-statistics
+    :config
+    (company-statistics-mode))
+  (bind-keys :map company-active-map
+             ("TAB" . company-complete)))
+
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode))
+
 (use-package cider
   :diminish ""
   :bind
@@ -694,7 +706,8 @@ same directory as the org-buffer and insert a link to this file."
   (cider-jdk-src-paths '("~/.java/openjv-8-src/"
                          "~/src/opensource/clojure/src/jvm"))
   (cider-eldoc-display-for-symbol-at-point nil) ; disable cider showing eldoc since clojure-lsp does this
-  (cider-xref-fn-depth 90) ;; complete after lsp
+  (cider-xref-fn-depth 90)                      ;; complete after lsp
+  (nrepl-use-ssh-fallback-for-remote-hosts t)
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
@@ -745,10 +758,17 @@ same directory as the org-buffer and insert a link to this file."
   ;;   (add-to-list 'cljr-magic-require-namespaces mapping t))
   )
 
+;;TODO: this is not correct
+(defun jake/window-is-small? ()
+  (let ((half-height (/ (window-total-height (frame-root-window)) 2)))
+    (print half-height)
+    (print (window-total-height))
+    (< (+ (window-total-height) 10) half-height)))
 
-
-;; (use-package ensime)
-
+(defun jake/sometimes-fit-window-to-buffer ()
+  (interactive)
+  (when (jake/window-is-small?)
+    (fit-window-to-buffer)))
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
@@ -766,7 +786,14 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-prefer-flymake nil)
   (lsp-lens-enable nil)
   :config
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.emacs.d/straight\\'")
+  
+  ;;  (advice-add 'lsp-find-references :after 'jake/sometimes-fit-window-to-buffer)
 
   :commands lsp)
 
@@ -789,6 +816,7 @@ same directory as the org-buffer and insert a link to this file."
   (add-hook 'java-mode-hook 'lsp))
 
 (use-package which-key
+  :diminish
   :config
   (which-key-mode))
 
@@ -909,6 +937,97 @@ same directory as the org-buffer and insert a link to this file."
 ;;   (setq
 ;;    pipenv-projectile-after-switch-function
 ;;    #'pipenv-projectile-after-switch-extended))
+
+(c-add-style "guessed"
+             '("linux"
+               (c-basic-offset . 4)     ; Guessed value
+               (c-offsets-alist
+                (arglist-cont . 0)      ; Guessed value
+                (arglist-intro . ++)    ; Guessed value
+                (block-close . 0)       ; Guessed value
+                (case-label . +)        ; Guessed value
+                (defun-block-intro . +) ; Guessed value
+                (defun-close . 0)       ; Guessed value
+                (defun-open . 0)        ; Guessed value
+                (else-clause . 0)       ; Guessed value
+                (member-init-cont . 0)  ; Guessed value
+                (member-init-intro . 5) ; Guessed value
+                (statement . 0)         ; Guessed value
+                (statement-block-intro . +) ; Guessed value
+                (statement-case-intro . +)  ; Guessed value
+                (substatement-open . 0)     ; Guessed value
+                (topmost-intro . 0)         ; Guessed value
+                (topmost-intro-cont . 0) ; Guessed value
+                (access-label . -)
+                (annotation-top-cont . 0)
+                (annotation-var-cont . +)
+                (arglist-close . c-lineup-close-paren)
+                (arglist-cont-nonempty . c-lineup-arglist)
+                (block-open . 0)
+                (brace-entry-open . 0)
+                (brace-list-close . 0)
+                (brace-list-entry . 0)
+                (brace-list-intro . +)
+                (brace-list-open . 0)
+                (c . c-lineup-C-comments)
+                (catch-clause . 0)
+                (class-close . 0)
+                (class-open . 0)
+                (comment-intro . c-lineup-comment)
+                (composition-close . 0)
+                (composition-open . 0)
+                (cpp-define-intro c-lineup-cpp-define +)
+                (cpp-macro . -1000)
+                (cpp-macro-cont . +)
+                (do-while-closure . 0)
+                (extern-lang-close . 0)
+                (extern-lang-open . 0)
+                (friend . 0)
+                (func-decl-cont . +)
+                (inclass . +)
+                (incomposition . +)
+                (inexpr-class . +)
+                (inexpr-statement . +)
+                (inextern-lang . +)
+                (inher-cont . c-lineup-multi-inher)
+                (inher-intro . +)
+                (inlambda . 0)
+                (inline-close . 0)
+                (inline-open . +)
+                (inmodule . +)
+                (innamespace . +)
+                (knr-argdecl . 0)
+                (knr-argdecl-intro . 0)
+                (label . 0)
+                (lambda-intro-cont . +)
+                (module-close . 0)
+                (module-open . 0)
+                (namespace-close . 0)
+                (namespace-open . 0)
+                (objc-method-args-cont . c-lineup-ObjC-method-args)
+                (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
+                (objc-method-intro .
+                                   [0])
+                (statement-case-open . 0)
+                (statement-cont . +)
+                (stream-op . c-lineup-streamop)
+                (string . -1000)
+                (substatement . +)
+                (substatement-label . 0)
+                (template-args-cont c-lineup-template-args +))))
+
+(use-package cc-mode
+  :defer
+  :hook ((c-mode-hook . lsp)
+         (c++-mode-hook . lsp))
+  :config
+  (add-to-list 'c-default-style '(c++-mode . "guessed"))
+
+  (use-package clang-format
+    :if (executable-find "clang")
+    :bind
+    (:map c-mode-base-map
+          ("C-x =" . clang-format-region))))
 
 (use-package rainbow-mode)
 

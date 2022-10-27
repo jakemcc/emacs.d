@@ -310,6 +310,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package dockerfile-mode)
 
+(use-package docker-tramp)
+
 (use-package org
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))
@@ -717,6 +719,8 @@ same directory as the org-buffer and insert a link to this file."
   :bind
   ("C-:" . clojure-toggle-keyword-string)
   :requires (flycheck-joker flycheck-clj-konda)
+  :custom
+  (clojure-toplevel-inside-comment-form t) ;; don't treat comment block as the toplevel s-exp
   :config
   (require 'flycheck-joker)
   (require 'flycheck-clj-kondo)
@@ -841,7 +845,8 @@ same directory as the org-buffer and insert a link to this file."
                                  ;magit-display-buffer-fullframe-status-v1
                                  ))
 
-(use-package git-timemachine)
+(use-package git-timemachine
+  :straight (git-timemachine :fetcher codeberg :repo "pidu/git-timemachine"))
 
 (use-package web-mode
   :custom
@@ -938,26 +943,28 @@ same directory as the org-buffer and insert a link to this file."
 ;;    pipenv-projectile-after-switch-function
 ;;    #'pipenv-projectile-after-switch-extended))
 
+(use-package cmake-mode)
+
 (c-add-style "guessed"
              '("linux"
                (c-basic-offset . 4)     ; Guessed value
                (c-offsets-alist
-                (arglist-cont . 0)      ; Guessed value
-                (arglist-intro . ++)    ; Guessed value
-                (block-close . 0)       ; Guessed value
-                (case-label . +)        ; Guessed value
-                (defun-block-intro . +) ; Guessed value
-                (defun-close . 0)       ; Guessed value
-                (defun-open . 0)        ; Guessed value
-                (else-clause . 0)       ; Guessed value
-                (member-init-cont . 0)  ; Guessed value
-                (member-init-intro . 5) ; Guessed value
-                (statement . 0)         ; Guessed value
+                (arglist-cont . 0)          ; Guessed value
+                (arglist-intro . ++)        ; Guessed value
+                (block-close . 0)           ; Guessed value
+                (case-label . +)            ; Guessed value
+                (defun-block-intro . +)     ; Guessed value
+                (defun-close . 0)           ; Guessed value
+                (defun-open . 0)            ; Guessed value
+                (else-clause . 0)           ; Guessed value
+                (member-init-cont . 0)      ; Guessed value
+                (member-init-intro . 5)     ; Guessed value
+                (statement . 0)             ; Guessed value
                 (statement-block-intro . +) ; Guessed value
                 (statement-case-intro . +)  ; Guessed value
                 (substatement-open . 0)     ; Guessed value
                 (topmost-intro . 0)         ; Guessed value
-                (topmost-intro-cont . 0) ; Guessed value
+                (topmost-intro-cont . 0)    ; Guessed value
                 (access-label . -)
                 (annotation-top-cont . 0)
                 (annotation-var-cont . +)

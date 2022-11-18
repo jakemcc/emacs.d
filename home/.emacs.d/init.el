@@ -731,6 +731,7 @@ same directory as the org-buffer and insert a link to this file."
   (cider-eldoc-display-for-symbol-at-point nil) ; disable cider showing eldoc since clojure-lsp does this
   (cider-xref-fn-depth 90)                      ;; complete after lsp
   (nrepl-use-ssh-fallback-for-remote-hosts t)
+  (clojure-toplevel-inside-comment-form t) ;; don't treat comment block as the toplevel s-exp
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
@@ -740,8 +741,6 @@ same directory as the org-buffer and insert a link to this file."
   :bind
   ("C-:" . clojure-toggle-keyword-string)
   :requires (flycheck-joker flycheck-clj-konda)
-  :custom
-  (clojure-toplevel-inside-comment-form t) ;; don't treat comment block as the toplevel s-exp
   :config
   (require 'flycheck-joker)
   (require 'flycheck-clj-kondo)

@@ -808,7 +808,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
-  (lsp-lens-enable nil)
+  (lsp-lens-enable t)
   :config
   (dolist (m '(clojure-mode
                clojurec-mode

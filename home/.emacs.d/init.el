@@ -622,12 +622,33 @@ same directory as the org-buffer and insert a link to this file."
 ;; (use-package color-theme)
 
 (use-package color-theme-sanityinc-tomorrow
-  :init
-  (progn
-    ;; (load-theme 'sanityinc-tomorrow-day t)
-    (load-theme 'sanityinc-tomorrow-eighties t)
-    (set-face-foreground 'region "white")
-    (set-face-background 'region "blue")))
+  :disabled t
+  :config
+  (load-theme 'sanityinc-tomorrow-eighties t)
+  (set-face-foreground 'region "white")
+  (set-face-background 'region "blue"))
+
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
+  ;; (load-theme 'doom-miramare t) ;; pretty good
+  ;; (load-theme 'doom-oceanic-next t) ;; also good
+  (load-theme 'doom-shades-of-purple	t)
+  ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
+  ;; Enable flashing mode-line on errors
+  ;;(doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  ;; (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;;(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;;  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package paredit
   :diminish ""

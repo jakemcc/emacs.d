@@ -712,8 +712,11 @@ same directory as the org-buffer and insert a link to this file."
   (use-package company-statistics
     :config
     (company-statistics-mode))
-  (bind-keys :map company-active-map
-             ("TAB" . company-complete)))
+  :bind
+  (:map company-mode-map
+        ([remap indent-for-tab-command] . company-indent-or-complete-common))
+                                        ;(bind-keys :map company-active-map ("TAB" . company-complete))
+  )
 
 (use-package company-quickhelp
   :config

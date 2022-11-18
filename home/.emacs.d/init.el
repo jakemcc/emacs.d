@@ -310,8 +310,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
 
 (use-package dockerfile-mode)
 
-(use-package docker-tramp)
-
 (use-package org
   :bind (("C-c a" . org-agenda)
          ("C-c c" . 'org-capture))

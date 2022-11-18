@@ -670,7 +670,7 @@ same directory as the org-buffer and insert a link to this file."
   (("M-x" . counsel-M-x)
    ;; ("C-c C-m" . counsel-M-x)
    ("C-x C-m" . counsel-M-x)
-   ("C-x m" . counsel-M-x)
+   ;;("C-x m" . counsel-M-x)
    ("C-x C-f" . counsel-find-file))
   :custom
   (counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))

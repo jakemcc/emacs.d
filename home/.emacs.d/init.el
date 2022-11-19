@@ -102,7 +102,6 @@
   :config
   (setq-default save-place t))
 
-(global-set-key (kbd "M-/") 'hippie-expand)
 ;; (defadvice he-substitute-string (after he-paredit-fix)
 ;;   "remove extra paren when expanding line in paredit"
 ;;   (if (and paredit-mode (equal (substring str -1) ")"))
@@ -693,35 +692,144 @@ same directory as the org-buffer and insert a link to this file."
                       :foreground 'unspecified
                       :inherit 'error))
 
-(use-package company
-  :diminish ""
-  :commands global-company-mode
+;; corfu, corfu-doc, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
+;; archive link: https://archive.ph/tEfT3
+(use-package corfu
+  :hook (lsp-completion-mode . jake/lsp-mode-setup-completion)
   :custom
-  (company-idle-delay 0.1)
-  (company-selection-wrap-around t)
-  (company-minimum-prefix-length 1)
-  (company-candidates-length 30)
-  (company-require-match nil)
-  (company-dabbrev-ignore-case nil)
-  (company-dabbrev-downcase nil)
-  (company-show-numbers t)
-  :config
-  (global-company-mode)
-  (use-package company-statistics
-    :config
-    (company-statistics-mode))
-  :bind (:map company-mode-map
-              ([remap indent-for-tab-command] . company-indent-or-complete-common)
-              :map company-active-map
-              ("C-c h" . company-quickhelp-manual-begin))
-                                        ;(bind-keys :map company-active-map ("TAB" . company-complete))
-  )
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  (corfu-auto-delay 0.25)
 
-(use-package company-quickhelp
-  :custom
-  (company-quickhelp-delay nil)
+  (corfu-min-width 80)
+  (corfu-max-width corfu-min-width)     ; Always have the same width
+  (corfu-count 14)
+  (corfu-scroll-margin 4)
+  (corfu-cycle nil)
+
+  (corfu-quit-at-boundry nil)
+  (corfu-preselect-first t)
+
+  (corfu-echo-documentation nil) ;; using corfu-doc for this
+  :bind
+  (:map corfu-map
+        ("C-n" . corfu-next)
+        ("C-p" . corfu-previous))
+  :init
+  (global-corfu-mode)
   :config
-  (company-quickhelp-mode))
+  ;; Enable Corfu more generally for every minibuffer, as long as no other
+  ;; completion UI is active. If you use Mct or Vertico as your main minibuffer
+  ;; completion UI. From
+  ;; https://github.com/minad/corfu#completing-with-corfu-in-the-minibuffer
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active) ; Useful if I ever use MCT
+                (bound-and-true-p vertico--input))
+      (setq-local corfu-auto nil)       ; Ensure auto completion is disabled
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
+  
+  (defun jake/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless))))
+
+(use-package corfu-doc
+  ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
+  :straight (corfu-doc :type git :host github :repo "galeo/corfu-doc")
+  :after corfu
+  :hook (corfu-mode . corfu-doc-mode)
+  :bind
+  (:map corfu-map
+        ("M-h" . corfu-doc-toggle) ; Remap the default doc command
+        ;; Scroll in the documentation window
+        ("M-n" . corfu-doc-scroll-up)
+        ("M-p" . corfu-doc-scroll-down))
+  :custom
+  (corfu-doc-delay 0.5)
+  (corfu-doc-max-width 70)
+  (corfu-doc-max-height 20)
+
+  ;; NOTE 2022-02-05: I've also set this in the `corfu' use-package to be
+  ;; extra-safe that this is set when corfu-doc is loaded. I do not want
+  ;; documentation shown in both the echo area and in the `corfu-doc' popup.
+  (corfu-echo-documentation nil))
+
+
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
+  (kind-icon-blend-background nil) ; Use midpoint color between foreground and background colors ("blended")?
+  (kind-icon-blend-frac 0.08)
+
+  ;; NOTE 2022-02-05: `kind-icon' depends `svg-lib' which creates a cache
+  ;; directory that defaults to the `user-emacs-directory'. Here, I change that
+  ;; directory to a location appropriate to `no-littering' conventions, a
+  ;; package which moves directories of other packages to sane locations.
+  ;; (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
+
+  ;; Add hook to reset cache so the icon colors match my theme
+  ;; NOTE 2022-02-05: This is a hook which resets the cache whenever I switch
+  ;; the theme using my custom defined command for switching themes. If I don't
+  ;; do this, then the backgound color will remain the same, meaning it will not
+  ;; match the background color corresponding to the current theme. Important
+  ;; since I have a light theme and dark theme I switch between. This has no
+  ;; function unless you use something similar
+  (add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache))))
+
+;; use dabbrev with Corfu!
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  ;; Other useful Dabbrev configurations.
+  :custom
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+(use-package cape)
+
+;; (use-package company
+;;   :diminish ""
+;;   :commands global-company-mode
+;;   :custom
+;;   (company-idle-delay 0.1)
+;;   (company-selection-wrap-around t)
+;;   (company-minimum-prefix-length 1)
+;;   (company-candidates-length 30)
+;;   (company-require-match nil)
+;;   (company-dabbrev-ignore-case nil)
+;;   (company-dabbrev-downcase nil)
+;;   (company-show-numbers t)
+;;   :config
+;;   (global-company-mode)
+;;   (use-package company-statistics
+;;     :config
+;;     (company-statistics-mode))
+;;   :bind (:map company-mode-map
+;;               ([remap indent-for-tab-command] . company-indent-or-complete-common)
+;;               :map company-active-map
+;;               ("C-c h" . company-quickhelp-manual-begin))
+;;                                         ;(bind-keys :map company-active-map ("TAB" . company-complete))
+;;   )
+
+;; (use-package company-quickhelp
+;;   :custom
+;;   (company-quickhelp-delay nil)
+;;   :config
+;;   (company-quickhelp-mode))
 
 (use-package cider
   :diminish ""
@@ -801,11 +909,8 @@ same directory as the org-buffer and insert a link to this file."
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 (use-package lsp-mode
-  :hook ((clojure-mode . lsp)
-         (clojurec-mode . lsp)
-         (clojurescript-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
   :custom
+  (lsp-completion-provider :none) ;; use corfu instead of default for lsp completions
   ;; Installed on macos using brew because emacs was too unreliable at
   ;; installing automatically
   (lsp-clojure-custom-server-command '("bash" "-c" "/usr/local/bin/clojure-lsp"))
@@ -813,16 +918,19 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
+  :init
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
                clojurescript-mode
                clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.emacs.d/straight\\'")
-  
   ;;  (advice-add 'lsp-find-references :after 'jake/sometimes-fit-window-to-buffer)
-
   :commands lsp)
 
 (use-package lsp-treemacs

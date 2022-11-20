@@ -760,17 +760,12 @@ same directory as the org-buffer and insert a link to this file."
   :bind
   (:map corfu-map
         ("M-h" . corfu-doc-toggle) ; Remap the default doc command
-        ;; Scroll in the documentation window
         ("M-n" . corfu-doc-scroll-up)
         ("M-p" . corfu-doc-scroll-down))
   :custom
   (corfu-doc-delay 0.5)
   (corfu-doc-max-width 70)
   (corfu-doc-max-height 20)
-
-  ;; NOTE 2022-02-05: I've also set this in the `corfu' use-package to be
-  ;; extra-safe that this is set when corfu-doc is loaded. I do not want
-  ;; documentation shown in both the echo area and in the `corfu-doc' popup.
   (corfu-echo-documentation nil))
 
 
@@ -781,12 +776,6 @@ same directory as the org-buffer and insert a link to this file."
   (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
   (kind-icon-blend-background nil) ; Use midpoint color between foreground and background colors ("blended")?
   (kind-icon-blend-frac 0.08)
-
-  ;; NOTE 2022-02-05: `kind-icon' depends `svg-lib' which creates a cache
-  ;; directory that defaults to the `user-emacs-directory'. Here, I change that
-  ;; directory to a location appropriate to `no-littering' conventions, a
-  ;; package which moves directories of other packages to sane locations.
-  ;; (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
 
@@ -797,7 +786,8 @@ same directory as the org-buffer and insert a link to this file."
   ;; match the background color corresponding to the current theme. Important
   ;; since I have a light theme and dark theme I switch between. This has no
   ;; function unless you use something similar
-  (add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache))))
+  ;;(add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache)))
+  )
 
 ;; use dabbrev with Corfu!
 (use-package dabbrev

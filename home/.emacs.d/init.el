@@ -243,6 +243,7 @@
 ;; marginalia, all-the-icons-completion, vertico all inspired from https://kristofferbalintona.me/posts/202202211546/
 ;; archive.is: https://archive.ph/fQeRP
 (use-package marginalia
+  :after vertico
   :bind
   (:map minibuffer-local-map
         ("M-A" . marginalia-cycle))

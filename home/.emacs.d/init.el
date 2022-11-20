@@ -239,25 +239,44 @@
   :bind (("M-%" . vr/query-replace)
          ("C-r" . vr/isearch-backward)))
 
-;; (use-package all-the-icons)
 
-;; somewhat taken from https://github.com/sam217pa/emacs-config/blob/develop/init.el and https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
-(use-package ivy
-  :diminish (ivy-mode . "")
-  :config
-  (ivy-mode 1)
+;; marginalia, all-the-icons-completion, vertico all inspired from https://kristofferbalintona.me/posts/202202211546/
+;; archive.is: https://archive.ph/fQeRP
+(use-package marginalia
+  :bind
+  (:map minibuffer-local-map
+        ("M-A" . marginalia-cycle))
   :custom
-  (ivy-use-virtual-buffers t "add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.")
-  (ivy-height 10 "number of result lines to display")
-  (ivy-count-format "" "does not count candidates")
-  (ivy-initial-inputs-alist nil "no regexp by default")
-  ;; allow input not in order
-  (ivy-re-builders-alist '((t   . ivy--regex-ignore-order))))
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right)
+  :init
+  (marginalia-mode))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+;; Must install all the fonts from fonts directory as well. Can try invoking (all-the-icons-install-fonts) to so
+
+(use-package all-the-icons-completion
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
+
+(use-package vertico
+  :custom
+  (vertico-count 13)                    ; Number of candidates to display
+  (vertico-resize t)
+  (vertico-cycle nil) ; Go from last to first candidate and first to last (cycle)?
+  :config
+  (vertico-mode))
+
+(use-package savehist
+  :init
+  (savehist-mode))
 
 (use-package dumb-jump
   :config
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq dumb-jump-selector 'ivy))
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (use-package xref
   :bind (("M-." . xref-find-definitions)))
@@ -661,19 +680,19 @@ same directory as the org-buffer and insert a link to this file."
               ("M-{" . paredit-backward-barf-sexp)))
 
 
-(use-package counsel
-  :bind*
-  (("M-x" . counsel-M-x)
-   ;; ("C-c C-m" . counsel-M-x)
-   ("C-x C-m" . counsel-M-x)
-   ;;("C-x m" . counsel-M-x)
-   ("C-x C-f" . counsel-find-file))
-  :custom
-  (counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))
+;; (use-package counsel
+;;   :bind*
+;;   (("M-x" . counsel-M-x)
+;;    ;; ("C-c C-m" . counsel-M-x)
+;;    ("C-x C-m" . counsel-M-x)
+;;    ;;("C-x m" . counsel-M-x)
+;;    ("C-x C-f" . counsel-find-file))
+;;   :custom
+;;   (counsel-find-file-ignore-regexp "\\.DS_Store\\|.git"))
 
-(use-package counsel-projectile
-  :config
-  (counsel-projectile-mode))
+;; (use-package counsel-projectile
+;;   :config
+;;   (counsel-projectile-mode))
 
 (use-package ag
   :custom
@@ -941,8 +960,6 @@ same directory as the org-buffer and insert a link to this file."
   :commands lsp-ui-mode
   :custom
   (lsp-ui-doc-show-with-cursor nil))
-
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java
   :custom

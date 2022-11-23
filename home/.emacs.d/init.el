@@ -56,7 +56,7 @@
 (use-package gcmh
   :ensure t
   :demand t
-  :diminish t
+  :diminish ""
   :config
   (gcmh-mode 1))
 
@@ -65,7 +65,6 @@
   (ace-window t)
   (fit-window-to-buffer)
   (ace-window t))
-;; (global-set-key (kbd "C-x _") 'jake/fit-other-window-to-buffer)
 
 (use-package emacs
   :straight nil

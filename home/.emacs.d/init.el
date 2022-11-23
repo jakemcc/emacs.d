@@ -652,11 +652,11 @@ same directory as the org-buffer and insert a link to this file."
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-gruvbox t)
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
   ;; (load-theme 'doom-oceanic-next t) ;; also good
-  (load-theme 'doom-shades-of-purple	t)
+  ;; (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
   ;; Enable flashing mode-line on errors
   ;;(doom-themes-visual-bell-config)

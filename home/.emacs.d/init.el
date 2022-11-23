@@ -697,6 +697,8 @@ same directory as the org-buffer and insert a link to this file."
 ;;   :config
 ;;   (counsel-projectile-mode))
 
+(use-package ripgrep)
+
 (use-package ag
   :custom
   (ag-highlight-search t)

@@ -814,36 +814,6 @@ same directory as the org-buffer and insert a link to this file."
 
 (use-package cape)
 
-;; (use-package company
-;;   :diminish ""
-;;   :commands global-company-mode
-;;   :custom
-;;   (company-idle-delay 0.1)
-;;   (company-selection-wrap-around t)
-;;   (company-minimum-prefix-length 1)
-;;   (company-candidates-length 30)
-;;   (company-require-match nil)
-;;   (company-dabbrev-ignore-case nil)
-;;   (company-dabbrev-downcase nil)
-;;   (company-show-numbers t)
-;;   :config
-;;   (global-company-mode)
-;;   (use-package company-statistics
-;;     :config
-;;     (company-statistics-mode))
-;;   :bind (:map company-mode-map
-;;               ([remap indent-for-tab-command] . company-indent-or-complete-common)
-;;               :map company-active-map
-;;               ("C-c h" . company-quickhelp-manual-begin))
-;;                                         ;(bind-keys :map company-active-map ("TAB" . company-complete))
-;;   )
-
-;; (use-package company-quickhelp
-;;   :custom
-;;   (company-quickhelp-delay nil)
-;;   :config
-;;   (company-quickhelp-mode))
-
 (use-package cider
   :diminish ""
   :bind

@@ -937,6 +937,7 @@ same directory as the org-buffer and insert a link to this file."
   (which-key-mode))
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :config
   (yas-global-mode t))
 

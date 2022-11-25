@@ -56,7 +56,7 @@
 (use-package gcmh
   :ensure t
   :demand t
-  :diminish ""
+  :diminish gcmh-mode
   :config
   (gcmh-mode 1))
 
@@ -265,7 +265,7 @@
 
 (use-package vertico
   :custom
-  (vertico-count 13)                    ; Number of candidates to display
+  (vertico-count 13) ; Number of candidates to display
   (vertico-resize t)
   (vertico-cycle nil) ; Go from last to first candidate and first to last (cycle)?
   :config

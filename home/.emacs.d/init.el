@@ -676,6 +676,8 @@ same directory as the org-buffer and insert a link to this file."
    (lisp-mode . enable-paredit-mode)
    (scheme-mode . enable-paredit-mode))
   :bind (:map paredit-mode-map
+              ("RET" . nil)
+              ("C-j" . paredit-newline)
               ("M-)" . paredit-forward-slurp-sexp)
               ( "M-(" . paredit-forward-slurp-sexp)
               ("M-}" . paredit-forward-barf-sexp)

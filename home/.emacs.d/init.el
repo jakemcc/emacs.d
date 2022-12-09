@@ -69,7 +69,6 @@
 (use-package emacs
   :straight nil
   :custom
-  (global-linum-mode t)
   (inhibit-startup-screen t)
   ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
   (split-height-threshold nil)
@@ -81,6 +80,7 @@
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)
   (global-auto-revert-mode)
+  (global-display-line-numbers-mode)
 
   (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)

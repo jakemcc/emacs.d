@@ -716,10 +716,9 @@ same directory as the org-buffer and insert a link to this file."
                       :foreground 'unspecified
                       :inherit 'error))
 
-;; corfu, corfu-doc, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
+;; corfu, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
 ;; archive link: https://archive.ph/tEfT3
 (use-package corfu
-  :hook (lsp-completion-mode . jake/lsp-mode-setup-completion)
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -732,9 +731,13 @@ same directory as the org-buffer and insert a link to this file."
   (corfu-cycle nil)
 
   (corfu-quit-at-boundry nil)
+  (corfu-separator ?\s)
+  (corfu-quit-no-match 'separator)
+  (corfu-preview-current 'insert)
   (corfu-preselect-first t)
 
   (corfu-echo-documentation nil) ;; using corfu-doc for this
+
   :bind
   (:map corfu-map
         ("C-n" . corfu-next)
@@ -752,27 +755,24 @@ same directory as the org-buffer and insert a link to this file."
                 (bound-and-true-p vertico--input))
       (setq-local corfu-auto nil)       ; Ensure auto completion is disabled
       (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
-  
-  (defun jake/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
-(use-package corfu-doc
-  ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
-  :straight (corfu-doc :type git :host github :repo "galeo/corfu-doc")
-  :after corfu
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind
-  (:map corfu-map
-        ("M-h" . corfu-doc-toggle) ; Remap the default doc command
-        ("M-n" . corfu-doc-scroll-up)
-        ("M-p" . corfu-doc-scroll-down))
-  :custom
-  (corfu-doc-delay 0.5)
-  (corfu-doc-max-width 70)
-  (corfu-doc-max-height 20)
-  (corfu-echo-documentation nil))
+
+;; (use-package corfu-doc
+;;   ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
+;;   :straight (corfu-doc :type git :host github :repo "galeo/corfu-doc")
+;;   :after corfu
+;;   :hook (corfu-mode . corfu-doc-mode)
+;;   :bind
+;;   (:map corfu-map
+;;         ("M-h" . corfu-doc-toggle)     ; Remap the default doc command
+;;         ("M-n" . corfu-doc-scroll-up)
+;;         ("M-p" . corfu-doc-scroll-down))
+;;   :custom
+;;   (corfu-doc-delay 0.5)
+;;   (corfu-doc-max-width 70)
+;;   (corfu-doc-max-height 20)
+;;   (corfu-echo-documentation nil))
 
 
 (use-package kind-icon

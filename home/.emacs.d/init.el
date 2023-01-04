@@ -111,11 +111,6 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
-
 ;; Better titlebar look for Mac
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -263,6 +258,9 @@
    ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
 
    :map vertico-map
+   ("C-c C-o" . embark-export)
+
+   :map isearch-mode-map
    ("C-c C-o" . embark-export))
   
   :init
@@ -342,7 +340,7 @@
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
+         ("C-s" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
@@ -352,7 +350,7 @@
          :map isearch-mode-map
          ("M-e" . consult-isearch-history) ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
-         ("M-s l" . consult-line) ;; needed by consult-line to detect isearch
+         ("C-s" . consult-line) ;; needed by consult-line to detect isearch
          ("M-s L" . consult-line-multi) ;; needed by consult-line to detect isearch
          ;; Minibuffer history
          :map minibuffer-local-map
@@ -700,10 +698,10 @@ same directory as the org-buffer and insert a link to this file."
   (interactive)
   (swiper (format "\\<%s\\>" (thing-at-point 'symbol))))
 
-(use-package swiper
-  :bind (("C-s" . swiper)
-                                        ;         ("M-*" . swiper-under-point)
-         ))
+;; (use-package swiper
+;;   :bind (("C-s" . swiper)
+;;                                         ;         ("M-*" . swiper-under-point)
+;;          ))
 
 (use-package org-present
   :init

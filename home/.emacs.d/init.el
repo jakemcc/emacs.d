@@ -1017,15 +1017,7 @@ same directory as the org-buffer and insert a link to this file."
                       (clj-kondo-cljc . clojure-joker)
                       (clj-kondo-edn . edn-joker)))
     (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
-  (define-clojure-indent
-    (POST 'defun)
-    (GET 'defun)
-    (DELETE 'defun)
-    (PUT 'defun)
-    (ANY 'defun)
-    (context 'defun)
-    (register-sub 'defun)
-    (register-handler 'defun)))
+  (put-clojure-indent 'match 1))
 
 
 (use-package clj-refactor

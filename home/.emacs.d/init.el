@@ -1038,7 +1038,9 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-completion-provider :none) ;; use corfu instead of default for lsp completions
   ;; Installed on macos using brew because emacs was too unreliable at
   ;; installing automatically
-  (lsp-clojure-custom-server-command '("bash" "-c" "/usr/local/bin/clojure-lsp"))
+  (lsp-clojure-custom-server-command (if (file-exists-p "/usr/local/bin/clojure-lsp")
+                                         '("bash" "-c" "/usr/local/bin/clojure-lsp")
+                                       '("bash" "-c" "/opt/homebrew/bin/clojure-lsp")))
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)

@@ -69,18 +69,19 @@
 (use-package emacs
   :straight nil
   :custom
-  (global-linum-mode t)
   (inhibit-startup-screen t)
   ;; Taken from http://stackoverflow.com/questions/2081577/setting-emacs-split-to-horizontal
   (split-height-threshold nil)
   (split-width-threshold 200)
   (tab-always-indent 'complete)
   :bind (("C-x -" . fit-window-to-buffer)
-         ("C-x _" . jake/fit-other-window-to-buffer))
+         ("C-x _" . jake/fit-other-window-to-buffer)
+         ("C-x m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)
   (global-auto-revert-mode)
+  (global-display-line-numbers-mode)
 
   (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)
@@ -109,11 +110,6 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
-
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; Better titlebar look for Mac
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -259,8 +255,14 @@
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+   ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
 
+   :map vertico-map
+   ("C-c C-o" . embark-export)
+
+   :map isearch-mode-map
+   ("C-c C-o" . embark-export))
+  
   :init
 
   ;; Optionally replace the key help with a completing-read interface
@@ -279,6 +281,29 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package consult-flycheck)
+(use-package consult-org-roam
+  :after org-roam
+  :custom
+  ;; Use `ripgrep' for searching with `consult-org-roam-search'
+  (consult-org-roam-grep-func #'consult-ripgrep)
+  ;; Configure a custom narrow key for `consult-buffer'
+  (consult-org-roam-buffer-narrow-key ?r)
+  ;; Display org-roam buffers right after non-org-roam buffers
+  ;; in consult-buffer (and not down at the bottom)
+  (consult-org-roam-buffer-after-buffers t)
+  :config
+  ;; Eventually suppress previewing for certain functions
+  (consult-customize
+   consult-org-roam-forward-links
+   :preview-key (kbd "M-."))
+  :bind
+  ;; Define some convenient keybindings as an addition
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n l" . consult-org-roam-forward-links)
+  ("C-c n r" . consult-org-roam-search))
+
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
@@ -286,24 +311,24 @@
          ("C-c m" . consult-mode-command)
          ("C-c k" . consult-kmacro)
          ;; C-x bindings (ctl-x-map)
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x M-:" . consult-complex-command) ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer) ;; orig. switch-to-buffer
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ("C-x 5 b" . consult-buffer-other-frame) ;; orig. switch-to-buffer-other-frame
+         ("C-x r b" . consult-bookmark) ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer) ;; orig. project-switch-to-buffer
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("M-'" . consult-register-store) ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ("M-y" . consult-yank-pop) ;; orig. yank-pop
          ;; M-g bindings (goto-map)
          ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g f" . consult-flycheck) ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)   ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line) ;; orig. goto-line
+         ("M-g o" . consult-outline) ;; Alternative: consult-org-heading
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
   
@@ -315,7 +340,7 @@
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
+         ("C-s" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
@@ -323,14 +348,14 @@
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
          :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ("M-e" . consult-isearch-history) ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
+         ("C-s" . consult-line) ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi) ;; needed by consult-line to detect isearch
          ;; Minibuffer history
          :map minibuffer-local-map
-         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+         ("M-s" . consult-history) ;; orig. next-matching-history-element
+         ("M-r" . consult-history)) ;; orig. previous-matching-history-element
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI.
@@ -384,16 +409,16 @@
   ;; By default `consult-project-function' uses `project-root' from project.el.
   ;; Optionally configure a different project root function.
   ;; There are multiple reasonable alternatives to chose from.
-  ;;;; 1. project.el (the default)
+;;;; 1. project.el (the default)
   ;; (setq consult-project-function #'consult--default-project--function)
-  ;;;; 2. projectile.el (projectile-project-root)
+;;;; 2. projectile.el (projectile-project-root)
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-function (lambda (_) (projectile-project-root)))
-  ;;;; 3. vc.el (vc-root-dir)
+;;;; 3. vc.el (vc-root-dir)
   ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
-  ;;;; 4. locate-dominating-file
+;;;; 4. locate-dominating-file
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-)
+  )
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -673,10 +698,10 @@ same directory as the org-buffer and insert a link to this file."
   (interactive)
   (swiper (format "\\<%s\\>" (thing-at-point 'symbol))))
 
-(use-package swiper
-  :bind (("C-s" . swiper)
-                                        ;         ("M-*" . swiper-under-point)
-         ))
+;; (use-package swiper
+;;   :bind (("C-s" . swiper)
+;;                                         ;         ("M-*" . swiper-under-point)
+;;          ))
 
 (use-package org-present
   :init
@@ -819,6 +844,8 @@ same directory as the org-buffer and insert a link to this file."
    (lisp-mode . enable-paredit-mode)
    (scheme-mode . enable-paredit-mode))
   :bind (:map paredit-mode-map
+              ("RET" . nil)
+              ("C-j" . paredit-newline)
               ("M-)" . paredit-forward-slurp-sexp)
               ( "M-(" . paredit-forward-slurp-sexp)
               ("M-}" . paredit-forward-barf-sexp)
@@ -857,10 +884,9 @@ same directory as the org-buffer and insert a link to this file."
                       :foreground 'unspecified
                       :inherit 'error))
 
-;; corfu, corfu-doc, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
+;; corfu, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
 ;; archive link: https://archive.ph/tEfT3
 (use-package corfu
-  :hook (lsp-completion-mode . jake/lsp-mode-setup-completion)
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -873,9 +899,13 @@ same directory as the org-buffer and insert a link to this file."
   (corfu-cycle nil)
 
   (corfu-quit-at-boundry nil)
+  (corfu-separator ?\s)
+  (corfu-quit-no-match 'separator)
+  (corfu-preview-current 'insert)
   (corfu-preselect-first t)
 
   (corfu-echo-documentation nil) ;; using corfu-doc for this
+
   :bind
   (:map corfu-map
         ("C-n" . corfu-next)
@@ -893,27 +923,24 @@ same directory as the org-buffer and insert a link to this file."
                 (bound-and-true-p vertico--input))
       (setq-local corfu-auto nil)       ; Ensure auto completion is disabled
       (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
-  
-  (defun jake/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
-(use-package corfu-doc
-  ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
-  :straight (corfu-doc :type git :host github :repo "galeo/corfu-doc")
-  :after corfu
-  :hook (corfu-mode . corfu-doc-mode)
-  :bind
-  (:map corfu-map
-        ("M-h" . corfu-doc-toggle) ; Remap the default doc command
-        ("M-n" . corfu-doc-scroll-up)
-        ("M-p" . corfu-doc-scroll-down))
-  :custom
-  (corfu-doc-delay 0.5)
-  (corfu-doc-max-width 70)
-  (corfu-doc-max-height 20)
-  (corfu-echo-documentation nil))
+
+;; (use-package corfu-doc
+;;   ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
+;;   :straight (corfu-doc :type git :host github :repo "galeo/corfu-doc")
+;;   :after corfu
+;;   :hook (corfu-mode . corfu-doc-mode)
+;;   :bind
+;;   (:map corfu-map
+;;         ("M-h" . corfu-doc-toggle)     ; Remap the default doc command
+;;         ("M-n" . corfu-doc-scroll-up)
+;;         ("M-p" . corfu-doc-scroll-down))
+;;   :custom
+;;   (corfu-doc-delay 0.5)
+;;   (corfu-doc-max-width 70)
+;;   (corfu-doc-max-height 20)
+;;   (corfu-echo-documentation nil))
 
 
 (use-package kind-icon
@@ -988,15 +1015,7 @@ same directory as the org-buffer and insert a link to this file."
                       (clj-kondo-cljc . clojure-joker)
                       (clj-kondo-edn . edn-joker)))
     (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
-  (define-clojure-indent
-    (POST 'defun)
-    (GET 'defun)
-    (DELETE 'defun)
-    (PUT 'defun)
-    (ANY 'defun)
-    (context 'defun)
-    (register-sub 'defun)
-    (register-handler 'defun)))
+  (put-clojure-indent 'match 1))
 
 
 (use-package clj-refactor

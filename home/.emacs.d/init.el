@@ -89,6 +89,16 @@
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1)))
 
+(use-package whitespace
+  :straight nil
+  :config
+  (setq whitespace-style
+        (delete 'lines (add-to-list 'whitespace-style 'lines-char)))
+  :custom
+  (whitespace-line-column 85)
+  :init
+  (global-whitespace-mode))
+
 
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)

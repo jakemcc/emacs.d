@@ -245,7 +245,6 @@
   :bind (("M-%" . vr/query-replace)
          ("C-r" . vr/isearch-backward)))
 
-
 ;; marginalia, all-the-icons-completion, vertico all inspired from https://kristofferbalintona.me/posts/202202211546/
 ;; archive.is: https://archive.ph/fQeRP
 (use-package marginalia
@@ -257,7 +256,13 @@
   (marginalia-max-relative-age 0)
   (marginalia-align 'right)
   :init
-  (marginalia-mode))
+  (marginalia-mode)
+  ;; (setq marginalia-command-categories
+  ;;       (append '((projectile-find-file . project-file)
+  ;;                 (projectile-find-dir . project-file)
+  ;;                 (projectile-switch-project . file))
+  ;;               marginalia-command-categories))
+  )
 
 (use-package embark
   :ensure t
@@ -679,6 +684,9 @@ same directory as the org-buffer and insert a link to this file."
   (projectile-enable-caching t)
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
+
+(use-package consult-projectile
+  :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
 
 
 (defun beefalo/project-buf-name ()

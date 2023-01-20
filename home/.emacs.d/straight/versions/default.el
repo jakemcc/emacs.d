@@ -66,7 +66,7 @@
  ("nongnu-elpa" . "0e54bf5f6d048bdb87ae648237dbadc2b2217b4b")
  ("olivetti" . "8d287a80c5e3d72ac01b56c8afe60b01f18500b4")
  ("orderless" . "847694e78c12d903d5e3f6cb365a5d3b984db537")
- ("org" . "bcca8819c3c7184d744a41d6cb899fc3f77c46c3")
+ ("org" . "811deae32db17d99e1b92e0ad8227268bab8ec7b")
  ("org-journal" . "c84f1a771933d662695c20b73832a6415b7d3603")
  ("org-present" . "4ec04e1b77dea76d7c30066ccf3200d2e0b7bee9")
  ("org-roam" . "74422df546a515bc984c2f3d3a681c09d6f43916")

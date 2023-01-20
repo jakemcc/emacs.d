@@ -91,13 +91,12 @@
 
 (use-package whitespace
   :straight nil
-  :config
-  (setq whitespace-style
-        (delete 'lines (add-to-list 'whitespace-style 'lines-char)))
   :custom
+  (whitespace-style '(face lines-char))
   (whitespace-line-column 85)
-  :init
-  (global-whitespace-mode))
+;;  :init
+;;  (global-whitespace-mode)
+  )
 
 
 (autoload 'zap-up-to-char "misc"

@@ -76,7 +76,7 @@
   (tab-always-indent 'complete)
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
-         ("C-x m" . execute-extended-command))
+         ("C-x C-m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)
@@ -88,6 +88,15 @@
     (tool-bar-mode -1))
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1)))
+
+(use-package whitespace
+  :straight nil
+  :custom
+  (whitespace-style '(face lines-char))
+  (whitespace-line-column 85)
+;;  :init
+;;  (global-whitespace-mode)
+  )
 
 
 (autoload 'zap-up-to-char "misc"
@@ -235,7 +244,6 @@
   :bind (("M-%" . vr/query-replace)
          ("C-r" . vr/isearch-backward)))
 
-
 ;; marginalia, all-the-icons-completion, vertico all inspired from https://kristofferbalintona.me/posts/202202211546/
 ;; archive.is: https://archive.ph/fQeRP
 (use-package marginalia
@@ -247,14 +255,20 @@
   (marginalia-max-relative-age 0)
   (marginalia-align 'right)
   :init
-  (marginalia-mode))
+  (marginalia-mode)
+  ;; (setq marginalia-command-categories
+  ;;       (append '((projectile-find-file . project-file)
+  ;;                 (projectile-find-dir . project-file)
+  ;;                 (projectile-switch-project . file))
+  ;;               marginalia-command-categories))
+  )
 
 (use-package embark
   :ensure t
 
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+  (("C-." . embark-act)        ;; pick some comfortable binding
+   ("C-;" . embark-dwim)       ;; good alternative: M-.
    ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
 
    :map vertico-map
@@ -670,6 +684,9 @@ same directory as the org-buffer and insert a link to this file."
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
 
+(use-package consult-projectile
+  :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
+
 
 (defun beefalo/project-buf-name ()
   (ignore-errors
@@ -833,7 +850,8 @@ same directory as the org-buffer and insert a link to this file."
   ;;(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
   ;;  (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  ;;(doom-themes-org-config)
+  )
 
 (use-package paredit
   :diminish ""

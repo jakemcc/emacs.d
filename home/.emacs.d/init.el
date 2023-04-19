@@ -74,6 +74,7 @@
   (split-height-threshold nil)
   (split-width-threshold 200)
   (tab-always-indent 'complete)
+  (enable-recursive-minibuffers t)
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
          ("C-x C-m" . execute-extended-command))
@@ -93,11 +94,9 @@
   :straight nil
   :custom
   (whitespace-style '(face lines-char))
-  (whitespace-line-column 85)
-;;  :init
-;;  (global-whitespace-mode)
-  )
-
+  (whitespace-line-column 86)
+  :init
+  (add-hook 'clojure-mode-hook 'whitespace-mode))
 
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
@@ -1080,6 +1079,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
+  (lsp-idle-delay 0.1)
   :init
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)

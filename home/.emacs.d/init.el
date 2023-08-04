@@ -20,6 +20,7 @@
                     "-name" "*.eln" "-size" "0" "-delete" "-or"
                     "-name" "*.eln.tmp" "-size" "0" "-delete"))))
 
+(defvar native-comp-deferred-compilation-deny-list nil)
 (setq native-comp-async-report-warnings-errors nil)
 
 
@@ -296,8 +297,7 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package consult-flycheck)
-(use-package emacsql-sqlite3
-  :ensure t)
+(use-package emacsql :ensure t)
 (use-package consult-org-roam
   :after org-roam
   :custom
@@ -566,7 +566,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
       "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
 
 ;; Take from https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
-(defun my-org-screenshot ()
+(defun jm/my-org-screenshot ()
   "Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file."
   (interactive)
@@ -1077,16 +1077,18 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-completion-provider :none) ;; use corfu instead of default for lsp completions
   ;; Installed on macos using brew because emacs was too unreliable at
   ;; installing automatically
-  (lsp-clojure-custom-server-command '("bash" "-c" "/usr/local/bin/clojure-lsp"))
+  (lsp-clojure-custom-server-command '("bash" "-c" "/opt/homebrew/bin/clojure-lsp"))
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
-  (lsp-idle-delay 0.1)
+  (lsp-idle-delay 0.5)
   :init
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
+         (c-mode . lsp)
+         (c++-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :config
   (dolist (m '(clojure-mode
@@ -1109,8 +1111,6 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-ui-doc-show-with-cursor nil))
 
 (use-package lsp-java
-  :custom
-  (lsp-java-java-path "/Users/jmccrary/.jenv/versions/17/bin/java")
   :config
   (add-hook 'java-mode-hook 'lsp))
 

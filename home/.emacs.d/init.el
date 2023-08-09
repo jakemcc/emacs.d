@@ -1003,6 +1003,11 @@ same directory as the org-buffer and insert a link to this file."
 
 (use-package cape)
 
+(use-package js
+  :straight nil
+  :custom
+  (js-indent-level 2))
+
 (use-package cider
   :diminish ""
   :bind
@@ -1019,7 +1024,6 @@ same directory as the org-buffer and insert a link to this file."
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
-
 
 (use-package clojure-mode
   :bind
@@ -1089,7 +1093,8 @@ same directory as the org-buffer and insert a link to this file."
          (clojurescript-mode . lsp)
          (c-mode . lsp)
          (c++-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+         (lsp-mode . lsp-enable-which-key-integration)
+         (js-mode . lsp))
   :config
   (dolist (m '(clojure-mode
                clojurec-mode

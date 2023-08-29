@@ -79,7 +79,8 @@
   (enable-recursive-minibuffers t)
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
-         ("C-x C-m" . execute-extended-command))
+         ("C-x C-m" . execute-extended-command)
+         ("C-x m" . nil))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)

@@ -80,7 +80,7 @@
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
          ("C-x C-m" . execute-extended-command)
-         ("C-x m" . nil))
+         ("C-x m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)
@@ -766,7 +766,8 @@ same directory as the org-buffer and insert a link to this file."
   :config
   (x-focus-frame nil)
   (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH"))
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-copy-env "LSP_USE_PLISTS"))
 
 ;; Stop typing full "yes or no" answers to Emacs.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -1063,7 +1064,7 @@ same directory as the org-buffer and insert a link to this file."
   ;;   (add-to-list 'cljr-magic-require-namespaces mapping t))
   )
 
-(defun jm/switch-window-split ()
+(defun jm/toggle-window-split ()
   "Toggle between horizontal and vertical split for two windows. Thanks ChatGPT"
   (interactive)
   (if (= (count-windows) 2)
@@ -1103,8 +1104,10 @@ same directory as the org-buffer and insert a link to this file."
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
+(setq lsp-use-plists t)
 (use-package lsp-mode
   :custom
+  (lsp-use-plists t)
   (lsp-completion-provider :none) ;; use corfu instead of default for lsp completions
   ;; Installed on macos using brew because emacs was too unreliable at
   ;; installing automatically
@@ -1114,6 +1117,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
   (lsp-idle-delay 0.5)
+  (lsp-enable-on-type-formatting nil)
   :init
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)

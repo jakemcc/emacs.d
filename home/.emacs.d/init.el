@@ -765,9 +765,10 @@ same directory as the org-buffer and insert a link to this file."
   :if (memq window-system '(mac ns))
   :config
   (x-focus-frame nil)
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "LSP_USE_PLISTS"))
+  (add-to-list 'exec-path-from-shell-variables "GOPATH")
+  (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS")
+  (add-to-list 'exec-path-from-shell-variables "FIG_REMOTE_URL")
+  (exec-path-from-shell-initialize))
 
 ;; Stop typing full "yes or no" answers to Emacs.
 (defalias 'yes-or-no-p 'y-or-n-p)

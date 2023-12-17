@@ -20,6 +20,7 @@
                     "-name" "*.eln" "-size" "0" "-delete" "-or"
                     "-name" "*.eln.tmp" "-size" "0" "-delete"))))
 
+(defvar native-comp-deferred-compilation-deny-list nil)
 (setq native-comp-async-report-warnings-errors nil)
 
 
@@ -35,14 +36,15 @@
 
 (make-directory tmp-dir t)
 
+(setq straight-repository-branch "develop")
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -74,9 +76,11 @@
   (split-height-threshold nil)
   (split-width-threshold 200)
   (tab-always-indent 'complete)
+  (enable-recursive-minibuffers t)
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
-         ("C-x C-m" . execute-extended-command))
+         ("C-x C-m" . execute-extended-command)
+         ("C-x m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
   (set-frame-font "Inconsolata-20" nil t)
@@ -93,11 +97,9 @@
   :straight nil
   :custom
   (whitespace-style '(face lines-char))
-  (whitespace-line-column 85)
-;;  :init
-;;  (global-whitespace-mode)
-  )
-
+  (whitespace-line-column 86)
+  :init
+  (add-hook 'clojure-mode-hook 'whitespace-mode))
 
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
@@ -296,6 +298,7 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package consult-flycheck)
+(use-package emacsql :ensure t)
 (use-package consult-org-roam
   :after org-roam
   :custom
@@ -564,7 +567,7 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
       "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
 
 ;; Take from https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
-(defun my-org-screenshot ()
+(defun jm/my-org-screenshot ()
   "Take a screenshot into a time stamped unique-named file in the
 same directory as the org-buffer and insert a link to this file."
   (interactive)
@@ -762,8 +765,10 @@ same directory as the org-buffer and insert a link to this file."
   :if (memq window-system '(mac ns))
   :config
   (x-focus-frame nil)
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH"))
+  (add-to-list 'exec-path-from-shell-variables "GOPATH")
+  (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS")
+  (add-to-list 'exec-path-from-shell-variables "FIG_REMOTE_URL")
+  (exec-path-from-shell-initialize))
 
 ;; Stop typing full "yes or no" answers to Emacs.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -834,13 +839,13 @@ same directory as the org-buffer and insert a link to this file."
   :ensure t
   :config
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+  (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-gruvbox t)
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
   ;; (load-theme 'doom-oceanic-next t) ;; also good
-  ;; (load-theme 'doom-shades-of-purple	t)
+  (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
   ;; Enable flashing mode-line on errors
   ;;(doom-themes-visual-bell-config)
@@ -1001,6 +1006,11 @@ same directory as the org-buffer and insert a link to this file."
 
 (use-package cape)
 
+(use-package js
+  :straight nil
+  :custom
+  (js-indent-level 2))
+
 (use-package cider
   :diminish ""
   :bind
@@ -1017,7 +1027,6 @@ same directory as the org-buffer and insert a link to this file."
   :hook
   ((cider-repl-mode . enable-paredit-mode)
    (cider-mode . (lambda () (eldoc-mode)))))
-
 
 (use-package clojure-mode
   :bind
@@ -1056,6 +1065,32 @@ same directory as the org-buffer and insert a link to this file."
   ;;   (add-to-list 'cljr-magic-require-namespaces mapping t))
   )
 
+(defun jm/toggle-window-split ()
+  "Toggle between horizontal and vertical split for two windows. Thanks ChatGPT"
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+              (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
+
 ;;TODO: this is not correct
 (defun jake/window-is-small? ()
   (let ((half-height (/ (window-total-height (frame-root-window)) 2)))
@@ -1070,8 +1105,10 @@ same directory as the org-buffer and insert a link to this file."
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
+(setq lsp-use-plists t)
 (use-package lsp-mode
   :custom
+  (lsp-use-plists t)
   (lsp-completion-provider :none) ;; use corfu instead of default for lsp completions
   ;; Installed on macos using brew because emacs was too unreliable at
   ;; installing automatically
@@ -1082,11 +1119,16 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
+  (lsp-idle-delay 0.5)
+  ;; (lsp-enable-on-type-formatting nil)
   :init
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+         (c-mode . lsp)
+         (c++-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration)
+         (js-mode . lsp))
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
@@ -1108,8 +1150,6 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-ui-doc-show-with-cursor nil))
 
 (use-package lsp-java
-  :custom
-  (lsp-java-java-path "/Users/jmccrary/.jenv/versions/17/bin/java")
   :config
   (add-hook 'java-mode-hook 'lsp))
 

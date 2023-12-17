@@ -1115,6 +1115,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-clojure-custom-server-command (if (file-exists-p "/usr/local/bin/clojure-lsp")
                                          '("bash" "-c" "/usr/local/bin/clojure-lsp")
                                        '("bash" "-c" "/opt/homebrew/bin/clojure-lsp")))
+  ;; (lsp-clojure-custom-server-command "/Users/jake/.bin/clojure-lsp-dev")
   (lsp-auto-guess-root t)
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)

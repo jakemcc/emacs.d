@@ -93,6 +93,14 @@
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1)))
 
+(use-package num3-mode
+  :config
+  (set-face-attribute 'num3-face-even nil
+                      :underline t
+                      :weight 'normal
+                      :background nil)
+  (global-num3-mode))
+
 (use-package whitespace
   :straight nil
   :custom
@@ -844,8 +852,8 @@ same directory as the org-buffer and insert a link to this file."
   ;; (load-theme 'doom-gruvbox t)
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
-  ;; (load-theme 'doom-oceanic-next t) ;; also good
-  (load-theme 'doom-shades-of-purple	t)
+  (load-theme 'doom-oceanic-next t) ;; also good
+  ;; (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
   ;; Enable flashing mode-line on errors
   ;;(doom-themes-visual-bell-config)
@@ -1404,6 +1412,15 @@ This command does the reverse of `fill-paragraph'."
       (with-current-buffer lein-test-refresh-buffer
         (rename-buffer "*lein-test-refresh*")))
     lein-test-refresh-buffer))
+
+(defun lein-autoexpect ()
+  (interactive)
+  (let ((buffer (get-buffer "*lein-autoexpect*")))
+    (when (not buffer)
+      (setq buffer (compile "EXPECTATIONS_COLORIZE=false ./lein autoexpect"))
+      (with-current-buffer buffer
+        (rename-buffer "*lein-autoexpect*")))
+    buffer))
 
 (let ((machine-specific (concat user-emacs-directory "machine-specific.el")))
   (when (file-exists-p machine-specific)

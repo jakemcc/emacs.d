@@ -691,7 +691,7 @@ same directory as the org-buffer and insert a link to this file."
                                     ("~/drwsrc/beefalo/" . 1)
                                     ("~/drwsrc-github.com/" . 2)))
   (projectile-completion-system 'default)
-  (projectile-enable-caching t)
+;  (projectile-enable-caching )
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
 

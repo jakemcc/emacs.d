@@ -940,7 +940,8 @@ same directory as the org-buffer and insert a link to this file."
   :bind
   (:map corfu-map
         ("C-n" . corfu-next)
-        ("C-p" . corfu-previous))
+        ("C-p" . corfu-previous)
+        ("SPC" . corfu-insert-separator))
   :init
   (global-corfu-mode)
   :config
@@ -949,13 +950,15 @@ same directory as the org-buffer and insert a link to this file."
   ;; completion UI. From
   ;; https://github.com/minad/corfu#completing-with-corfu-in-the-minibuffer
   (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active) ; Useful if I ever use MCT
-                (bound-and-true-p vertico--input))
-      (setq-local corfu-auto nil)       ; Ensure auto completion is disabled
-      (corfu-mode 1)))
+  "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+  (unless (or (bound-and-true-p mct--active)
+              (bound-and-true-p vertico--input)
+              (eq (current-local-map) read-passwd-map))
+    ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+    (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                corfu-popupinfo-delay nil)
+    (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
-
 
 ;; (use-package corfu-doc
 ;;   ;; NOTE 2022-02-05: At the time of writing, `corfu-doc' is not yet on melpa
@@ -994,14 +997,16 @@ same directory as the org-buffer and insert a link to this file."
   ;;(add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache)))
   )
 
-;; use dabbrev with Corfu!
+;; Use Dabbrev with Corfu! (from corfu readme)
 (use-package dabbrev
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand))
-  ;; Other useful Dabbrev configurations.
-  :custom
-  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
 
 (use-package orderless
   :init
@@ -1131,13 +1136,17 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-idle-delay 0.5)
   ;; (lsp-enable-on-type-formatting nil)
   :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(flex))) ;; Configure flex
   :hook ((clojure-mode . lsp)
          (clojurec-mode . lsp)
          (clojurescript-mode . lsp)
          (c-mode . lsp)
          (c++-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)
-         (js-mode . lsp))
+         (js-mode . lsp)
+         (lsp-completion-mode . my/lsp-mode-setup-completion))
   :config
   (dolist (m '(clojure-mode
                clojurec-mode

@@ -68,6 +68,14 @@
   (fit-window-to-buffer)
   (ace-window t))
 
+(defun jm/choose-font-size ()
+  "Choose between three different font sizes: 16, 18, and 20."
+  (interactive)
+  (let ((sizes '(16 18 20)))
+    (set-face-attribute 'default nil :height
+                        (* 10 (string-to-number
+                               (completing-read "Choose font size: " (mapcar #'number-to-string sizes)))))))
+
 (use-package emacs
   :straight nil
   :custom
@@ -83,7 +91,9 @@
          ("C-x m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
-  (set-frame-font "Inconsolata-20" nil t)
+  ;; (set-frame-font "Inconsolata-20" nil t)
+  ;; (set-face-attribute 'default nil :font "Inconsolata-18")
+  ;; (set-frame-font "Inconsolata-18" nil t)
   (global-auto-revert-mode)
   (global-display-line-numbers-mode)
 
@@ -91,10 +101,16 @@
   (when (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
   (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1)))
+    (scroll-bar-mode -1))
+
+  
+  (add-to-list 'auto-mode-alist '("\\.fig\\'" . (lambda ()
+                                                  (setq-local comment-start "#")
+                                                  (setq-local comment-end "")))))
 
 (use-package num3-mode
   :config
+  ;; (set-face-attribute 'num3-face-odd nil :background nil)
   (set-face-attribute 'num3-face-even nil
                       :underline t
                       :weight 'normal
@@ -328,6 +344,9 @@
   ("C-c n b" . consult-org-roam-backlinks)
   ("C-c n l" . consult-org-roam-forward-links)
   ("C-c n r" . consult-org-roam-search))
+
+(use-package wgrep
+  :ensure t)
 
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
@@ -574,6 +593,9 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
      ("j" "Journal entry" entry (function org-journal-find-location)
       "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"))))
 
+(use-package ox-gfm
+  :ensure t)
+
 ;; Take from https://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it
 (defun jm/my-org-screenshot ()
   "Take a screenshot into a time stamped unique-named file in the
@@ -756,6 +778,7 @@ same directory as the org-buffer and insert a link to this file."
   :diminish ""
   :custom
   (flycheck-javascript-standard-executable "semistandard")
+  (flycheck-checker-error-threshold 900)
   :init
   (global-flycheck-mode))
 
@@ -878,7 +901,7 @@ same directory as the org-buffer and insert a link to this file."
               ("RET" . nil)
               ("C-j" . paredit-newline)
               ("M-)" . paredit-forward-slurp-sexp)
-              ( "M-(" . paredit-forward-slurp-sexp)
+              ("M-(" . paredit-forward-slurp-sexp)
               ("M-}" . paredit-forward-barf-sexp)
               ("M-{" . paredit-backward-barf-sexp)))
 
@@ -950,14 +973,14 @@ same directory as the org-buffer and insert a link to this file."
   ;; completion UI. From
   ;; https://github.com/minad/corfu#completing-with-corfu-in-the-minibuffer
   (defun corfu-enable-always-in-minibuffer ()
-  "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-  (unless (or (bound-and-true-p mct--active)
-              (bound-and-true-p vertico--input)
-              (eq (current-local-map) read-passwd-map))
-    ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
-    (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
-                corfu-popupinfo-delay nil)
-    (corfu-mode 1)))
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+                (bound-and-true-p vertico--input)
+                (eq (current-local-map) read-passwd-map))
+      ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+      (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1))
 
 ;; (use-package corfu-doc
@@ -1029,7 +1052,9 @@ same directory as the org-buffer and insert a link to this file."
   :bind
   ("C-c k" . cider-ns-refresh)
   :custom
+  (cider-reuse-dead-repls 'auto)
   (cider-prompt-for-symbol nil)
+  (cider-repl-pop-to-buffer-on-connect nil)
   (cider-print-options '(("length" 50) ("right-margin" 180)))
   (cider-jdk-src-paths '("~/.java/openjv-8-src/"
                          "~/src/opensource/clojure/src/jvm"))
@@ -1044,7 +1069,7 @@ same directory as the org-buffer and insert a link to this file."
 (use-package clojure-mode
   :bind
   ("C-:" . clojure-toggle-keyword-string)
-  :requires (flycheck-joker flycheck-clj-konda)
+  :requires (flycheck-joker flycheck-clj-kondo)
   :config
   (require 'flycheck-joker)
   (require 'flycheck-clj-kondo)
@@ -1133,7 +1158,8 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-keymap-prefix "C-c l")
   (lsp-prefer-flymake nil)
   (lsp-lens-enable t)
-  (lsp-idle-delay 0.5)
+  (lsp-idle-delay 0.2)
+  (lsp-signature t)
   ;; (lsp-enable-on-type-formatting nil)
   :init
   (defun my/lsp-mode-setup-completion ()
@@ -1437,3 +1463,4 @@ This command does the reverse of `fill-paragraph'."
 
 (provide 'init)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)

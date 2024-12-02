@@ -12,6 +12,7 @@
  ("clj-refactor.el" . "fa3efe18e7150df5153a7d05c54e96d59398a0a8")
  ("clojure-mode" . "222fdafa2add56a171ded245339a383e5e3078ec")
  ("cmake" . "0345c0146572d31eb40044abbf3fbd037bab55bb")
+ ("codeium.el" . "e8bab83f95626541afa5ea2298aa80ccc7567d53")
  ("compat" . "940bac4724067e6e48ec042db801af4fc05537ec")
  ("consult" . "8cb56f8d6637e55340271274a20dfc163d77fff5")
  ("consult-flycheck" . "d83f87581af74f7a2739d8b1b90c37da5ae3d310")

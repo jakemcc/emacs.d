@@ -118,7 +118,7 @@
   (global-num3-mode))
 
 (use-package whitespace
-  :straight nil
+  :straight (:type built-in)
   :custom
   (whitespace-style '(face lines-char))
   (whitespace-line-column 86)
@@ -129,12 +129,12 @@
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 
 (use-package uniquify
-  :straight nil
+  :straight (:type built-in)
   :custom
   (uniquify-buffer-name-style 'forward))
 
 (use-package saveplace
-  :straight nil
+  :straight (:type built-in)
   :config
   (setq-default save-place t))
 
@@ -1043,7 +1043,7 @@ same directory as the org-buffer and insert a link to this file."
 (use-package cape)
 
 (use-package js
-  :straight nil
+  :straight (:type built-in)
   :custom
   (js-indent-level 2))
 

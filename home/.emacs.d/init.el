@@ -717,10 +717,6 @@ same directory as the org-buffer and insert a link to this file."
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
 
-(use-package makefile-executor
-  :config
-  (add-hook 'makefile-mode-hook 'makefile-executor-mode))
-
 (use-package consult-projectile
   :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
 

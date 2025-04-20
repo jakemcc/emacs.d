@@ -71,10 +71,10 @@
 (defun jm/choose-font-size ()
   "Choose between three different font sizes: 16, 18, and 20."
   (interactive)
-  (let ((sizes '(16 18 20)))
-    (set-face-attribute 'default nil :height
-                        (* 10 (string-to-number
-                               (completing-read "Choose font size: " (mapcar #'number-to-string sizes)))))))
+  (set-face-attribute 'default nil :height
+                      (* 10 (string-to-number
+                             (completing-read "Choose font size: "
+                                              (mapcar #'number-to-string '(16 18 20)))))))
 
 (use-package emacs
   :straight nil
@@ -192,9 +192,9 @@
 
 ;; Activate occur easily inside isearch
 (define-key isearch-mode-map (kbd "C-o")
-  (lambda () (interactive)
-    (let ((case-fold-search isearch-case-fold-search))
-      (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
+            (lambda () (interactive)
+              (let ((case-fold-search isearch-case-fold-search))
+                (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
 
 
 (show-paren-mode 1)
@@ -375,7 +375,7 @@
          ("M-g o" . consult-outline) ;; Alternative: consult-org-heading
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
-  
+         
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings (search-map)
@@ -713,7 +713,7 @@ same directory as the org-buffer and insert a link to this file."
                                     ("~/drwsrc/beefalo/" . 1)
                                     ("~/drwsrc-github.com/" . 2)))
   (projectile-completion-system 'default)
-;  (projectile-enable-caching )
+                                        ;  (projectile-enable-caching )
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
 
@@ -1108,7 +1108,7 @@ same directory as the org-buffer and insert a link to this file."
   )
 
 (defun jm/toggle-window-split ()
-  "Toggle between horizontal and vertical split for two windows. Thanks ChatGPT"
+  "Toggle between horizontal and vertical split for two windows. Thanks ChatGPT."
   (interactive)
   (if (= (count-windows) 2)
       (let* ((this-win-buffer (window-buffer))
@@ -1234,7 +1234,7 @@ same directory as the org-buffer and insert a link to this file."
   :custom
   (magit-diff-refine-hunk t)
   (magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1
-                                 ;magit-display-buffer-fullframe-status-v1
+                                        ;magit-display-buffer-fullframe-status-v1
                                  ))
 
 (use-package git-timemachine

@@ -91,6 +91,7 @@
          ("C-x m" . execute-extended-command))
   :config
   (set-face-attribute 'default nil :font "Inconsolata-20")
+  (set-fontset-font "fontset-default" 'han (font-spec :family "SimSun" :size 20))
   ;; (set-frame-font "Inconsolata-20" nil t)
   ;; (set-face-attribute 'default nil :font "Inconsolata-18")
   ;; (set-frame-font "Inconsolata-18" nil t)
@@ -263,6 +264,11 @@
 
 ;; (use-package use-package-ensure-system-package)
 
+(use-package vterm
+  :ensure t
+  :defer t
+  :config
+  (setq vterm-max-scrollback 10000))
 
 (use-package visual-regexp-steroids
   :custom
@@ -709,11 +715,11 @@ same directory as the org-buffer and insert a link to this file."
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom
-  (projectile-project-search-path '(("~/src/" . 2)
-                                    ("~/drwsrc/beefalo/" . 1)
-                                    ("~/drwsrc-github.com/" . 2)))
+  ;; (projectile-project-search-path '(("~/src/" . 2)
+  ;;                                   ("~/drwsrc/beefalo/" . 1)
+  ;;                                   ("~/drwsrc-github.com/" . 2)))
   (projectile-completion-system 'default)
-                                        ;  (projectile-enable-caching )
+  ;; (projectile-enable-caching )
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))
 
@@ -875,8 +881,8 @@ same directory as the org-buffer and insert a link to this file."
   ;; (load-theme 'doom-gruvbox t)
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
-  (load-theme 'doom-oceanic-next t) ;; also good
-  ;; (load-theme 'doom-shades-of-purple	t)
+  ;; (load-theme 'doom-oceanic-next t) ;; also good
+  (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
   ;; Enable flashing mode-line on errors
   ;;(doom-themes-visual-bell-config)
@@ -1067,6 +1073,11 @@ same directory as the org-buffer and insert a link to this file."
    (cider-mode . (lambda () (eldoc-mode)))))
 
 (use-package clojure-mode
+  :mode ("\\.clj\\'"
+         "\\.cljs\\'"
+         "\\.cljc\\'"
+         "\\.edn\\'"
+         "\\.zprintrc\\'")
   :bind
   ("C-:" . clojure-toggle-keyword-string)
   :requires (flycheck-joker flycheck-clj-kondo)
@@ -1081,7 +1092,6 @@ same directory as the org-buffer and insert a link to this file."
                       (clj-kondo-edn . edn-joker)))
     (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
   (put-clojure-indent 'match 1))
-
 
 (use-package clj-refactor
   :diminish ""

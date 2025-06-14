@@ -1198,10 +1198,10 @@ same directory as the org-buffer and insert a link to this file."
   (add-hook 'java-mode-hook 'lsp))
 
 (use-package apheleia
-  :straight (apheleia :host github :repo "raxod502/apheleia")
+  :straight (apheleia :host github :repo "radian-software/apheleia")
   :config
   (setf (alist-get 'zprint apheleia-formatters)
-        '("zprint" "{:style [:community] :map {:comma? false}}" "--write" inplace))
+        '("zprint" "{:style [:community] :map {:comma? false}}"))
   (setf (alist-get 'clojure-mode apheleia-mode-alist) 'zprint
         (alist-get 'clojure-ts-mode apheleia-mode-alist) 'zprint)
   (apheleia-global-mode t))

@@ -76,6 +76,23 @@
                              (completing-read "Choose font size: "
                                               (mapcar #'number-to-string '(16 18 20)))))))
 
+(define-advice keyboard-quit
+    (:around (quit) quit-current-context)
+  "Quit the current context.
+
+When there is an active minibuffer and we are not inside it close
+it.  When we are inside the minibuffer use the regular
+`minibuffer-keyboard-quit' which quits any active region before
+exiting.  When there is no minibuffer `keyboard-quit' unless we
+are defining or executing a macro."
+  (if (active-minibuffer-window)
+      (if (minibufferp)
+          (minibuffer-keyboard-quit)
+        (abort-recursive-edit))
+    (unless (or defining-kbd-macro
+                executing-kbd-macro)
+      (funcall-interactively quit))))
+
 (use-package emacs
   :straight nil
   :custom
@@ -90,8 +107,9 @@
          ("C-x C-m" . execute-extended-command)
          ("C-x m" . execute-extended-command))
   :config
+  (global-unset-key (kbd "C-z"))
   (set-face-attribute 'default nil :font "Inconsolata-20")
-  (set-fontset-font "fontset-default" 'han (font-spec :family "SimSun" :size 20))
+  ;; (set-fontset-font "fontset-default" 'han (font-spec :family "SimSun" :size 20))
   ;; (set-frame-font "Inconsolata-20" nil t)
   ;; (set-face-attribute 'default nil :font "Inconsolata-18")
   ;; (set-frame-font "Inconsolata-18" nil t)
@@ -108,6 +126,13 @@
   (add-to-list 'auto-mode-alist '("\\.fig\\'" . (lambda ()
                                                   (setq-local comment-start "#")
                                                   (setq-local comment-end "")))))
+
+;; (use-package pdf-tools
+;;   :init
+;;   (unless (boundp 'x-gtk-use-system-tooltips)
+;;     (defvaralias 'x-gtk-use-system-tooltips 'use-system-tooltips))
+;;   :config
+;;   (pdf-tools-install))
 
 (use-package num3-mode
   :config
@@ -730,10 +755,10 @@ same directory as the org-buffer and insert a link to this file."
 (defun beefalo/project-buf-name ()
   (ignore-errors
     (flet ((omg (s) (file-name-nondirectory (directory-file-name (file-name-directory s)))))
-          (rename-buffer
-           (format "%s [%s]"
-                   (file-name-nondirectory buffer-file-name)
-                   (omg (projectile-project-root)))))))
+      (rename-buffer
+       (format "%s [%s]"
+               (file-name-nondirectory buffer-file-name)
+               (omg (projectile-project-root)))))))
 
 (add-hook 'find-file-hook 'beefalo/project-buf-name)
 
@@ -866,14 +891,14 @@ same directory as the org-buffer and insert a link to this file."
 ;; (use-package color-theme)
 
 (use-package color-theme-sanityinc-tomorrow
-  :disabled t
+  :ensure t
   :config
   (load-theme 'sanityinc-tomorrow-eighties t)
   (set-face-foreground 'region "white")
   (set-face-background 'region "blue"))
 
 (use-package doom-themes
-  :ensure t
+  :disabled t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t ; if nil, bold is universally disabled
@@ -881,8 +906,8 @@ same directory as the org-buffer and insert a link to this file."
   ;; (load-theme 'doom-gruvbox t)
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
-  ;; (load-theme 'doom-oceanic-next t) ;; also good
-  (load-theme 'doom-shades-of-purple	t)
+  (load-theme 'doom-oceanic-next t) ;; also good
+  ;; (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
   ;; Enable flashing mode-line on errors
   ;;(doom-themes-visual-bell-config)
@@ -1053,6 +1078,27 @@ same directory as the org-buffer and insert a link to this file."
   :custom
   (js-indent-level 2))
 
+(defun jm/cider-connect-project ()
+  "Present a list of REPL connections to the user and connect to the selected one."
+  (interactive)
+  (let* ((connections '(("chimera - local" . (:host "localhost" :port 15619 :project-dir "/Users/jmccrary/drwsrc/beefalo/chimera"))
+                        ("cheetow-chex - local" . (:host "localhost" :port 17664 :project-dir "/Users/jmccrary/drwsrc/beefalo/cheetow"))
+                        ("cheetow - local" . (:host "localhost" :port 15902 :project-dir "/Users/jmccrary/drwsrc/beefalo/cheetow"))
+                        ("prius - local" . (:host "localhost" :port 14720 :project-dir "/Users/jmccrary/drwsrc/beefalo/prius"))
+                        ("perlin - local" . (:host "localhost" :port 14860 :project-dir "/Users/jmccrary/drwsrc/beefalo/perlin"))
+                        ("pleg - local" . (:host "localhost" :port 14890 :project-dir "/Users/jmccrary/drwsrc/beefalo/pleg"))
+                        ("wallaroo - local" . (:host "localhost" :port 15901 :project-dir "/Users/jmccrary/drwsrc/beefalo/wallaroo"))
+                        ("wholphin - local" . (:host "localhost" :port 9889 :project-dir "/Users/jmccrary/drwsrc/beefalo/wholphin"))
+                        ("spiderpig - local" . (:host "localhost"
+                                                      :port 15993
+                                                      :project-dir "/Users/jmccrary/drwsrc/beefalo/spiderpig"))
+                        ("zubron - local" . (:host "localhost"
+                                                   :port 7900
+                                                   :project-dir "/Users/jmccrary/drwsrc/beefalo/zubron"))))
+         (choice (completing-read "Select REPL connection: " (mapcar 'car connections)))
+         (connection (cdr (assoc choice connections))))
+    (cider-connect connection)))
+
 (use-package cider
   :diminish ""
   :bind
@@ -1207,14 +1253,14 @@ same directory as the org-buffer and insert a link to this file."
   :config
   (add-hook 'java-mode-hook 'lsp))
 
-(use-package apheleia
-  :straight (apheleia :host github :repo "radian-software/apheleia")
-  :config
-  (setf (alist-get 'zprint apheleia-formatters)
-        '("zprint" "{:style [:community] :map {:comma? false}}"))
-  (setf (alist-get 'clojure-mode apheleia-mode-alist) 'zprint
-        (alist-get 'clojure-ts-mode apheleia-mode-alist) 'zprint)
-  (apheleia-global-mode t))
+;; (use-package apheleia
+;;   :straight (apheleia :host github :repo "raxod502/apheleia")
+;;   :config
+;;   (setf (alist-get 'zprint apheleia-formatters)
+;;         '("zprint" "{:style [:community] :map {:comma? false}}" "--write" inplace))
+;;   (setf (alist-get 'clojure-mode apheleia-mode-alist) 'zprint
+;;         (alist-get 'clojure-ts-mode apheleia-mode-alist) 'zprint)
+;;   (apheleia-global-mode t))
 
 (use-package which-key
   :diminish

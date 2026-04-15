@@ -769,13 +769,13 @@ same directory as the org-buffer and insert a link to this file."
    (list
     (projectile-related-files-fn-test-with-suffix "clj" "_test")
     (projectile-related-files-fn-test-with-suffix "clj" "_expectations")))
+  (add-hook 'kill-emacs-hook #'projectile-cleanup-known-projects)
+  (add-hook 'kill-emacs-hook #'projectile-save-known-projects)
   :init (projectile-mode)
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map))
   :custom
-  ;; (projectile-project-search-path '(("~/src/" . 2)
-  ;;                                   ("~/drwsrc/beefalo/" . 1)
-  ;;                                   ("~/drwsrc-github.com/" . 2)))
+  (projectile-project-search-path '(("~/drwsrc/beefalo/" . 1)))
   (projectile-completion-system 'default)
   ;; (projectile-enable-caching )
   (projectile-file-exists-remote-cache-expire (* 10 60))

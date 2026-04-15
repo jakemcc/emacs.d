@@ -36,6 +36,21 @@
 
 (make-directory tmp-dir t)
 
+(let ((lock-dir (expand-file-name "locks/" tmp-dir)))
+  (make-directory lock-dir t)
+  (when (boundp 'lock-file-name-transforms)
+    (setq lock-file-name-transforms
+          `(("\\`/.*/\\([^/]+\\)\\'" ,(concat lock-dir "\\1") t)))))
+
+(let ((auto-save-dir (expand-file-name "autosaves/" tmp-dir))
+      (backup-dir (expand-file-name "backups/" tmp-dir)))
+  (make-directory auto-save-dir t)
+  (make-directory backup-dir t)
+  (setq auto-save-file-name-transforms
+        `((".*" ,auto-save-dir t)))
+  (setq backup-directory-alist
+        `(("." . ,backup-dir))))
+
 (setq straight-repository-branch "develop")
 (defvar bootstrap-version)
 (let ((bootstrap-file

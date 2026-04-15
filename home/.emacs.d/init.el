@@ -536,7 +536,17 @@ are defining or executing a macro."
   :config
   (vertico-mode))
 
+
+(defun jm/strip-kill-ring-bits ()
+  "https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/"
+  (setq kill-ring
+        (mapcar #'substring-no-properties
+                (cl-remove-if-not #'stringp kill-ring))))
+
 (use-package savehist
+  :config
+  (setq savehist-additional-variables '(regexp-search-ring kill-ring search-ring))
+  :hook (savehist-save . jm/strip-kill-ring-bits)
   :init
   (savehist-mode))
 

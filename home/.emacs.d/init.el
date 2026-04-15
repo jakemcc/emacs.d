@@ -1122,6 +1122,7 @@ same directory as the org-buffer and insert a link to this file."
                         ("perlin - local" . (:host "localhost" :port 14860 :project-dir "/Users/jmccrary/drwsrc/beefalo/perlin"))
                         ("pleg - local" . (:host "localhost" :port 14890 :project-dir "/Users/jmccrary/drwsrc/beefalo/pleg"))
                         ("wallaroo - local" . (:host "localhost" :port 15901 :project-dir "/Users/jmccrary/drwsrc/beefalo/wallaroo"))
+                        ("twap - local" . (:host "localhost" :port 11116 :project-dir "/Users/jmccrary/drwsrc/beefalo/twap"))
                         ("wholphin - local" . (:host "localhost" :port 9889 :project-dir "/Users/jmccrary/drwsrc/beefalo/wholphin"))
                         ("spiderpig - local" . (:host "localhost"
                                                       :port 15993

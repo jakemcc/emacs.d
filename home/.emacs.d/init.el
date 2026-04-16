@@ -133,6 +133,8 @@ are defining or executing a macro."
   (global-unset-key (kbd "C-z"))
   (set-face-attribute 'default nil :font "Inconsolata-20")
   ;; (set-fontset-font "fontset-default" 'han (font-spec :family "SimSun" :size 20))
+  (set-fontset-font "fontset-default" 'chinese-gbk "STHeiti")
+  ;;(set-fontset-font "fontset-default" 'han "PingFang SC")
   ;; (set-frame-font "Inconsolata-20" nil t)
   ;; (set-face-attribute 'default nil :font "Inconsolata-18")
   ;; (set-frame-font "Inconsolata-18" nil t)
@@ -609,8 +611,6 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          ("C-c c" . 'org-capture))
   :hook
   (org-mode . visual-line-mode)
-  (org-mode . (lambda ()
-                (setq-local corfu-auto nil)))
   ;; (org-mode . variable-pitch-mode)
   :custom
   (org-modules '(org-habit ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail))
@@ -1008,8 +1008,11 @@ same directory as the org-buffer and insert a link to this file."
 ;; corfu, orderless, kind-icons inspired from https://kristofferbalintona.me/posts/202202270056/
 ;; archive link: https://archive.ph/tEfT3
 (use-package corfu
+  :hook
+  (prog-mode . (lambda ()
+                 (setq-local corfu-auto t)))
   :custom
-  (corfu-auto t)
+  (corfu-auto nil)
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.25)
 

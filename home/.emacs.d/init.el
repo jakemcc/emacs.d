@@ -609,6 +609,8 @@ From: https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.h
          ("C-c c" . 'org-capture))
   :hook
   (org-mode . visual-line-mode)
+  (org-mode . (lambda ()
+                (setq-local corfu-auto nil)))
   ;; (org-mode . variable-pitch-mode)
   :custom
   (org-modules '(org-habit ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail))

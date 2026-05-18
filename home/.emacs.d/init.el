@@ -1,4 +1,4 @@
-;;; init.el --- Initialization file for Emacs.
+;;;; init.el --- Initialization file for Emacs.
 ;;;
 ;;;
 ;;; Commentary:
@@ -147,7 +147,6 @@ are defining or executing a macro."
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1))
 
-  
   (add-to-list 'auto-mode-alist '("\\.fig\\'" . (lambda ()
                                                   (setq-local comment-start "#")
                                                   (setq-local comment-end "")))))
@@ -158,15 +157,6 @@ are defining or executing a macro."
 ;;     (defvaralias 'x-gtk-use-system-tooltips 'use-system-tooltips))
 ;;   :config
 ;;   (pdf-tools-install))
-
-(use-package num3-mode
-  :config
-  ;; (set-face-attribute 'num3-face-odd nil :background nil)
-  (set-face-attribute 'num3-face-even nil
-                      :underline t
-                      :weight 'normal
-                      :background nil)
-  (global-num3-mode))
 
 (use-package whitespace
   :straight (:type built-in)
@@ -934,6 +924,7 @@ same directory as the org-buffer and insert a link to this file."
   (set-face-background 'region "blue"))
 
 (use-package doom-themes
+  :disabled t
   :ensure t
   :config
   ;; Global settings (defaults)
@@ -941,7 +932,7 @@ same directory as the org-buffer and insert a link to this file."
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-laserwave t) ;; kind of nice, line numbers a bit hard
   ;; (load-theme 'doom-miramare t) ;; pretty good
-  (load-theme 'doom-oceanic-next t) ;; also good
+  ;;  (load-theme 'doom-oceanic-next t) ;; also good
   ;; (load-theme 'doom-flatwhite t)
   ;; (load-theme 'doom-shades-of-purple	t)
   ;; (load-theme 'doom-feather-dark t) ;; kind of a dark purple theme
@@ -955,6 +946,30 @@ same directory as the org-buffer and insert a link to this file."
   ;; Corrects (and improves) org-mode's native fontification.
   ;;(doom-themes-org-config)
   )
+
+(use-package batppuccin-theme
+  :straight (batppuccin-latte-mocha :host github :repo "bbatsov/batppuccin-emacs")
+  :config
+  (load-theme 'batppuccin-mocha t))
+
+(use-package tokyo-night-theme
+  :disabled t
+  :straight (tokyo-night-theme :host github :repo "bbatsov/tokyo-night-emacs")
+  :config
+  (load-theme 'tokyo-night t)
+  ;;  (load-theme 'tokyo-night-storm t)
+  ;;   (load-theme 'tokyo-night-moon t)
+  ;;  (load-theme 'tokyo-night-day t)
+  )
+
+(use-package num3-mode
+  :ensure t
+  :config
+  (set-face-attribute 'num3-face-even nil
+                      :underline t
+                      :weight 'normal
+                      :background nil)
+  (global-num3-mode))
 
 (use-package paredit
   :diminish ""

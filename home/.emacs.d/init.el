@@ -948,27 +948,28 @@ same directory as the org-buffer and insert a link to this file."
   )
 
 (use-package batppuccin-theme
+  :disabled t
   :straight (batppuccin-latte-mocha :host github :repo "bbatsov/batppuccin-emacs")
   :config
   (load-theme 'batppuccin-mocha t))
 
 (use-package tokyo-night-theme
-  :disabled t
+  :ensure t
   :straight (tokyo-night-theme :host github :repo "bbatsov/tokyo-night-emacs")
   :config
-  (load-theme 'tokyo-night t)
+  ;; (load-theme 'tokyo-night t)
   ;;  (load-theme 'tokyo-night-storm t)
-  ;;   (load-theme 'tokyo-night-moon t)
+  (load-theme 'tokyo-night-moon t)
   ;;  (load-theme 'tokyo-night-day t)
   )
 
 (use-package num3-mode
   :ensure t
+  :custom-face
+  (num3-face-even ((t (:underline t
+                                  :weight normal
+                                  :background unspecified))))
   :config
-  (set-face-attribute 'num3-face-even nil
-                      :underline t
-                      :weight 'normal
-                      :background nil)
   (global-num3-mode))
 
 (use-package paredit

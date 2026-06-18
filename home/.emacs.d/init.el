@@ -780,10 +780,10 @@ same directory as the org-buffer and insert a link to this file."
 (defun beefalo/project-buf-name ()
   (ignore-errors
     (flet ((omg (s) (file-name-nondirectory (directory-file-name (file-name-directory s)))))
-      (rename-buffer
-       (format "%s [%s]"
-               (file-name-nondirectory buffer-file-name)
-               (omg (projectile-project-root)))))))
+          (rename-buffer
+           (format "%s [%s]"
+                   (file-name-nondirectory buffer-file-name)
+                   (omg (projectile-project-root)))))))
 
 (add-hook 'find-file-hook 'beefalo/project-buf-name)
 

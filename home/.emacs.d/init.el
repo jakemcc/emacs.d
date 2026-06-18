@@ -961,6 +961,17 @@ same directory as the org-buffer and insert a link to this file."
   ;; (load-theme 'tokyo-night t)
   ;;  (load-theme 'tokyo-night-storm t)
   (load-theme 'tokyo-night-moon t)
+  (tokyo-night-with-colors
+    (custom-theme-set-faces
+     'tokyo-night-moon
+     `(diff-refine-added
+       ((t (:foreground ,tokyo-bg
+                        :background ,tokyo-green
+                        :weight bold))))
+     `(diff-refine-removed
+       ((t (:foreground ,tokyo-bg
+                        :background ,tokyo-red
+                        :weight bold))))))
   ;;  (load-theme 'tokyo-night-day t)
   )
 

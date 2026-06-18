@@ -854,6 +854,7 @@ same directory as the org-buffer and insert a link to this file."
   (x-focus-frame nil)
   (add-to-list 'exec-path-from-shell-variables "GOPATH")
   (add-to-list 'exec-path-from-shell-variables "AZURE_OPENAI_API_KEY")
+  (add-to-list 'exec-path-from-shell-variables "PORTKEY_API_KEY")
   (add-to-list 'exec-path-from-shell-variables "LSP_USE_PLISTS")
   (add-to-list 'exec-path-from-shell-variables "FIG_REMOTE_URL")
   (exec-path-from-shell-initialize))

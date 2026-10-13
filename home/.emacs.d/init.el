@@ -1,4 +1,4 @@
-;;;; init.el --- Initialization file for Emacs.
+;;;;; init.el --- Initialization file for Emacs.
 ;;;
 ;;;
 ;;; Commentary:
@@ -846,7 +846,21 @@ same directory as the org-buffer and insert a link to this file."
 
 (use-package edit-indirect)
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :mode  ("README\\.md" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package mermaid-mode
+  :straight (mermaid-mode
+             :type git
+             :host github
+             :repo "abrochard/mermaid-mode")
+  :mode "\\.mmd\\'"
+  :init
+  ;; Enable Mermaid fontification inside Markdown fenced blocks.
+  (with-eval-after-load 'markdown-mode
+    (add-to-list 'markdown-code-lang-modes
+                 '("mermaid" . mermaid-mode))))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -1123,6 +1137,16 @@ same directory as the org-buffer and insert a link to this file."
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
          ("C-M-/" . dabbrev-expand))
+  :init
+  (defun jm/clojure-dabbrev-case-sensitive ()
+    (setq-local dabbrev-case-fold-search nil
+                dabbrev-case-replace nil))
+
+  (dolist (hook '(clojure-mode-hook
+                  clojurec-mode-hook
+                  clojurescript-mode-hook
+                  clojurex-mode-hook))
+    (add-hook hook #'jm/clojure-dabbrev-case-sensitive))
   :config
   (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
   ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
@@ -1149,6 +1173,7 @@ same directory as the org-buffer and insert a link to this file."
   "Present a list of REPL connections to the user and connect to the selected one."
   (interactive)
   (let* ((connections '(("chimera - local" . (:host "localhost" :port 15619 :project-dir "/Users/jmccrary/drwsrc/beefalo/chimera"))
+                        ("chambling - local" . (:host "localhost" :port 7087 :project-dir "/Users/jmccrary/drwsrc/beefalo/chambling"))
                         ("cheetow-chex - local" . (:host "localhost" :port 17664 :project-dir "/Users/jmccrary/drwsrc/beefalo/cheetow"))
                         ("cheetow - local" . (:host "localhost" :port 15902 :project-dir "/Users/jmccrary/drwsrc/beefalo/cheetow"))
                         ("prius - local" . (:host "localhost" :port 14720 :project-dir "/Users/jmccrary/drwsrc/beefalo/prius"))

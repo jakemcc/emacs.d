@@ -305,11 +305,59 @@ are defining or executing a macro."
 
 ;; (use-package use-package-ensure-system-package)
 
-(use-package vterm
-  :ensure t
-  :defer t
+;; (use-package vterm
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (setq vterm-max-scrollback 10000))
+
+(use-package ghostel
+  :bind (("C-x m" . ghostel)
+         :map ghostel-semi-char-mode-map
+         ("C-s"  . consult-line)
+         ("C-k"  . my/ghostel-send-C-k-and-kill)
+         ;; ;; I'm used to go up/down the shell history with M-n/p from eshell
+         ;; ;; Simulate this behavior in ghostel by sending C-p and C-n
+         ("M-p" . (lambda () (interactive) (ghostel-send-key "p" "ctrl")))
+         ("M-n" . (lambda () (interactive) (ghostel-send-key "n" "ctrl"))))
   :config
-  (setq vterm-max-scrollback 10000))
+  (defun my/ghostel-send-C-k-and-kill ()
+    "Send `C-k' to ghostel.
+Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+    (interactive)
+    (kill-ring-save (point) (line-end-position))
+    (ghostel-send-key "k" "ctrl"))
+
+  (add-to-list 'ghostel-eval-cmds '("magit-status-setup-buffer" magit-status-setup-buffer)))
+
+;; (use-package ghostel-project
+;;   :straight nil
+;;   :bind (:map project-prefix-map
+;;               ("m" . ghostel-project)
+;;               ("M" . ghostel-project-list-buffers))
+;;   :config
+;;   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+;;   (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t))
+
+(use-package ghostel-eshell
+  :straight nil
+  :hook (eshell-load . ghostel-eshell-visual-command-mode))
+
+(use-package ghostel-compile
+  :straight nil
+  :hook (after-init . ghostel-compile-global-mode))
+
+(use-package ghostel-shell-command
+  :straight nil
+  :hook (after-init . ghostel-shell-command-global-mode))
+
+(use-package ghostel-comint
+  :straight nil
+  :hook (after-init . ghostel-comint-global-mode))
+
+(use-package ghostel-org
+  :straight nil
+  :after org)
 
 (use-package visual-regexp-steroids
   :custom
@@ -769,7 +817,6 @@ same directory as the org-buffer and insert a link to this file."
               ("C-c p" . projectile-command-map))
   :custom
   (projectile-project-search-path '(("~/drwsrc/beefalo/" . 1)))
-  (projectile-completion-system 'default)
   ;; (projectile-enable-caching )
   (projectile-file-exists-remote-cache-expire (* 10 60))
   (projectile-file-exists-local-cache-expire (* 10 60)))

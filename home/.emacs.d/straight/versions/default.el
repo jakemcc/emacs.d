@@ -26,6 +26,7 @@
  ("dap-mode" . "b97756665709bea37b9ffe262c5fa9196f1b4577")
  ("dash.el" . "fcb5d831fc08a43f984242c7509870f30983c27c")
  ("deft" . "b369d7225d86551882568788a23c5497b232509c")
+ ("diff-review" . "49cba292bb933e2a1a90f61145e29311636544ae")
  ("diminish.el" . "fbd5d846611bad828e336b25d2e131d1bc06b83d")
  ("dockerfile-mode" . "8135740bfc6ad96ab82d39d9fe68dbce56180f4c")
  ("dumb-jump" . "42f97dea503367bf45c53a69de959177b06b0f59")

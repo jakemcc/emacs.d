@@ -1442,6 +1442,30 @@ same directory as the org-buffer and insert a link to this file."
 (use-package git-timemachine
   :straight (git-timemachine :fetcher codeberg :repo "pidu/git-timemachine"))
 
+;; Pinned in straight/versions/default.el to 49cba29, the audited commit.
+(use-package diff-review
+  :straight (diff-review :type git :host github :repo "xiaoxinghu/diff-review"
+                         :files ("diff-review.el" "diff-review-magit.el"))
+  :commands (diff-review-branch diff-review-find-file))
+
+(defun jm/diff-review-worktree ()
+  "Review this worktree's uncommitted changes against the default base.
+One review per worktree, in its git dir, so it is never committed."
+  (interactive)
+  (diff-review-find-file (expand-file-name "review/worktree.json" (magit-gitdir))
+                         ;; Explicit: git finds no worktree from inside the git dir.
+                         (magit-toplevel)))
+
+;; The worktrees section in magit-status, `d v' for commits and `d V' for
+;; the worktree in magit's diff menu.
+(use-package diff-review-magit
+  :straight nil
+  :after magit
+  :config
+  (diff-review-magit-mode 1)
+  (transient-append-suffix 'magit-diff 'diff-review-magit-commits
+    '("V" "Review worktree" jm/diff-review-worktree)))
+
 (use-package web-mode
   :custom
   (web-mode-code-indent-offset 2)

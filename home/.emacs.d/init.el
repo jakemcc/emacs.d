@@ -125,6 +125,7 @@ are defining or executing a macro."
   (bidi-inhibit-bpa t)
   (redisplay-skip-fontification-on-input t)
   (save-interprogram-paste-before-kill t)
+  (ispell-current-personal-dictionary "~/.ispell.pws")
   :bind (("C-x -" . fit-window-to-buffer)
          ("C-x _" . jake/fit-other-window-to-buffer)
          ("C-x C-m" . execute-extended-command)
@@ -976,16 +977,16 @@ same directory as the org-buffer and insert a link to this file."
   ;;  (load-theme 'tokyo-night-storm t)
   (load-theme 'tokyo-night-moon t)
   (tokyo-night-with-colors
-    (custom-theme-set-faces
-     'tokyo-night-moon
-     `(diff-refine-added
-       ((t (:foreground ,tokyo-bg
-                        :background ,tokyo-green
-                        :weight bold))))
-     `(diff-refine-removed
-       ((t (:foreground ,tokyo-bg
-                        :background ,tokyo-red
-                        :weight bold))))))
+   (custom-theme-set-faces
+    'tokyo-night-moon
+    `(diff-refine-added
+      ((t (:foreground ,tokyo-bg
+                       :background ,tokyo-green
+                       :weight bold))))
+    `(diff-refine-removed
+      ((t (:foreground ,tokyo-bg
+                       :background ,tokyo-red
+                       :weight bold))))))
   ;;  (load-theme 'tokyo-night-day t)
   )
 
@@ -1192,6 +1193,14 @@ same directory as the org-buffer and insert a link to this file."
          (connection (cdr (assoc choice connections))))
     (cider-connect connection)))
 
+(use-package kotlin-mode
+  :mode (("\\.kt\\'" . kotlin-mode)
+         ("\\.kts\\'" . kotlin-mode))
+  :custom
+  (kotlin-tab-width 4)
+  :hook
+  (kotlin-mode . lsp))
+
 (use-package cider
   :diminish ""
   :bind
@@ -1309,6 +1318,7 @@ same directory as the org-buffer and insert a link to this file."
   (lsp-lens-enable t)
   (lsp-idle-delay 0.2)
   (lsp-signature t)
+  (lsp-clients-kotlin-server-executable "kotlin-lsp")
   ;; (lsp-enable-on-type-formatting nil)
   :init
   (defun my/lsp-mode-setup-completion ()
@@ -1618,6 +1628,8 @@ This command does the reverse of `fill-paragraph'."
 (let ((machine-specific (concat user-emacs-directory "machine-specific.el")))
   (when (file-exists-p machine-specific)
     (load machine-specific)))
+
+(use-package vterm :ensure t)
 
 (provide 'init)
 ;;; init.el ends here

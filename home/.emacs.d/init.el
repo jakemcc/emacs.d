@@ -305,12 +305,6 @@ are defining or executing a macro."
 
 ;; (use-package use-package-ensure-system-package)
 
-;; (use-package vterm
-;;   :ensure t
-;;   :defer t
-;;   :config
-;;   (setq vterm-max-scrollback 10000))
-
 (use-package ghostel
   :bind (("C-x m" . ghostel)
          :map ghostel-semi-char-mode-map
